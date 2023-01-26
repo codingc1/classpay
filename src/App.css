@@ -1,0 +1,53 @@
+html{
+  height:100%; 
+  overflow:hidden; 
+}
+body {
+  height:100%; 
+  /* overflow:hidden;  */
+	/* max-width: 100%; */
+	overflow-x: hidden;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none
+
+}
+body::-webkit-scrollbar{
+  display: none;
+  width: 0;  /* Remove scrollbar space */
+  height: 0;
+  background: transparent;  /* Optional: just make scrollbar invisible */
+  -webkit-appearance: none;
+  }
+
+  @media (max-width: 575px) {
+    .scroll_container{
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+      }
+      
+      .scroll_container::-webkit-scrollbar{
+      display: none;
+      width: 0;  /* Remove scrollbar space */
+      height: 0;
+      background: transparent;  /* Optional: just make scrollbar invisible */
+      -webkit-appearance: none;
+      }
+  }
+
+
+  /* 숫자 input 화살표 없애기 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+  

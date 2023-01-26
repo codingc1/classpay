@@ -1,0 +1,6 @@
+// 바벨에 대한 플러그인을 설정,
+// presets(번들 파일)에 한번만 설정하면 플러그인들이 자동으로 설치
+ 
+{
+    "presets": ["@babel/preset-env", "@babel/preset-react"],
+}

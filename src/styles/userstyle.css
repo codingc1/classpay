@@ -1,0 +1,9 @@
+/* @media (min-width: 640px) {
+    .sm\:w-21 {
+        width: 86px;
+    }
+} */
+
+    .smw-86 {
+        width: 86px/* 80px */;
+    }
