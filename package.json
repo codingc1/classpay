@@ -9,7 +9,7 @@
     "codegen": "graphql-codegen --verbose",
     "build": "webpack --progress",
     "start:ori": "webpack-dev-server",
-    "start": "set HTTPS=true&&set SSL_CRT_FILE=cert.pem&&set SSL_KEY_FILE=key.pem&&webpack-dev-server",
+    "start": "set HTTPS=true&&set SSL_CRT_FILE=cert.pem&&set SSL_KEY_FILE=key.pem&&set NODE_ENV=development&&webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
