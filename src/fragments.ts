@@ -57,5 +57,6 @@ fragment CPTmpTradeParts on CP_TradeTmpCode {
     qty
     price
     sumPrice
+    code
 }
 `;

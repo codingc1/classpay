@@ -819,7 +819,7 @@ export type MutationconfirmPasswordArgs = {
 
 
 export type Mutationcp_buyingTradeArgs = {
-  tradetmpcode_id: Scalars['Int'];
+  input: CP_GetTradeTmpCodeInput;
 };
 
 
@@ -864,7 +864,7 @@ export type Mutationcp_editProfileArgs = {
 
 
 export type Mutationcp_getBuyTmpTradeArgs = {
-  input: CP_PayIdAndIDInput;
+  input: CP_GetTradeTmpCodeInput;
 };
 
 
@@ -1698,6 +1698,11 @@ export type VerifyEmailOutput = {
   ok: Scalars['Boolean'];
 };
 
+export type CP_GetTradeTmpCodeInput = {
+  code: Scalars['String'];
+  cppay_id: Scalars['Int'];
+};
+
 export type CP_BuyProductIdInput = {
   cppay_id: Scalars['Int'];
   product_id: Scalars['Int'];
@@ -1764,6 +1769,7 @@ export type CP_TradeTmpCodeOutput = {
 
 export type CP_TradeTmpCode = {
   __typename?: 'CP_TradeTmpCode';
+  code: Scalars['String'];
   consumer_id: Scalars['Int'];
   cppay_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];

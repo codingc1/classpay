@@ -4,8 +4,8 @@ import { CP_TMPTRADE_FRAGMENT } from "../../../fragments";
 // import { ConsoleHelper } from "../../../func/sys/consoleHelper";
 
 export const CP_GETBUY_TMPTRADE_MUTATION = gql`
-mutation cp_getBuyTmpTradeMutation($cp_payIdAndIDInput: CP_PayIdAndIDInput!) {
-    cp_getBuyTmpTrade(input: $cp_payIdAndIDInput) {
+mutation cp_getBuyTmpTradeMutation($cp_getTradeTmpCodeInput: CP_GetTradeTmpCodeInput!) {
+    cp_getBuyTmpTrade(input: $cp_getTradeTmpCodeInput) {
     ok
     error
     result{
@@ -14,5 +14,15 @@ mutation cp_getBuyTmpTradeMutation($cp_payIdAndIDInput: CP_PayIdAndIDInput!) {
   }
 }
 ${CP_TMPTRADE_FRAGMENT}
+`;
+
+
+export const CP_BUYING_TRADE_MUTATION = gql`
+mutation cp_buyingTradeMutation($cp_getTradeTmpCodeInput: CP_GetTradeTmpCodeInput!) {
+  cp_buyingTrade(input: $cp_getTradeTmpCodeInput) {
+    ok
+    error
+  }
+}
 `;
 

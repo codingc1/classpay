@@ -53,6 +53,8 @@ export const CPMemberHome=()=>{
             </div>
 
             <CPCreateStudents />
+            {/* cp_myCreatedStudentButNotPayLists */}
+            <div>학급에는 제외되지만 선생님이 생성한 학생 계정</div>
             {/* <button onClick={handlesubmit}>삭제하기</button> */}
             <div>추후: 가입버튼 작동하게, 학생 정보 수정-이름번호, 학급페이 삭제</div>
         </div>

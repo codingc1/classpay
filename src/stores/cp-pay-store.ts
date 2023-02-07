@@ -21,6 +21,7 @@ interface ITradeTmpcode{
     qty:number;
     price:number;
     sumPrice:number;
+    code:string;
 }
 export type IProduct = Pick<CP_Product, "id"|"name"|"qty"|"desciption"|"seller_id"|"price" >
 

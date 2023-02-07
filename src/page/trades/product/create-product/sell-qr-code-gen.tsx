@@ -46,7 +46,7 @@ export const SellQrCodeGen=({setIsModal}:{setIsModal:React.Dispatch<React.SetSta
       setIsModal(false)
     }
   const makeQrcode=() => {
-    const obj = productRedux.tradeTmpCode
+    const obj = productRedux.tradeTmpCode.code
     // const obj = {cppay_id:Number(payid), product_id:productRedux.product.id, qty:productRedux.qty}
     return JSON.stringify(obj)
   }
