@@ -3,7 +3,7 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { setContext } from "@apollo/client/link/context";
 import { getMainDefinition } from '@apollo/client/utilities';
-import { WebSocketLink } from '@apollo/client/link/ws';//23.1
+// import { WebSocketLink } from '@apollo/client/link/ws';//23.1
 import { serverAddress, webSoketAddress } from './api/app-setting';
 import { onError } from "@apollo/client/link/error";
 import { ConsoleHelper } from './func/sys/consoleHelper';
@@ -41,7 +41,7 @@ const wsLink = new GraphQLWsLink(createClient({
 // });
 
 const httpLink = createHttpLink({
-  uri: serverAddress()+'/graphql', 
+  uri: serverAddress()+'/graphql', credentials: 'include'
 });
 
 
