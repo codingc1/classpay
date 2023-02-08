@@ -7,9 +7,11 @@ export const REFESH_TOKEN_TIMER = 1000*60*3; //리프레쉬 시간
 
 const EC2IP = 'http://3.37.198.102:2021'
 // export const BaseHangUrlName = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')?'http://localhost:3000':'https://hangbal.net' 
+
 export const serverAddress =()=>{
     // return 'https://ec2.hangbal.net'
     // return 'http://3.37.198.102:2021';
+    return 'https://ec2.hangbal.net'
     if ( process.env.NODE_ENV === 'development') {
         return "http://localhost:2021";
     } else {
@@ -28,6 +30,7 @@ export const webSoketAddress =()=>{
     // return 'wss://ec2.hangbal.net/graphql'
     // return 'ws://3.37.198.102:2021/graphql';
     // return 'wss://3.37.198.102:2021/graphql'
+    return 'https://ec2.hangbal.net'
     if ( process.env.NODE_ENV === 'development') {
         return  'ws://localhost:2021/graphql'//subscriptions
         //'ws://localhost:2021/graphql'

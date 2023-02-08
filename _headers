@@ -1,0 +1,8 @@
+/*
+  Access-Control-Allow-Origin: https://classpay.pages.dev/
+  X-Frame-Options: DENY
+
+/app/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+
