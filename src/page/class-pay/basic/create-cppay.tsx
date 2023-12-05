@@ -12,6 +12,7 @@ import useError from "../../../func/sys/err/useErr";
 import { cp_createClassPayMutationDocument } from "../../../hooks/cp-pay/basic/createClassPay.generated";
 import { CP_PAYS_QUERY } from "../../../hooks/cp-pay/useCpPay";
 import { routeVar, editRouteVar } from "../../../stores/route-info-store";
+import { logoutFunc } from "../../../func/sys/auth/logout-func";
 
 
 
@@ -21,6 +22,7 @@ export const CreateCpPay = () => {
   const [passwordTwo, setPasswordTwo] = useState('')
 
   const [classPay, setClassPay] = useState({className:'',schoolName:'',classTh:0,classNum:0})
+  const [isClassName, setIsClassName] = useState(true) //https://www.daleseo.com/react-checkboxes/
   // const [className, setClassName] = useState('')
   // const [schoolName, setSchoolName] = useState('')
   // const [classTh, setClassTh] = useState('')
@@ -37,6 +39,12 @@ export const CreateCpPay = () => {
 
   const onChange =(e: React.ChangeEvent<HTMLInputElement>)=>{
     inputOnChangeObj({e, obj:classPay, fn:setClassPay})
+  }
+  const checkChenged = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsClassName(e.target.checked)
+    // if(e.target.checked){
+    //   setClassPay({...classPay, schoolName:'',classTh:0,classNum:0})
+    // }
   }
   // const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const { value, name, type } = e.target; // 우선 e.target 에서 name 과 value 를 추출
@@ -87,6 +95,7 @@ export const CreateCpPay = () => {
         await client.refetchQueries({
           include: [CP_PAYS_QUERY],
         });
+        logoutFunc()
         navigate("/")
       }else if(data?.cp_CreateClassPay.error){
         alert(data.cp_CreateClassPay.error)
@@ -131,13 +140,25 @@ export const CreateCpPay = () => {
           <label className=" w-1/3 flex justify-center items-center text-center">학급페이 이름</label >
           <input className="w-full input-lime " name={'className'} placeholder="이름" value={classPay.className} onChange={onChange}/>
         </div>
-        <div className="w-full px-1 py-3 rounded-md border border-blue-400">
-        <div className="w-full text-xs"># 선택(학생이 학교,학반 정보로 아이디 찾기 가능)</div>
-        <div className="px-3 text-xs">없어도 학급페이 개설이 가능합니다.</div>
-        <InlineInputLable label="학교이름" name={'schoolName'} value={classPay.schoolName} onChangeValue={onChange} />
-        <InlineInputLableNum label="학년"  name={'classTh'} value={classPay.classTh} onChangeValue={onChange} />
-        <InlineInputLableNum label="반"  name={'classNum'} value={classPay.classNum} onChangeValue={onChange} />
-        </div>
+
+        <div className="w-full text-sm">
+        <label><input
+          type="checkbox"
+          checked={isClassName}
+          onChange={checkChenged}
+        />
+        &nbsp;학반 사용
+      </label>
+      </div>
+
+        {isClassName
+        &&<div className="w-full px-1 py-3 rounded-md border border-blue-400">
+          <div className="w-full text-xs"># 선택(학생이 학교,학반 정보로 아이디 찾기 가능)</div>
+          <div className="px-3 text-xs">없어도 학급페이 개설이 가능합니다.</div>
+          <InlineInputLable label="학교이름" name={'schoolName'} value={classPay.schoolName} onChangeValue={onChange} />
+          <InlineInputLableNum label="학년"  name={'classTh'} value={classPay.classTh} onChangeValue={onChange} />
+          <InlineInputLableNum label="반"  name={'classNum'} value={classPay.classNum} onChangeValue={onChange} />
+        </div>}
         {/* <div className="mt-3 w-full flex ">
           <div className=" w-1/3 flex justify-center items-center text-center">비밀번호</div>
           <div className="w-full flex flex-col" >
@@ -152,8 +173,10 @@ export const CreateCpPay = () => {
         
         
         <div className="w-full mt-3 mb-1">
-          <LoginButton loading={false} actionText={"학급페이 생성"} submit={submit} />
+          <LoginButton loading={false} actionText={"학급 생성"} submit={submit} />
         </div>
+
+      
         {/* <div className=" w-full flex justify-between text-sm">
         {renderChecks()}
               <button  className="text-lime-600 hover:underline">비밀번호 찾기</button>

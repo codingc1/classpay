@@ -41,7 +41,7 @@ const wsLink = new GraphQLWsLink(createClient({
 // });
 
 const httpLink = createHttpLink({
-  uri: serverAddress()+'/graphql', credentials: 'include'
+  uri: serverAddress()+'/graphql', //credentials: 'include' 쿠키
 });
 
 

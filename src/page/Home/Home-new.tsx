@@ -10,7 +10,7 @@ import HomeClassListComponent from "./home-class-list";
 
 
 
-
+//사용하는중 new가 왜붙엇는지는 모름
 export const HomeNew = () => {
 
     let navigate = useNavigate();
@@ -49,7 +49,7 @@ export const HomeNew = () => {
                             className="mt-3 w-full max-w-sm items-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                             onClick={()=>navigate(CP_PAY_CREATE_ROUTE_NAME)}
                         >
-                            학급페이 만들기
+                            학급 만들기
                         </button>
                     </div>
                 </div>

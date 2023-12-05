@@ -17,7 +17,7 @@ const isProduction =() => {
 export const serverAddress =()=>{
     // return 'https://ec2.hangbal.net'
     // return 'http://3.37.198.102:2021';
-    if (isProduction()) {
+    if (isProduction()===false) {
         return "http://localhost:2021";
     } else {
         return 'https://ec2.hangbal.net'
@@ -35,13 +35,17 @@ export const webSoketAddress =()=>{
     // return 'wss://ec2.hangbal.net/graphql'
     // return 'ws://3.37.198.102:2021/graphql';
     // return 'wss://3.37.198.102:2021/graphql'
-    return 'https://ec2.hangbal.net'
-    if ( process.env.NODE_ENV === 'development') {
-        return  'ws://localhost:2021/graphql'//subscriptions
-        //'ws://localhost:2021/graphql'
+    if (isProduction()===false) {
+        return "ws://localhost:2021";
     } else {
-        // return 'wss://3.37.198.102:2021/graphql'
-        return 'wss://ec2.hangbal.net/graphql' //이전까지 잘 사용 subscriptions
+        return 'wss://ec2.hangbal.net'
     }
+    // if ( process.env.NODE_ENV === 'development') {
+    //     return  'ws://localhost:2021/graphql'//subscriptions
+    //     //'ws://localhost:2021/graphql'
+    // } else {
+    //     // return 'wss://3.37.198.102:2021/graphql'
+    //     return 'wss://ec2.hangbal.net/graphql' //이전까지 잘 사용 subscriptions
+    // }
 }
 
