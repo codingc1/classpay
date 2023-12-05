@@ -67,5 +67,7 @@ export const editCpPayVar={
         // setTmpcode:function(num:number){cpPayVar({...cpPayVar(), trade:{...cpPayVar().trade, tradeTmpCode_id:num}})},
     },
 
-
+    reset:function(){
+        cpPayVar(aa)
+    }
 }

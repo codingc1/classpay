@@ -8,11 +8,12 @@ import { QrScan } from "../page/class-pay/qr-scan/qr-scan";
 import { ClassPayApp,  } from "../page/class-pay/ClassPayApp";
 import { HomeNew } from "../page/Home/Home-new";
 import { Login } from "../page/user/login/login";
-import { CP_PAY_CREATE_ROUTE_NAME, CP_PAY_APP_ROUTE_NAME, CP_PAY_QRSCAN_ROUTE_NAME, LOGIN_ROUTE_NAME,  } from "./route-name-constants";
+import { CP_PAY_CREATE_ROUTE_NAME, CP_PAY_APP_ROUTE_NAME, CP_PAY_QRSCAN_ROUTE_NAME, LOGIN_ROUTE_NAME, TERMS_CONDITIONS,  } from "./route-name-constants";
 import { QrScanner } from "../page/class-pay/qr-scan/qr-scanning";
 import { CpSettingHome } from "../page/class-pay/setting/cp-setting-home";
 import { CPMemberHome } from "../page/class-pay/member/cp-member-home";
 import { CProductsHome } from "../page/trades/product/product-home";
+import { TermsConditions } from "../page/Home/explanation/termsConditions";
 
 
 interface IRoute {
@@ -55,6 +56,8 @@ const logOutRoutes=(...args:IRoute[][])=>{
             <Route path={CP_PAY_APP_ROUTE_NAME+'/:payid'+'/setting'} element={ <CpSettingHome />} />
 
             <Route path={CP_PAY_APP_ROUTE_NAME+'/:payid'+'/scan'} element={ <QrScanner />} />
+
+            <Route path={TERMS_CONDITIONS} element={<TermsConditions />} />
             
           </Route>
           <Route path="*" element={<NotFound />} />  

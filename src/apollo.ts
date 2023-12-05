@@ -9,6 +9,7 @@ import { onError } from "@apollo/client/link/error";
 import { ConsoleHelper } from './func/sys/consoleHelper';
 import { AUTOLOGIN,LOCALSTORAGE_TOKEN } from './api/api-constants';
 import { authVar } from './stores/authstore';
+import TokenRepository from './api/token/tokenRepo';
 
 // import { isLoggedInVar } from './stores/auth-store';
 // export const isLoggedInVar = makeVar(false)
@@ -25,7 +26,7 @@ const wsLink = new GraphQLWsLink(createClient({
   url: webSoketAddress(),
   connectionParams: {//인증
     'x-jwt':'',
-    'cp-jwt': authVar().token//authTokenVar() || "", //authToken: user.authToken,
+    'cp-jwt':TokenRepository.getToken(),// authVar().token//authTokenVar() || "", //authToken: user.authToken,
   },
 }));
 // const wsLinkss = new WebSocketLink({ //웹소켓 링크
@@ -51,7 +52,7 @@ const authLink = setContext(async(_, { headers }) => {
   return {
     headers: {
       ...headers,
-      "cp-jwt":authVar().token || "",
+      "cp-jwt":TokenRepository.getToken() || "",
     },
   };
 });

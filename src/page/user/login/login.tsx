@@ -1,4 +1,4 @@
-import { gql,   } from "@apollo/client";
+import { gql, useLazyQuery,   } from "@apollo/client";
 import { useNavigate,  } from "react-router-dom";
 import {Helmet} from "react-helmet-async";
 import { useCallback, useEffect, useState } from "react";
@@ -11,6 +11,7 @@ import TokenRepository from "../../../api/token/tokenRepo";
 import { editAuth } from "../../../stores/authstore";
 import { logoutFunc } from "../../../func/sys/auth/logout-func";
 import { editRouteVar } from "../../../stores/route-info-store";
+import { CP_ME_QUERY } from "../../../hooks/user/useMe";
 export const CP_LOGIN_MUTATION = gql`
   mutation cp_loginMutation($cp_LoginInput: CP_LoginInput!) {
     cp_login(input: $cp_LoginInput) {
@@ -47,7 +48,9 @@ const onChangePassword =(e: React.ChangeEvent<HTMLInputElement>) => {
   setPassword(e.target.value)
 }
 
+
 const loginSuccess=(token:string)=>{
+  return new Promise((resolve) => {
   if( isChecked){ //자동로그인일때만 토큰 저장
     TokenRepository.setAuto()
   }else{
@@ -55,10 +58,18 @@ const loginSuccess=(token:string)=>{
   }
   TokenRepository.save(token)
   // editAuth.setToken(token);
-  editAuth.setLogin(true) //login처리
-  navigate('/')
+  // editAuth.setLogin(true) //login처리
+  resolve(token)
 }
-
+)}
+const [callQuery,] = useLazyQuery(CP_ME_QUERY, { // { data:lzaymedata, called }
+  onCompleted: res => {
+    if(res.cp_me){
+      editAuth.setLogin(true) //login처리
+      navigate('/')
+    }
+  }
+});
 const loginMutation =()=>{
   client.mutate({ //https://www.youtube.com/watch?v=cYIhx8dusa4
     mutation:cp_loginMutationDocument,
@@ -66,10 +77,13 @@ const loginMutation =()=>{
       cp_LoginInput:{mainId, password}
     }
   })
-  .then(({data})=>{
-    // console.log(data, ': data res')
+  .then(async({data})=>{
     if(data &&data.cp_login.ok && data.cp_login.token){
-      loginSuccess(data.cp_login.token)
+      await loginSuccess(data.cp_login.token)
+      callQuery()
+      // await client.refetchQueries({
+      //   include: [CP_ME_QUERY],//cppay list refech
+      // });
     }else if(data?.cp_login.error){
       alert(data.cp_login.error)
     }
@@ -90,7 +104,7 @@ const [handleError] = useError()
   return (
     <div className="w-full h-screen flex flex-col items-center">
     <div className="w-full h-screen flex items-center flex-col justify-center">
-        <Helmet><title>학급페이</title>
+        <Helmet><title>학급페이 로그인</title>
           <meta name="title" content="학급페이" />
           <meta name="description" content="학급페이입니다, 구글크롬에서 작동합니다." />
           <meta property="og:title" content="학급페이 로그인" />

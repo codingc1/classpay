@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useCpPays } from '../../hooks/cp-pay/useCpPay'
 import { CP_PAY_APP_ROUTE_NAME } from '../../routers/route-name-constants'
 import { editCpPayVar } from '../../stores/cp-pay-store'
+import { useEffect } from 'react'
+import { useMe } from '../../hooks/user/useMe'
 
 
 const people = [
@@ -29,7 +31,22 @@ const people = [
 
 export default function HomeClassListComponent() {
   let navigate = useNavigate()
-  const {data} = useCpPays()
+  const {data:meData}=useMe()
+  const {data} = useCpPays(meData)
+  useEffect(()=>{
+    if(meData){
+      console.log(meData.cp_me, 'meData 있음')
+    }else{
+      console.log('meData 없음')
+    }
+  },[meData])
+  useEffect(()=>{
+    if(data){
+      console.log(data.cp_pays, 'data 있음')
+    }else{
+      console.log('data 없음')
+    }
+  },[data])
     //lg:grid-cols-3
     //grid grid-cols-1 gap-6 sm:grid-cols-2
   return (

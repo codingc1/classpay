@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FaviconsWebpackPlugin =require('favicons-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const port = process.env.PORT || 3300;
  
@@ -92,13 +93,19 @@ module.exports = {
       //공부해보자
       //https://github.com/giacomoalonzi/webpack-webapp/blob/v2/webpack.config.js#L70
       template: path.join(__dirname, 'public', 'index.html'),
-
     }),
     new FaviconsWebpackPlugin({
       // logo: 'src/assets/images/logo.png',
       logo: path.join(__dirname, 'public', 'favicon.ico'), //https://yujo11.github.io/webpack/webpack%20favicon,%20manifest.json%20%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0/
       // manifest: 'public/manifest.json',// path.join(__dirname, 'public', 'manifest.json'),
     }),
+    new CopyPlugin({ //https://stackoverflow.com/questions/57169909/how-to-serve-robots-txt-from-a-javascript-webpack-project
+      patterns: [
+          { from: "public/robots.txt", to: "robots.txt" },
+          // { from: "public/manifest.json", to: "manifest.json" },
+          // { from: "public/manifest.webmanifest", to: "manifest.webmanifest" },
+      ],
+  }),
   ],
  
   // 개발 서버 정의

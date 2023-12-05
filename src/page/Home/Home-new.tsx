@@ -7,6 +7,7 @@ import { CP_PAY_CREATE_ROUTE_NAME, LOGIN_ROUTE_NAME } from "../../routers/route-
 import { authVar } from "../../stores/authstore";
 import { editRouteVar } from "../../stores/route-info-store";
 import HomeClassListComponent from "./home-class-list";
+import HomeProfileHeader from "./header/home-profile-header";
 
 
 
@@ -42,7 +43,8 @@ export const HomeNew = () => {
                 <Helmet><title >학급페이 홈</title></Helmet>
                 <div className="w-full max-w-sm flex flex-col  px-5 ">
                     <div className="w-full ">
-                        <div className="text-left text-sm">학급페이 홈</div>
+                        <HomeProfileHeader />
+                        {/* <div className="text-left text-sm">학급페이 홈</div> */}
                         <HomeClassListComponent />
                         <button
                             type="button"
