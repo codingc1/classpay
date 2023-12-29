@@ -10,8 +10,9 @@ interface ICpPay{
     classNum:number;
     code:string;
     imgurl:string;
+    moneyUnit:string;
 }
-interface ITradeTmpcode{
+interface ITradeTmpProduct{
     id:number;
     product_id:number;
     cppay_id:number;
@@ -23,7 +24,7 @@ interface ITradeTmpcode{
     sumPrice:number;
     code:string;
 }
-export type IProduct = Pick<CP_Product, "id"|"name"|"qty"|"desciption"|"seller_id"|"price" >
+export type IProduct = Pick<CP_Product, "id"|"name"|"qty"|"desciption"|"seller_id"|"price"|"imgurl" >
 
 interface IRoute { 
     payid: number;
@@ -32,7 +33,7 @@ interface IRoute {
         product:IProduct;
         qty: number;
         // tradeTmpCode_id:number;
-        tradeTmpCode:ITradeTmpcode;
+        tradeTmpProduct:ITradeTmpProduct;
     }
     
     // routeName: string;
@@ -47,7 +48,7 @@ interface IRoute {
     
   }
 
-const aa:IRoute = {payid:0, cppay:cpPayFn.store.cpay, trade:{product: cpPayFn.store.product, qty:0, tradeTmpCode:cpPayFn.store.tradeTmpCode}}
+const aa:IRoute = {payid:0, cppay:cpPayFn.store.cpay, trade:{product: cpPayFn.store.product, qty:0, tradeTmpProduct:cpPayFn.store.tradeTmpCode}}
 export const cpPayVar = makeVar(aa);
 
 export const editCpPayVar={
@@ -61,9 +62,11 @@ export const editCpPayVar={
     product:{
         setProduct:function(obj:IProduct){cpPayVar({...cpPayVar(), trade:{...cpPayVar().trade, product:obj}})},
         setQty:function(num:number){cpPayVar({...cpPayVar(), trade:{...cpPayVar().trade, qty:num}})},
+        resetProduct:function(){cpPayVar({...cpPayVar(), trade:{...cpPayVar().trade, product:cpPayFn.store.product}})},
     },
     trade:{
-        setTmpcode:function(obj:ITradeTmpcode){cpPayVar({...cpPayVar(), trade:{...cpPayVar().trade, tradeTmpCode:obj}})},
+        
+        setTmpcode:function(obj:ITradeTmpProduct){cpPayVar({...cpPayVar(), trade:{...cpPayVar().trade, tradeTmpProduct:obj}})},
         // setTmpcode:function(num:number){cpPayVar({...cpPayVar(), trade:{...cpPayVar().trade, tradeTmpCode_id:num}})},
     },
 

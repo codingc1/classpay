@@ -10,9 +10,9 @@ import {InlineInputLable, InlineInputLableNum} from "../../../components/input/i
 import { inputOnChangeObj } from "../../../func/html/inputOnChangObj";
 import useError from "../../../func/sys/err/useErr";
 import { cp_createClassPayMutationDocument } from "../../../hooks/cp-pay/basic/createClassPay.generated";
-import { CP_PAYS_QUERY } from "../../../hooks/cp-pay/useCpPay";
 import { routeVar, editRouteVar } from "../../../stores/route-info-store";
 import { logoutFunc } from "../../../func/sys/auth/logout-func";
+import { editCpPayVar } from "../../../stores/cp-pay-store";
 
 
 
@@ -90,11 +90,14 @@ export const CreateCpPay = () => {
     })
     .then(async({data})=>{
       // console.log(data, ': data res')
-      if(data &&data.cp_CreateClassPay.ok ){
+      if(data &&data.cp_CreateClassPay.result ){
         alert('생성하였습니다.')
-        await client.refetchQueries({
-          include: [CP_PAYS_QUERY],
-        });
+        const respay =data.cp_CreateClassPay.result
+        editCpPayVar.setPayID(respay.id)
+        editCpPayVar.cppay.set(respay)
+        // await client.refetchQueries({
+        //   include: [CP_PAYS_QUERY],
+        // });
         logoutFunc()
         navigate("/")
       }else if(data?.cp_CreateClassPay.error){
@@ -123,7 +126,7 @@ export const CreateCpPay = () => {
       }
     }
 
-    const isConfirm = window.confirm(className+' 학급페이를 생성하시겠습니까? ')
+    const isConfirm = window.confirm(className+'를 생성하시겠습니까? ')
     if(!isConfirm)return
     classCreateMutation()
 

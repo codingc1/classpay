@@ -3,17 +3,12 @@ import { NotFound } from "../components/home/404";
 import { ProtectedRoute } from "../components/home/protected/ProtectedRoute ";
 
 import LayoutLeft from "../components/layout/Layout-left";
-import { CreateCpPay } from "../page/class-pay/basic/create-cppay";
-import { QrScan } from "../page/class-pay/qr-scan/qr-scan";
-import { ClassPayApp,  } from "../page/class-pay/ClassPayApp";
 import { HomeNew } from "../page/Home/Home-new";
-import { Login } from "../page/user/login/login";
-import { CP_PAY_CREATE_ROUTE_NAME, CP_PAY_APP_ROUTE_NAME, CP_PAY_QRSCAN_ROUTE_NAME, LOGIN_ROUTE_NAME, TERMS_CONDITIONS,  } from "./route-name-constants";
+import { CP_PAY_HOME_ROUTE_NAME,   } from "./route-name-constants";
 import { QrScanner } from "../page/class-pay/qr-scan/qr-scanning";
 import { CpSettingHome } from "../page/class-pay/setting/cp-setting-home";
-import { CPMemberHome } from "../page/class-pay/member/cp-member-home";
-import { CProductsHome } from "../page/trades/product/product-home";
-import { TermsConditions } from "../page/Home/explanation/termsConditions";
+import { classpayRouters, userRouters } from "./logged-in-router";
+import { basicRouters } from "./logged-out-router";
 
 
 interface IRoute {
@@ -45,19 +40,16 @@ const logOutRoutes=(...args:IRoute[][])=>{
         <Routes>
           <Route element={<LayoutLeft />}>
             <Route path="/" element={ <HomeNew />} />
-            <Route path={LOGIN_ROUTE_NAME} element={ <Login />} />
-            {/* <Route path={QR_SCANB_ROUTE_NAME} element={ <QrScan />} /> */}
-            <Route path={CP_PAY_CREATE_ROUTE_NAME} element={ <CreateCpPay />} />
-            <Route path={CP_PAY_APP_ROUTE_NAME+'/:payid'} element={ <ClassPayApp />} />
-            <Route path={CP_PAY_APP_ROUTE_NAME+'/:payid'+'/member'} element={ <CPMemberHome />} />
-            <Route path={CP_PAY_APP_ROUTE_NAME+'/:payid'+'/products'} element={ <CProductsHome />} />
+            {logOutRoutes(basicRouters)}
             
-            {/* <Route path="posts/:postId" element={<Team />} /> */}
-            <Route path={CP_PAY_APP_ROUTE_NAME+'/:payid'+'/setting'} element={ <CpSettingHome />} />
+            {/* <Route path={QR_SCANB_ROUTE_NAME} element={ <QrScan />} /> */}
+            {ProtectRoutes(classpayRouters, userRouters)} 
 
-            <Route path={CP_PAY_APP_ROUTE_NAME+'/:payid'+'/scan'} element={ <QrScanner />} />
+            <Route path={CP_PAY_HOME_ROUTE_NAME+'/:payid'+'/setting'} element={ <CpSettingHome />} />
 
-            <Route path={TERMS_CONDITIONS} element={<TermsConditions />} />
+            <Route path={CP_PAY_HOME_ROUTE_NAME+'/:payid'+'/scan'} element={ <QrScanner />} />
+
+            
             
           </Route>
           <Route path="*" element={<NotFound />} />  
@@ -67,3 +59,12 @@ const logOutRoutes=(...args:IRoute[][])=>{
   }
 
   //params 가져오기 https://velog.io/@tjdgus0528/React-Router-v6-%EC%A0%95%EB%A6%AC
+
+  // <Route path={LOGIN_ROUTE_NAME} element={ <Login />} />
+ //<Route path={TERMS_CONDITIONS} element={<TermsConditions />} /> 
+
+//<Route path={CP_PAY_CREATE_ROUTE_NAME} element={ <CreateCpPay />} />
+
+            // <Route path={CP_PAY_HOME_ROUTE_NAME+'/:payid'} element={ <ClassPayApp />} />
+            // <Route path={CP_PAY_HOME_ROUTE_NAME+'/:payid'+'/member'} element={ <CPMemberHome />} />
+            // <Route path={CP_PAY_HOME_ROUTE_NAME+'/:payid'+'/products'} element={ <CProductsHome />} /> 

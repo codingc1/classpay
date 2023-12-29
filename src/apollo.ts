@@ -7,8 +7,6 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { serverAddress, webSoketAddress } from './api/app-setting';
 import { onError } from "@apollo/client/link/error";
 import { ConsoleHelper } from './func/sys/consoleHelper';
-import { AUTOLOGIN,LOCALSTORAGE_TOKEN } from './api/api-constants';
-import { authVar } from './stores/authstore';
 import TokenRepository from './api/token/tokenRepo';
 
 // import { isLoggedInVar } from './stores/auth-store';

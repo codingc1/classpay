@@ -1,15 +1,14 @@
 import { useReactiveVar } from '@apollo/client';
 import {QRCodeSVG} from 'qrcode.react';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import PopupCenter from '../../../../components/popup/sm-center/popup-center';
 import { addCommaMan } from '../../../../func/basic/number/addComma';
-import { cpStopSelleing, useSellingSubscribe } from '../../../../hooks/cp-pay/trade/selling';
+import { useSellingSubscribe } from '../../../../hooks/cp-pay/trade/selling';
 import { cpPayVar } from '../../../../stores/cp-pay-store';
 
 //https://zpao.github.io/qrcode.react/
 export const SellQrCodeGen=({setIsModal}:{setIsModal:React.Dispatch<React.SetStateAction<boolean>>}) => {
-  const {payid} = useParams(); 
+  
   const productRedux = useReactiveVar(cpPayVar).trade;
 
   // client.subscribe({
@@ -18,7 +17,7 @@ export const SellQrCodeGen=({setIsModal}:{setIsModal:React.Dispatch<React.SetSta
   //useEffect로 구독취소 https://dev.to/email2vimalraj/cancel-unsubscribe-graphql-subscription-55oe
   //구독취소 영감 https://stackoverflow.com/questions/51477002/unsubscribe-subscription-in-apollo-client
   //구독취소 정답 https://community.apollographql.com/t/is-it-possible-to-cancel-graphql-subscriptions/116
-  const {data, error} = useSellingSubscribe({id:Number(productRedux.tradeTmpCode.id)})
+  const {data, error} = useSellingSubscribe({id:Number(productRedux.tradeTmpProduct.id)})
   useEffect(()=>{
     // if(data)console.log(data, 'data')
     // if(loading)console.log(loading, 'loading')
@@ -46,17 +45,18 @@ export const SellQrCodeGen=({setIsModal}:{setIsModal:React.Dispatch<React.SetSta
       setIsModal(false)
     }
   const makeQrcode=() => {
-    const obj = productRedux.tradeTmpCode.code
+    const obj = productRedux.tradeTmpProduct.code
     // const obj = {cppay_id:Number(payid), product_id:productRedux.product.id, qty:productRedux.qty}
     return JSON.stringify(obj)
   }
   
       const contents =(
         <div className="w-full p-12">
-            <div className="mb-5 text-base">
+            <div className="mb-5 text-lg">
                 {/* <div className='w-full text-center'>판매하기</div> */}
-                <div className='w-full text-center'>{productRedux.product.name} {addCommaMan(productRedux.product.price)}원 x {productRedux.qty}개</div>
-                <div className='w-full text-center'>결제금액 : {addCommaMan(productRedux.product.price*productRedux.qty)}원</div>
+                <div className='w-full text-center '>{productRedux.product.name} {addCommaMan(productRedux.product.price)}원 x {productRedux.qty}개</div>
+                <div className='w-full text-center'>결제금액 :&nbsp; 
+                  <span className='font-bold'>{addCommaMan(productRedux.product.price*productRedux.qty)}원</span></div>
 
             </div>
             <div className="w-full flex justify-center">

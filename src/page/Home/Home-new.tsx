@@ -3,25 +3,25 @@ import { useEffect,  } from "react";
 import {Helmet} from "react-helmet-async";
 import { useNavigate,  } from "react-router-dom";
 import TokenRepository from "../../api/token/tokenRepo";
-import { CP_PAY_CREATE_ROUTE_NAME, LOGIN_ROUTE_NAME } from "../../routers/route-name-constants";
+import { CP_PAY_HOME_ROUTE_NAME, CP_PAY_CREATE_ROUTE_NAME, LOGIN_ROUTE_NAME } from "../../routers/route-name-constants";
 import { authVar } from "../../stores/authstore";
-import { editRouteVar } from "../../stores/route-info-store";
+import { editRouteVar, routeVar } from "../../stores/route-info-store";
 import HomeClassListComponent from "./home-class-list";
 import HomeProfileHeader from "./header/home-profile-header";
+// import { useCpPays } from "../../hooks/cp-pay/useCpPay";
+import { cpPayVar } from "../../stores/cp-pay-store";
 
 
 
 //사용하는중 new가 왜붙엇는지는 모름
 export const HomeNew = () => {
-
     let navigate = useNavigate();
-  
+    const cppay = useReactiveVar(cpPayVar).cppay;
+    // const routeRedux = useReactiveVar(routeVar)
     // const location = useLocation();
+    // const {data} = useCpPays()
     const isLoggedIn = useReactiveVar(authVar).isLogin;
-  
-    // const alertTest=()=>{
-    //   setErrMsg('test')
-    // }
+
     useEffect(()=>{
       editRouteVar.header.setVisible(false) //학급에 들어가야 시작됨
     },[])
@@ -32,9 +32,11 @@ export const HomeNew = () => {
             if(!token || !isAuto){
             navigate(LOGIN_ROUTE_NAME)
             }
-            // alertTest()
+        }else if(cppay.id !== 0){
+            navigate(CP_PAY_HOME_ROUTE_NAME)
         }
-    },[ ]) 
+    },[cppay ]) 
+
 
 
     return(
@@ -46,13 +48,13 @@ export const HomeNew = () => {
                         <HomeProfileHeader />
                         {/* <div className="text-left text-sm">학급페이 홈</div> */}
                         <HomeClassListComponent />
-                        <button
+                        {(cppay.id === 0) && <button
                             type="button"
                             className="mt-3 w-full max-w-sm items-center rounded-md border border-transparent bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                             onClick={()=>navigate(CP_PAY_CREATE_ROUTE_NAME)}
                         >
                             학급 만들기
-                        </button>
+                        </button>}
                     </div>
                 </div>
             </div>

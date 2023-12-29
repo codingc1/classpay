@@ -1,10 +1,11 @@
-import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/20/solid'
+// import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/20/solid'
 import { useNavigate } from 'react-router-dom'
-import { useCpPays } from '../../hooks/cp-pay/useCpPay'
-import { CP_PAY_APP_ROUTE_NAME } from '../../routers/route-name-constants'
-import { editCpPayVar } from '../../stores/cp-pay-store'
+// import { useCpPays } from '../../hooks/cp-pay/useCpPay'
+import { CP_PAY_HOME_ROUTE_NAME } from '../../routers/route-name-constants'
+import { cpPayVar, editCpPayVar } from '../../stores/cp-pay-store'
 import { useEffect } from 'react'
-import { useMe } from '../../hooks/user/useMe'
+import { cp_paysQueryQuery } from '../../hooks/cp-pay/useCpPay.generated'
+import { useReactiveVar } from '@apollo/client'
 
 
 const people = [
@@ -29,34 +30,38 @@ const people = [
   // More people...
 ]
 
+//학급 리스트 - 1개학급만들기만 되서 자동이동됨..
 export default function HomeClassListComponent() {
   let navigate = useNavigate()
-  const {data:meData}=useMe()
-  const {data} = useCpPays(meData)
-  useEffect(()=>{
-    if(meData){
-      console.log(meData.cp_me, 'meData 있음')
-    }else{
-      console.log('meData 없음')
-    }
-  },[meData])
-  useEffect(()=>{
-    if(data){
-      console.log(data.cp_pays, 'data 있음')
-    }else{
-      console.log('data 없음')
-    }
-  },[data])
+  // const {data:meData}=useMe()
+  const cppay = useReactiveVar(cpPayVar).cppay;
+  // const {data} = useCpPays()
+
+  const moveClassPay=(data: cp_paysQueryQuery)=>{
+    // editCpPayVar.setPayID(data.cp_pays[0].id)
+    // navigate(CP_PAY_HOME_ROUTE_NAME+'/'+data.cp_pays[0].id)
+    navigate(CP_PAY_HOME_ROUTE_NAME)
+  }
+  // useEffect(()=>{
+  //   if(data && data.cp_pays.length > 0){
+  //     moveClassPay(data)
+  //     // setTimeout(() => {
+  //     // moveClassPay(data)
+  //     // }, 500);
+  //   }
+  // },[data])
     //lg:grid-cols-3
     //grid grid-cols-1 gap-6 sm:grid-cols-2
   return (
     <ul role="list" className=" max-w-sm ">
-      {data?.cp_pays.map((cppay) => ( //li : col-span-1 divide-y divide-gray-200 rounded-lg
+      {/* {data?.cp_pays.map((cppay) => ( //li : col-span-1 divide-y divide-gray-200 rounded-lg } */}
+      {cppay.id !==0 &&
         <li key={cppay.id} className="  bg-white shadow">
           <div className="flex w-full items-center justify-between space-x-6 p-6 cursor-pointer hover:bg-slate-200"
             onClick={()=>{
-              editCpPayVar.setPayID(cppay.id)
-              navigate(CP_PAY_APP_ROUTE_NAME+'/'+cppay.id)
+              // moveClassPay(data)
+              // editCpPayVar.setPayID(cppay.id)
+              // navigate(CP_PAY_HOME_ROUTE_NAME+'/'+cppay.id)
             }}>
             <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"/>
             {/* <img className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300" src={cppay.imageUrl} alt="" /> */}
@@ -97,8 +102,9 @@ export default function HomeClassListComponent() {
             </div>
           </div> */}
         </li>
-      ))}
-      {(!data || data.cp_pays.length === 0) && <div className='w-full h-24 flex justify-center items-center'>학급이 없습니다.</div>}
+      //  )) 
+      }
+      {(!cppay || cppay.id === 0) && <div className='w-full h-24 flex justify-center items-center'>학급이 없습니다.</div>}
     </ul>
   )
 }

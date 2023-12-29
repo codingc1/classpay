@@ -15,7 +15,7 @@ import { makeVar } from '@apollo/client';
   
 }
 const aa:IRoute = {title:'',routeName:'',
-  header: {isVisible:true,} ,
+  header: {isVisible:false,} ,
   footer: {isVisible:true,} , isLoading:false}
 export const routeVar = makeVar(aa);
 
@@ -48,4 +48,7 @@ export const editRouteVar={
       routeVar({...routeVar(), footer: {...routeVar().footer, isVisible:boo}});
     },
   },
+  reset:function(){
+    routeVar(aa)
+}
 }

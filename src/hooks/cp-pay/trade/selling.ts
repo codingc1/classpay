@@ -3,7 +3,7 @@ import { gql, useMutation, useSubscription, } from "@apollo/client";
 import { client } from "../../../apollo";
 import { CP_TMPTRADE_FRAGMENT } from "../../../fragments";
 import { ConsoleHelper } from "../../../func/sys/consoleHelper";
-import { cp_sellingStopMutationDocument, cp_sellingStopMutationMutation, pendingSellingSubscriptionSubscription,pendingSellingSubscriptionSubscriptionVariables} from "./selling.generated";
+import { pendingSellingSubscriptionSubscription,pendingSellingSubscriptionSubscriptionVariables} from "./selling.generated";
 
 //product-sell
 export const CP_SELLING_START_MUTATION = gql`
@@ -52,26 +52,27 @@ export const useSellingSubscribe = ({id}:{id:number}) => {
   
   };
 
-export const CP_SELLING_STOP_MUTATION = gql`
-mutation cp_sellingStopMutation($idOnlyInput: IdOnlyInput!) {
-  cp_sellingStop(input: $idOnlyInput) {
-    ok
-    error
-  }
-}
-`;  
-export const cpStopSelleing=({id}:{id:number}) => {
-  client.mutate({ //https://www.youtube.com/watch?v=cYIhx8dusa4
-    mutation:cp_sellingStopMutationDocument,
-    variables:{
-      idOnlyInput:{id}
-    }
-  })
-  .catch((e)=>ConsoleHelper(e, 'cpStopSelleing'))
-//   const [cp_sellingStopMutation, { loading,  }] = useMutation<cp_sellingStopMutationMutation, cp_createProductMutationMutationVariables>(CP_SELLING_STOP_MUTATION, {
-//      onError: (err) => {
+// export const CP_SELLING_STOP_MUTATION = gql`
+// mutation cp_sellingStopMutation($idOnlyInput: IdOnlyInput!) {
+//   cp_sellingStop(input: $idOnlyInput) {
+//     ok
+//     error
+//   }
+// }
+// `;  
+
+// export const cpStopSelleing=({id}:{id:number}) => {
+//   client.mutate({ //https://www.youtube.com/watch?v=cYIhx8dusa4
+//     mutation:cp_sellingStopMutationDocument,
+//     variables:{
+//       idOnlyInput:{id}
+//     }
+//   })
+//   .catch((e)=>ConsoleHelper(e, 'cpStopSelleing'))
+// //   const [cp_sellingStopMutation, { loading,  }] = useMutation<cp_sellingStopMutationMutation, cp_createProductMutationMutationVariables>(CP_SELLING_STOP_MUTATION, {
+// //      onError: (err) => {
     
-//  } });
+// //  } });
 
 
-}
+// }

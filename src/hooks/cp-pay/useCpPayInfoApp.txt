@@ -3,7 +3,7 @@
 
 
 import { gql, useQuery } from "@apollo/client";
-import { CP_PAY_FRAGMENT,CP_PAY_MONEY_FRAGMENT } from "../../fragments";
+import { CP_PAY_FRAGMENT, } from "../../fragments"; //CP_PAY_MONEY_FRAGMENT
 import { ConsoleHelper } from "../../func/sys/consoleHelper";
 import { cp_PayInfoAppQueryQuery } from "./useCpPayInfoApp.generated";
 // import { useNavigate } from "react-router";
@@ -16,21 +16,15 @@ export const CP_PAY_INFOAPP_QUERY = gql`
         ok
         error
         result{
-          cppay{
-            ...CPPayParts
-          }
-          paymoney{
-            ...CPPayMoneyParts
-          }
-          
+          ...CPPayParts
         }
 
       }
 
   }
-  ${CP_PAY_FRAGMENT}${CP_PAY_MONEY_FRAGMENT}
+  ${CP_PAY_FRAGMENT} 
 `;
-//
+//${CP_PAY_MONEY_FRAGMENT}
 
 export const useCpPayAppInfo = ({id}:{id:number|undefined}) => {
   // const { data, loading, error } = useQuery<meQuery>(ME_QUERY);

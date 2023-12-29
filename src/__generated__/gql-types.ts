@@ -15,12 +15,13 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
+  boardLists: ViewBoardsOutput;
+  boardView: ViewBoardContentsOutput;
   cp_allProducts: Array<CP_Product>;
-  cp_me: CP_User;
+  cp_me: CP_MeOutput;
   cp_MyBills: Array<CP_Bill>;
   cp_myProducts: Array<CP_Product>;
   cp_PayInfo: CP_PayOutput;
-  cp_PayInfoApp: CP_PayAppOutput;
   cp_pays: Array<CP_Pay>;
   cp_PayUserLists: Array<CP_User>;
   cp_refreshToken: LoginOutput;
@@ -31,10 +32,22 @@ export type Query = {
   myHangStudents: HangStudentsOutput;
   refreshToken: LoginOutput;
   tagListGrade: TagsListMuOutput;
+  tagListHangCombiFindAll: Array<TagListCombi>;
+  tagSubFindAll: Array<TagListSub>;
   thisyearsQuery: DiThisyearsOutput;
   timeTablesQuery: DiTimetablesOutput;
   userList: UserListOutput;
   userSettingQuery: SettingOutput;
+};
+
+
+export type QueryboardListsArgs = {
+  input: BoardsInput;
+};
+
+
+export type QueryboardViewArgs = {
+  input: ViewBoardContentsInput;
 };
 
 
@@ -48,22 +61,7 @@ export type Querycp_MyBillsArgs = {
 };
 
 
-export type Querycp_myProductsArgs = {
-  id: Scalars['Int'];
-};
-
-
 export type Querycp_PayInfoArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type Querycp_PayInfoAppArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type Querycp_PayUserListsArgs = {
   id: Scalars['Int'];
 };
 
@@ -78,8 +76,73 @@ export type QuerytagListGradeArgs = {
 };
 
 
+export type QuerytagListHangCombiFindAllArgs = {
+  input: TagsListHangCombiInput;
+};
+
+
+export type QuerytagSubFindAllArgs = {
+  input: TagsListInput;
+};
+
+
 export type QuerytimeTablesQueryArgs = {
   input: DiTimetablesInput;
+};
+
+export type BoardsInput = {
+  boardName?: InputMaybe<Scalars['String']>;
+  kind?: InputMaybe<Scalars['String']>;
+  page?: InputMaybe<Scalars['Float']>;
+  schoolGrade?: InputMaybe<Array<UserSchoolGrade>>;
+  tag?: InputMaybe<Scalars['String']>;
+  writerNmae?: InputMaybe<Scalars['String']>;
+};
+
+export enum UserSchoolGrade {
+  Ele = 'Ele',
+  High = 'High',
+  Middle = 'Middle',
+  Nomal = 'Nomal'
+}
+
+export type ViewBoardsOutput = {
+  __typename?: 'ViewBoardsOutput';
+  error?: Maybe<Scalars['String']>;
+  ok: Scalars['Boolean'];
+  results?: Maybe<Array<Board>>;
+  totalPages?: Maybe<Scalars['Int']>;
+  totalResults?: Maybe<Scalars['Int']>;
+};
+
+export type Board = {
+  __typename?: 'Board';
+  boardName: Scalars['String'];
+  commentNum: Scalars['Int'];
+  content: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  hits: Scalars['Int'];
+  id: Scalars['Float'];
+  kind: Scalars['String'];
+  nickname: Scalars['String'];
+  password: Scalars['String'];
+  recommend: Scalars['Int'];
+  schoolGrade: UserSchoolGrade;
+  title: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  userid: Scalars['Int'];
+  writerNmae: Scalars['String'];
+};
+
+export type ViewBoardContentsInput = {
+  id: Scalars['Float'];
+};
+
+export type ViewBoardContentsOutput = {
+  __typename?: 'ViewBoardContentsOutput';
+  error?: Maybe<Scalars['String']>;
+  ok: Scalars['Boolean'];
+  result?: Maybe<Board>;
 };
 
 export type CP_Product = {
@@ -97,48 +160,28 @@ export type CP_Product = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type CP_User = {
-  __typename?: 'CP_User';
-  createdAt: Scalars['DateTime'];
-  id: Scalars['Float'];
-  joinclasspay: Array<CP_Pay>;
+export type CP_MeOutput = {
+  __typename?: 'CP_MeOutput';
+  id: Scalars['Int'];
+  joinclasspay: CP_PaysObj;
   mainId: Scalars['String'];
+  money: Scalars['Int'];
   name: Scalars['String'];
   number: Scalars['Int'];
-  password: Scalars['String'];
-  paymoney: Array<CP_PayMoney>;
   position: POSITION;
-  updatedAt: Scalars['DateTime'];
 };
 
-export type CP_Pay = {
-  __typename?: 'CP_Pay';
+export type CP_PaysObj = {
+  __typename?: 'CP_PaysObj';
   className: Scalars['String'];
   classNum: Scalars['Int'];
   classTh: Scalars['Int'];
   code: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  id: Scalars['Float'];
+  id: Scalars['Int'];
   imgurl: Scalars['String'];
-  isTrade: Scalars['Boolean'];
-  paymoney: Array<CP_PayMoney>;
+  moneyUnit: Scalars['String'];
   schoolName: Scalars['String'];
-  subAdmin: Scalars['String'];
-  updatedAt: Scalars['DateTime'];
-  user: Array<CP_User>;
-  user_id: Scalars['Float'];
-};
-
-export type CP_PayMoney = {
-  __typename?: 'CP_PayMoney';
-  classpay: CP_Pay;
-  createdAt: Scalars['DateTime'];
-  id: Scalars['Float'];
-  money: Scalars['Int'];
-  pay_id: Scalars['Float'];
-  updatedAt: Scalars['DateTime'];
-  user: CP_User;
-  user_id: Scalars['Float'];
+  user_id: Scalars['Int'];
 };
 
 export enum POSITION {
@@ -170,17 +213,37 @@ export type CP_PayOutput = {
   result?: Maybe<CP_Pay>;
 };
 
-export type CP_PayAppOutput = {
-  __typename?: 'CP_PayAppOutput';
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-  result?: Maybe<CPPayAppOutputObj>;
+export type CP_Pay = {
+  __typename?: 'CP_Pay';
+  className: Scalars['String'];
+  classNum: Scalars['Int'];
+  classTh: Scalars['Int'];
+  code: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Float'];
+  imgurl: Scalars['String'];
+  isTrade: Scalars['Boolean'];
+  moneyUnit: Scalars['String'];
+  schoolName: Scalars['String'];
+  subAdmin: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  user: Array<CP_User>;
+  user_id: Scalars['Float'];
 };
 
-export type CPPayAppOutputObj = {
-  __typename?: 'CPPayAppOutputObj';
-  cppay: CP_Pay;
-  paymoney: CP_PayMoney;
+export type CP_User = {
+  __typename?: 'CP_User';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Float'];
+  joinclasspay: CP_Pay;
+  madeby_userid: Scalars['Int'];
+  mainId: Scalars['String'];
+  money: Scalars['Int'];
+  name: Scalars['String'];
+  number: Scalars['Int'];
+  password: Scalars['String'];
+  position: POSITION;
+  updatedAt: Scalars['DateTime'];
 };
 
 export type LoginOutput = {
@@ -250,7 +313,9 @@ export type User = {
   email: Scalars['String'];
   fullSentence: Array<FullSentence>;
   hang: Array<Hang>;
+  hangExpDate: Scalars['String'];
   id: Scalars['Float'];
+  isFirst: Scalars['Boolean'];
   lastLogin?: Maybe<Scalars['String']>;
   mainId: Scalars['String'];
   memberGrade: MemberGrade;
@@ -279,6 +344,7 @@ export type ChangChe = {
   schoolGrade: UserSchoolGrade;
   sentence: Scalars['String'];
   study_rank: Scalars['String'];
+  subTag: Scalars['String'];
   sumPerson: Scalars['Int'];
   sumPoint: Scalars['Int'];
   tag: Scalars['String'];
@@ -291,17 +357,12 @@ export type ChangUserCount = {
   __typename?: 'ChangUserCount';
   changChe: ChangChe;
   count: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
   hang_id: Scalars['Int'];
   id: Scalars['Float'];
+  updatedAt: Scalars['DateTime'];
   user_id: Scalars['Int'];
 };
-
-export enum UserSchoolGrade {
-  Ele = 'Ele',
-  High = 'High',
-  Middle = 'Middle',
-  Nomal = 'Nomal'
-}
 
 export type FullSentence = {
   __typename?: 'FullSentence';
@@ -339,8 +400,6 @@ export type Hang = {
   __typename?: 'Hang';
   count: Scalars['Int'];
   createdAt: Scalars['DateTime'];
-  hangTag: Array<HangTag>;
-  hangTagGroup: Array<HangTagGroup>;
   hangUserCount: Array<HangUserCount>;
   id: Scalars['Float'];
   isMadeByAdmin: Scalars['Boolean'];
@@ -357,20 +416,6 @@ export type Hang = {
   updatedAt: Scalars['DateTime'];
   user?: Maybe<User>;
   user_id?: Maybe<Scalars['Int']>;
-};
-
-export type HangTag = {
-  __typename?: 'HangTag';
-  hang: Hang;
-  id: Scalars['Float'];
-  tag: Scalars['String'];
-};
-
-export type HangTagGroup = {
-  __typename?: 'HangTagGroup';
-  hang: Hang;
-  id: Scalars['Float'];
-  tagGroup: Scalars['String'];
 };
 
 export type HangUserCount = {
@@ -427,7 +472,9 @@ export type GradeTagsListInput = {
 export enum HangMenuMode {
   ChangChe = 'ChangChe',
   Combi = 'Combi',
+  CombiHigh = 'CombiHigh',
   Ele = 'Ele',
+  High = 'High',
   Mid = 'Mid',
   ShareEle = 'ShareEle',
   ShareMid = 'ShareMid'
@@ -464,6 +511,44 @@ export type TagList = {
   th: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
   userid?: Maybe<Scalars['Int']>;
+};
+
+export type TagsListHangCombiInput = {
+  hangMenuMode?: InputMaybe<HangMenuMode>;
+  kind?: InputMaybe<Scalars['String']>;
+  schoolGrade?: InputMaybe<UserSchoolGrade>;
+  subKind?: InputMaybe<Scalars['String']>;
+  tag?: InputMaybe<Scalars['String']>;
+};
+
+export type TagListCombi = {
+  __typename?: 'TagListCombi';
+  hangMenuMode: HangMenuMode;
+  id: Scalars['Float'];
+  kind: Scalars['String'];
+  schoolGrade: UserSchoolGrade;
+  subKind: Scalars['String'];
+  subTag: Scalars['String'];
+  tag: Scalars['String'];
+  th: Scalars['Int'];
+};
+
+export type TagsListInput = {
+  hangMenuMode?: InputMaybe<HangMenuMode>;
+  kind?: InputMaybe<Scalars['String']>;
+  schoolGrade?: InputMaybe<UserSchoolGrade>;
+  tag?: InputMaybe<Scalars['String']>;
+};
+
+export type TagListSub = {
+  __typename?: 'TagListSub';
+  hangMenuMode: HangMenuMode;
+  id: Scalars['Float'];
+  kind: Scalars['String'];
+  schoolGrade: UserSchoolGrade;
+  subTag: Scalars['String'];
+  tag: Scalars['String'];
+  th: Scalars['Int'];
 };
 
 export type DiThisyearsOutput = {
@@ -575,6 +660,7 @@ export type Mutation = {
   addStClass: MyStClassesOutput;
   addStudent: MyStudentsOutput;
   adminDeleteFullHang: CoreOutput;
+  adminFindUserByMainId: AdminFindUserOutput;
   adminFullHangById: FullHangOutput;
   adminFullHangEdit: CoreOutput;
   adminFullHangsConfirm: FullHangListOutput;
@@ -585,28 +671,29 @@ export type Mutation = {
   allCombi: AllHangCombisOutput;
   allFullsentences: FullsentencesOutput;
   allPopup: PopupsOutput;
-  assistTagGroupFullHangs: FullHangsOutput;
+  boardListsMu: ViewBoardsOutput;
   checkHangPassword: BasicOutput;
   checkPossibleId: CheckPossibleIdOutput;
   checkPossibleNickname: CheckPossibleIdOutput;
   confirmPassword: VerifyEmailOutput;
   cp_buyingTrade: CoreOutput;
   cp_buyProduct: CoreOutput;
-  cp_CreateClassPay: CoreOutput;
+  cp_CreateClassPay: CP_PayOutput;
   cp_createProduct: CoreOutput;
   cp_CreateStudents: CP_CheckPossibleIsdOutput;
   cp_CreateTeacher: CoreOutput;
   cp_DeleteClassPay: CoreOutput;
   cp_deleteProduct: CoreOutput;
+  cp_deleteStudent: CoreOutput;
   cp_editProfile: CoreOutput;
   cp_getBuyTmpTrade: CP_TradeTmpCodeOutput;
   cp_login: LoginOutput;
+  cp_modifyStudent: CoreOutput;
   cp_PayPossibleName: CoreOutput;
   cp_sellingStart: CP_TradeTmpCodeOutput;
-  cp_sellingStop: CoreOutput;
-  cp_studentsPossibleIds: CoreOutput;
+  cp_studentsPossibleIds: CP_CheckPossibleIsdOutput;
+  cp_updateProduct: CoreOutput;
   cp_userProfile: CP_SomeProfileOutput;
-  cp_withdrawUserPay: CoreOutput;
   createAccount: CreateAccountOutput;
   createAttendChecks: StAttendChecksOutput;
   createBoard: BoardCoreOutPut;
@@ -622,11 +709,14 @@ export type Mutation = {
   createHangCombiCount: CreateHangCountOutput;
   createHangCount: CreateHangCountOutput;
   createHangMark: CreateHangMarkOutput;
+  createHangPayment: CreatePaymentOutput;
   createHangStudents: HangStudentsOutput;
   createMemo: MemoOutput;
   createModifySen: HangOneOutput;
   createPopup: PopupOutput;
   createPopupClick: PopupOutput;
+  createServerChangChes: CreateServeralChanChesOutput;
+  createServerCombis: CreateServeralCombisOutput;
   createServerHangs: CreateServeralHangsOutput;
   createStCheckView: WeeklyStCheckViewsOutput;
   createStudents: MyStudentsOutput;
@@ -637,13 +727,13 @@ export type Mutation = {
   delAttendCheck: StAttendChecksOutput;
   delChecks: CoreOutput;
   delCheckTitle: StCheckTitlesOutput;
+  deleteBoardByPassword: CoreOutput;
   deleteBoardContent: BoardCoreOutPut;
   deleteChangChe: BasicOutput;
   deleteComment: ViewCommentsOutput;
   deleteFullsentence: BasicOutput;
   deleteHang: DeleteHangOutput;
   deleteHangCombiTag: HangCombiOutput;
-  deleteHangStudent: BasicOutput;
   deleteStClass: MyStClassesOutput;
   deleteStudent: MyStudentsOutput;
   delOneClassStudent: MyStudentsOutput;
@@ -659,13 +749,17 @@ export type Mutation = {
   develTeacherStudentsDevelList: DevelTeacherStudentsDevelListOutput;
   editHang: EditHangOutput;
   editProfile: EditProfileOutput;
+  findStcrawlById: Array<StudentRecord>;
+  findUserId: UserIdHintOutput;
   getChangChes: FullChangsOutput;
   getFullHangs: FullHangsOutput;
   hangById: HangOneOutput;
+  hangCombiBoxCountUp: CoreOutput;
   hangCountDown: BasicOutput;
   hangMarkCopy: HangMarkCopyOutput;
   hangs: HangsOutput;
   hangsMid: HangsOutput;
+  initPayment: InitPaymentOutput;
   login: LoginOutput;
   modifyBoardContent: BoardCoreOutPut;
   modifySeveralStudents: MyStudentsOutput;
@@ -682,12 +776,17 @@ export type Mutation = {
   myStCheckView: WeeklyStCheckViewsOutput;
   myStClasses: MyStClassesOutput;
   myStudents: MyStudentsOutput;
+  paymentConfirm: CoreOutput;
   refreshTokenMu: LoginOutput;
   resetHangCount: BasicOutput;
+  resetHangOneStudents: BasicOutput;
   resetHangStudents: BasicOutput;
+  resetPassword: CoreOutput;
   restoreModifySentence: HangModifySenOutput;
   sendFindPasswordEmail: VerifyEmailOutput;
+  setIsFirst: CoreOutput;
   tagListGradeMu: TagsListMuOutput;
+  testConfirm: CoreOutput;
   thisyears: DiThisyearsOutput;
   timeTables: DiTimetablesOutput;
   todayDiClasses: DiClassesOutput;
@@ -703,7 +802,6 @@ export type Mutation = {
   userProfileIn: UserProfileInOutput;
   userSetting: SettingOutput;
   viewBoardContents: ViewBoardContentsOutput;
-  viewBoards: ViewBoardsOutput;
   viewComments: ViewCommentsOutput;
   viewDevels: ViewDevelsOutput;
   weeklyDiClasses: DiClassesOutput;
@@ -740,6 +838,11 @@ export type MutationaddStudentArgs = {
 
 export type MutationadminDeleteFullHangArgs = {
   input: IdOnlyInput;
+};
+
+
+export type MutationadminFindUserByMainIdArgs = {
+  input: SetUserPasswordInput;
 };
 
 
@@ -793,8 +896,8 @@ export type MutationallPopupArgs = {
 };
 
 
-export type MutationassistTagGroupFullHangsArgs = {
-  input: AssistTagGroupInput;
+export type MutationboardListsMuArgs = {
+  input: BoardsInput;
 };
 
 
@@ -854,7 +957,12 @@ export type Mutationcp_DeleteClassPayArgs = {
 
 
 export type Mutationcp_deleteProductArgs = {
-  input: CP_PayIdAndIDInput;
+  id: Scalars['Int'];
+};
+
+
+export type Mutationcp_deleteStudentArgs = {
+  input: IdOnlyInput;
 };
 
 
@@ -873,6 +981,11 @@ export type Mutationcp_loginArgs = {
 };
 
 
+export type Mutationcp_modifyStudentArgs = {
+  input: ModifyCpStudentsInput;
+};
+
+
 export type Mutationcp_PayPossibleNameArgs = {
   input: CP_PayPossibleNameInput;
 };
@@ -883,23 +996,18 @@ export type Mutationcp_sellingStartArgs = {
 };
 
 
-export type Mutationcp_sellingStopArgs = {
-  input: IdOnlyInput;
-};
-
-
 export type Mutationcp_studentsPossibleIdsArgs = {
   input: CheckPossibleIdsInput;
 };
 
 
-export type Mutationcp_userProfileArgs = {
-  input: CP_UserProfileInInput;
+export type Mutationcp_updateProductArgs = {
+  input: CP_UpdateProductIdInput;
 };
 
 
-export type Mutationcp_withdrawUserPayArgs = {
-  input: CpWithdrawUserPayInput;
+export type Mutationcp_userProfileArgs = {
+  input: CP_UserProfileInInput;
 };
 
 
@@ -1003,6 +1111,16 @@ export type MutationcreatePopupClickArgs = {
 };
 
 
+export type MutationcreateServerChangChesArgs = {
+  input: CreateServeralChanChesInput;
+};
+
+
+export type MutationcreateServerCombisArgs = {
+  input: CreateServeralCombisInput;
+};
+
+
 export type MutationcreateServerHangsArgs = {
   input: CreateServeralHangsInput;
 };
@@ -1053,6 +1171,11 @@ export type MutationdelCheckTitleArgs = {
 };
 
 
+export type MutationdeleteBoardByPasswordArgs = {
+  input: DeleteBoardByPasswordInput;
+};
+
+
 export type MutationdeleteBoardContentArgs = {
   input: ViewBoardContentsInput;
 };
@@ -1080,11 +1203,6 @@ export type MutationdeleteHangArgs = {
 
 export type MutationdeleteHangCombiTagArgs = {
   input: DeleteHangCombiTagInput;
-};
-
-
-export type MutationdeleteHangStudentArgs = {
-  input: IdOnlyInput;
 };
 
 
@@ -1133,6 +1251,16 @@ export type MutationeditProfileArgs = {
 };
 
 
+export type MutationfindStcrawlByIdArgs = {
+  input: IdOnlyInput;
+};
+
+
+export type MutationfindUserIdArgs = {
+  input: FindUserIdInput;
+};
+
+
 export type MutationgetChangChesArgs = {
   input: FullChangChesInput;
 };
@@ -1145,6 +1273,11 @@ export type MutationgetFullHangsArgs = {
 
 export type MutationhangByIdArgs = {
   input: IdOnlyInput;
+};
+
+
+export type MutationhangCombiBoxCountUpArgs = {
+  input: CreateHangCountInput;
 };
 
 
@@ -1238,8 +1371,23 @@ export type MutationmyStudentsArgs = {
 };
 
 
+export type MutationpaymentConfirmArgs = {
+  input: ConfirmPaymentInput;
+};
+
+
 export type MutationresetHangCountArgs = {
   input: ResetHangCountInput;
+};
+
+
+export type MutationresetHangOneStudentsArgs = {
+  input: IdOnlyInput;
+};
+
+
+export type MutationresetPasswordArgs = {
+  input: SetUserPasswordInput;
 };
 
 
@@ -1253,8 +1401,18 @@ export type MutationsendFindPasswordEmailArgs = {
 };
 
 
+export type MutationsetIsFirstArgs = {
+  input: SetIsFirstInput;
+};
+
+
 export type MutationtagListGradeMuArgs = {
   input: GradeTagsListInput;
+};
+
+
+export type MutationtestConfirmArgs = {
+  input: TestmPaymentInput;
 };
 
 
@@ -1320,11 +1478,6 @@ export type MutationuserProfileInArgs = {
 
 export type MutationviewBoardContentsArgs = {
   input: ViewBoardContentsInput;
-};
-
-
-export type MutationviewBoardsArgs = {
-  input: ViewBoardsInput;
 };
 
 
@@ -1405,10 +1558,14 @@ export enum PopupType {
 }
 
 export type AddeHangCombiInput = {
+  firSemBoxCount?: Scalars['Int'];
+  firSemCount?: Scalars['Int'];
   fullHang_id?: Scalars['Int'];
   kind: Scalars['String'];
   mark?: Scalars['Float'];
   schoolGrade?: UserSchoolGrade;
+  secSemBoxCount?: Scalars['Int'];
+  secSemCount?: Scalars['Int'];
   sentence: Scalars['String'];
   tagArr: Array<Scalars['String']>;
 };
@@ -1424,11 +1581,15 @@ export type HangCombi = {
   __typename?: 'HangCombi';
   count: Scalars['Int'];
   createdAt: Scalars['DateTime'];
+  firSemBoxCount: Scalars['Int'];
+  firSemCount: Scalars['Int'];
   fullHang_id: Scalars['Int'];
   id: Scalars['Float'];
   kind: Scalars['String'];
   mark: Scalars['Float'];
   schoolGrade: UserSchoolGrade;
+  secSemBoxCount: Scalars['Int'];
+  secSemCount: Scalars['Int'];
   sentence: Scalars['String'];
   tagArray: Array<TagArray>;
   updatedAt: Scalars['DateTime'];
@@ -1500,6 +1661,18 @@ export type CoreOutput = {
   ok: Scalars['Boolean'];
 };
 
+export type SetUserPasswordInput = {
+  mainId: Scalars['String'];
+  pass: Scalars['String'];
+};
+
+export type AdminFindUserOutput = {
+  __typename?: 'AdminFindUserOutput';
+  email: Scalars['String'];
+  error?: Maybe<Scalars['String']>;
+  ok: Scalars['Boolean'];
+};
+
 export type FullHangOutput = {
   __typename?: 'FullHangOutput';
   error?: Maybe<Scalars['String']>;
@@ -1515,7 +1688,6 @@ export type FullHang = {
   date: Scalars['Int'];
   fullHangLists: Array<FullHangList>;
   fullSen: Scalars['String'];
-  fullSenExtra: Scalars['String'];
   id: Scalars['Float'];
   idList: Scalars['String'];
   isDeleted: Scalars['Boolean'];
@@ -1547,7 +1719,6 @@ export type AdminFullHangEditInput = {
   available?: Scalars['Boolean'];
   count?: Scalars['Int'];
   fullSen: Scalars['String'];
-  fullSenExtra: Scalars['String'];
   id: Scalars['Float'];
   mark?: Scalars['Float'];
 };
@@ -1578,7 +1749,7 @@ export type AdminFullHangListOutput = {
   ok: Scalars['Boolean'];
   results?: Maybe<Array<FullHang>>;
   totalPages?: Maybe<Scalars['Int']>;
-  totalResults?: Maybe<Scalars['Float']>;
+  totalResults?: Maybe<Scalars['Int']>;
 };
 
 export type AdminUserConfirmInput = {
@@ -1592,6 +1763,7 @@ export type ChangChesInput = {
   page?: Scalars['Int'];
   school_grade?: InputMaybe<Array<UserSchoolGrade>>;
   sentence?: InputMaybe<Scalars['String']>;
+  subTag?: InputMaybe<Scalars['String']>;
   tag?: InputMaybe<Scalars['String']>;
 };
 
@@ -1610,7 +1782,8 @@ export type AllHangCombiInput = {
   mark?: Scalars['Int'];
   page?: Scalars['Int'];
   schoolGrade: UserSchoolGrade;
-  tag?: Array<Scalars['String']>;
+  subTag?: InputMaybe<Scalars['String']>;
+  tag?: Scalars['String'];
 };
 
 export type AllHangCombisOutput = {
@@ -1637,29 +1810,12 @@ export type FullsentencesOutput = {
   ok: Scalars['Boolean'];
   results?: Maybe<Array<FullSentence>>;
   totalPages?: Maybe<Scalars['Int']>;
-  totalResults?: Maybe<Scalars['Float']>;
+  totalResults?: Maybe<Scalars['Int']>;
 };
 
 export type AllPopupInput = {
   page?: InputMaybe<Scalars['Int']>;
   serviceName?: InputMaybe<ServiceName>;
-};
-
-export type AssistTagGroupInput = {
-  id: Scalars['Float'];
-  kind?: Scalars['String'];
-  page?: Scalars['Int'];
-  schoolGrade?: UserSchoolGrade;
-  tag?: Scalars['String'];
-};
-
-export type FullHangsOutput = {
-  __typename?: 'FullHangsOutput';
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-  results?: Maybe<Array<FullHang>>;
-  totalPages?: Maybe<Scalars['Int']>;
-  totalResults?: Maybe<Scalars['Float']>;
 };
 
 export type HangPassInput = {
@@ -1700,7 +1856,6 @@ export type VerifyEmailOutput = {
 
 export type CP_GetTradeTmpCodeInput = {
   code: Scalars['String'];
-  cppay_id: Scalars['Int'];
 };
 
 export type CP_BuyProductIdInput = {
@@ -1717,7 +1872,6 @@ export type CP_CreateClassPayInput = {
 };
 
 export type CP_CreateProductIdInput = {
-  cppay_id: Scalars['Int'];
   desciption: Scalars['String'];
   imgurl?: Scalars['String'];
   name: Scalars['String'];
@@ -1726,7 +1880,6 @@ export type CP_CreateProductIdInput = {
 };
 
 export type CreateCpStudentsInput = {
-  payid: Scalars['Int'];
   students: Array<StudentsCreateObj>;
 };
 
@@ -1745,13 +1898,8 @@ export type CP_CheckPossibleIsdOutput = {
 };
 
 export type CreateCpTeacherInput = {
+  className: Scalars['String'];
   name?: Scalars['String'];
-  password: Scalars['String'];
-};
-
-export type CP_PayIdAndIDInput = {
-  id: Scalars['Int'];
-  payid: Scalars['Int'];
 };
 
 export type CP_EditProfileInput = {
@@ -1787,12 +1935,28 @@ export type CP_LoginInput = {
   password: Scalars['String'];
 };
 
+export type ModifyCpStudentsInput = {
+  id: Scalars['Float'];
+  name?: Scalars['String'];
+  number?: Scalars['Int'];
+  password?: InputMaybe<Scalars['String']>;
+};
+
 export type CP_PayPossibleNameInput = {
   className?: Scalars['String'];
 };
 
 export type CheckPossibleIdsInput = {
   mainIds: Array<Scalars['String']>;
+};
+
+export type CP_UpdateProductIdInput = {
+  desciption: Scalars['String'];
+  id: Scalars['Float'];
+  imgurl?: Scalars['String'];
+  name: Scalars['String'];
+  price?: Scalars['Int'];
+  qty?: Scalars['Int'];
 };
 
 export type CP_UserProfileInInput = {
@@ -1812,11 +1976,6 @@ export type CP_PickUser = {
   name: Scalars['String'];
   number: Scalars['Int'];
   position: POSITION;
-};
-
-export type CpWithdrawUserPayInput = {
-  payid: Scalars['Int'];
-  studentids: Array<Scalars['Int']>;
 };
 
 export type CreateAccountInput = {
@@ -1904,10 +2063,12 @@ export type StAttendCheck = {
 };
 
 export type CreateBoardInput = {
+  boardName: Scalars['String'];
   content: Scalars['String'];
   kind?: Scalars['String'];
-  name: Scalars['String'];
+  password?: Scalars['String'];
   title: Scalars['String'];
+  writerNmae?: Scalars['String'];
 };
 
 export type BoardCoreOutPut = {
@@ -2200,6 +2361,16 @@ export type markOutputObj = {
   sumPoint: Scalars['Float'];
 };
 
+export type CreatePaymentOutput = {
+  __typename?: 'CreatePaymentOutput';
+  amount: Scalars['Float'];
+  customerEmail: Scalars['String'];
+  customerName: Scalars['String'];
+  error?: Maybe<Scalars['String']>;
+  ok: Scalars['Boolean'];
+  orderId: Scalars['String'];
+};
+
 export type CreateServeralHangStudentsInput = {
   inputs: Array<CreateHangStudentObj>;
 };
@@ -2281,6 +2452,62 @@ export type CreatePopupClickInput = {
   id: Scalars['Float'];
 };
 
+export type CreateServeralChanChesInput = {
+  inputs: Array<CreateServeralChangCheObj>;
+  isRealSave: Scalars['Boolean'];
+};
+
+export type CreateServeralChangCheObj = {
+  kind: Scalars['String'];
+  mark?: Scalars['Float'];
+  schoolGrade?: UserSchoolGrade;
+  sentence: Scalars['String'];
+  subTag?: Scalars['String'];
+  tag: Scalars['String'];
+};
+
+export type CreateServeralChanChesOutput = {
+  __typename?: 'CreateServeralChanChesOutput';
+  error?: Maybe<Scalars['String']>;
+  failLists: Array<ChangChe>;
+  ok: Scalars['Boolean'];
+  results: Array<ChangChe>;
+  success: Scalars['Int'];
+};
+
+export type CreateServeralCombisInput = {
+  inputs: Array<CreateServeralCombiObj>;
+  isRealSave: Scalars['Boolean'];
+};
+
+export type CreateServeralCombiObj = {
+  fullHang_id?: Scalars['Int'];
+  kind: Scalars['String'];
+  mark?: Scalars['Float'];
+  schoolGrade?: UserSchoolGrade;
+  sentence: Scalars['String'];
+  tagArray: Array<Scalars['String']>;
+};
+
+export type CreateServeralCombisOutput = {
+  __typename?: 'CreateServeralCombisOutput';
+  error?: Maybe<Scalars['String']>;
+  ok: Scalars['Boolean'];
+  resultFails?: Maybe<Array<CreateServeralCombiResultObj>>;
+  success: Scalars['Float'];
+};
+
+export type CreateServeralCombiResultObj = {
+  __typename?: 'CreateServeralCombiResultObj';
+  fullHang_id: Scalars['Int'];
+  kind: Scalars['String'];
+  mark: Scalars['Float'];
+  sameSentence: Scalars['Boolean'];
+  schoolGrade: UserSchoolGrade;
+  sentence: Scalars['String'];
+  tag: Scalars['String'];
+};
+
 export type CreateServeralHangsInput = {
   inputs: Array<CreateServeralHangObj>;
   isRealSave: Scalars['Boolean'];
@@ -2301,6 +2528,7 @@ export type CreateServeralHangsOutput = {
   error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
   results?: Maybe<Array<Hang>>;
+  success: Scalars['Float'];
 };
 
 export type CreateStCheckViewInput = {
@@ -2469,8 +2697,10 @@ export type StCheckTitlesOutput = {
   totalResults: Scalars['Float'];
 };
 
-export type ViewBoardContentsInput = {
-  id: Scalars['Float'];
+export type DeleteBoardByPasswordInput = {
+  boardName: Scalars['String'];
+  id: Scalars['Int'];
+  password: Scalars['String'];
 };
 
 export type DeleteHangInput = {
@@ -2624,6 +2854,100 @@ export type EditProfileOutput = {
   ok: Scalars['Boolean'];
 };
 
+export type StudentRecord = {
+  __typename?: 'StudentRecord';
+  admissionYear: Scalars['Int'];
+  analysis: Scalars['String'];
+  craccept: Array<CrAccept>;
+  crChangChe: Array<CrChangChe>;
+  crChangReading: Array<CrChangReading>;
+  createdAt: Scalars['DateTime'];
+  crHang: Array<CrHang>;
+  crSubjectDoc: Array<CrSubjectDoc>;
+  highSchoolType: Scalars['String'];
+  id: Scalars['Float'];
+  introduction: Scalars['String'];
+  keyPoint: Scalars['String'];
+  rankAve: Scalars['Float'];
+  rankCareer: Scalars['Float'];
+  rankMajor: Scalars['Float'];
+  rankSelect: Scalars['Float'];
+  title: Scalars['String'];
+  university: Scalars['String'];
+  universityInfo: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  url: Scalars['String'];
+};
+
+export type CrAccept = {
+  __typename?: 'CrAccept';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Float'];
+  isAccept: Scalars['Boolean'];
+  studentRecord: StudentRecord;
+  uni_name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type CrChangChe = {
+  __typename?: 'CrChangChe';
+  club_depart: Scalars['String'];
+  content: Scalars['String'];
+  course_hope: Scalars['String'];
+  course_interest: Scalars['String'];
+  course_reason: Scalars['String'];
+  grade: Scalars['Int'];
+  id: Scalars['Float'];
+  kind: Scalars['String'];
+  studentRecord: StudentRecord;
+};
+
+export type CrChangReading = {
+  __typename?: 'CrChangReading';
+  bookName: Scalars['String'];
+  grade: Scalars['Int'];
+  id: Scalars['Float'];
+  semester: Scalars['Int'];
+  studentRecord: StudentRecord;
+  subject: Scalars['String'];
+  writer: Scalars['String'];
+};
+
+export type CrHang = {
+  __typename?: 'CrHang';
+  content: Scalars['String'];
+  grade: Scalars['Int'];
+  id: Scalars['Float'];
+  studentRecord: StudentRecord;
+};
+
+export type CrSubjectDoc = {
+  __typename?: 'CrSubjectDoc';
+  ave: Scalars['Float'];
+  deviation: Scalars['Float'];
+  grade: Scalars['Float'];
+  id: Scalars['Float'];
+  mark: Scalars['String'];
+  score: Scalars['Float'];
+  StudentNum: Scalars['Float'];
+  studentRecord: StudentRecord;
+  subArea: Scalars['String'];
+  subject: Scalars['String'];
+  subjectText: Scalars['String'];
+  th: Scalars['Float'];
+};
+
+export type FindUserIdInput = {
+  email: Scalars['String'];
+};
+
+export type UserIdHintOutput = {
+  __typename?: 'UserIdHintOutput';
+  error?: Maybe<Scalars['String']>;
+  ok: Scalars['Boolean'];
+  user_id?: Maybe<Scalars['String']>;
+};
+
 export type FullChangChesInput = {
   keyword?: Scalars['String'];
   kind?: Scalars['String'];
@@ -2638,7 +2962,7 @@ export type FullChangsOutput = {
   ok: Scalars['Boolean'];
   results?: Maybe<Array<FullChangChe>>;
   totalPages?: Maybe<Scalars['Int']>;
-  totalResults?: Maybe<Scalars['Float']>;
+  totalResults?: Maybe<Scalars['Int']>;
 };
 
 export type FullChangChe = {
@@ -2674,6 +2998,15 @@ export type FullHangsInput = {
   tag?: Scalars['String'];
 };
 
+export type FullHangsOutput = {
+  __typename?: 'FullHangsOutput';
+  error?: Maybe<Scalars['String']>;
+  ok: Scalars['Boolean'];
+  results?: Maybe<Array<FullHang>>;
+  totalPages?: Maybe<Scalars['Int']>;
+  totalResults?: Maybe<Scalars['Int']>;
+};
+
 export type HangMarkCopyOutput = {
   __typename?: 'HangMarkCopyOutput';
   error?: Maybe<Scalars['String']>;
@@ -2687,7 +3020,7 @@ export type HangsInput = {
   kind?: InputMaybe<Scalars['String']>;
   mark?: InputMaybe<Scalars['Float']>;
   page?: Scalars['Int'];
-  school_grade?: InputMaybe<Array<UserSchoolGrade>>;
+  schoolGrade?: InputMaybe<UserSchoolGrade>;
   sentence?: InputMaybe<Scalars['String']>;
   tag?: InputMaybe<Scalars['String']>;
 };
@@ -2699,6 +3032,14 @@ export type HangsOutput = {
   results?: Maybe<Array<Hang>>;
   totalPages?: Maybe<Scalars['Int']>;
   totalResults?: Maybe<Scalars['Int']>;
+};
+
+export type InitPaymentOutput = {
+  __typename?: 'InitPaymentOutput';
+  clientKey: Scalars['String'];
+  customerKey: Scalars['String'];
+  error?: Maybe<Scalars['String']>;
+  ok: Scalars['Boolean'];
 };
 
 export type LoginInput = {
@@ -2811,6 +3152,12 @@ export type MyStClassesInput = {
   thisYear: Scalars['Int'];
 };
 
+export type ConfirmPaymentInput = {
+  finalPrice: Scalars['Float'];
+  orderId: Scalars['String'];
+  paymentKey: Scalars['String'];
+};
+
 export type ResetHangCountInput = {
   hangMenuMode?: HangMenuMode;
 };
@@ -2829,6 +3176,15 @@ export type HangModifySenOutput = {
 export type FindPasswordEmailInput = {
   email: Scalars['String'];
   mainId: Scalars['String'];
+};
+
+export type SetIsFirstInput = {
+  isFirst: Scalars['Boolean'];
+};
+
+export type TestmPaymentInput = {
+  finalPrice: Scalars['Float'];
+  orderId: Scalars['String'];
 };
 
 export type DiClassesInput = {
@@ -2851,11 +3207,15 @@ export type WorkInput = {
 };
 
 export type UpdateHangCombiInput = {
+  firSemBoxCount?: Scalars['Int'];
+  firSemCount?: Scalars['Int'];
   fullHang_id?: Scalars['Int'];
   id: Scalars['Float'];
   kind: Scalars['String'];
   mark?: Scalars['Float'];
   schoolGrade?: UserSchoolGrade;
+  secSemBoxCount?: Scalars['Int'];
+  secSemCount?: Scalars['Int'];
   sentence: Scalars['String'];
   tagArray: Array<TagArrayInputType>;
 };
@@ -2869,11 +3229,15 @@ export type TagArrayInputType = {
 export type HangCombiInputType = {
   count?: Scalars['Int'];
   createdAt: Scalars['DateTime'];
+  firSemBoxCount?: Scalars['Int'];
+  firSemCount?: Scalars['Int'];
   fullHang_id?: Scalars['Int'];
   id: Scalars['Float'];
   kind: Scalars['String'];
   mark?: Scalars['Float'];
   schoolGrade?: UserSchoolGrade;
+  secSemBoxCount?: Scalars['Int'];
+  secSemCount?: Scalars['Int'];
   sentence: Scalars['String'];
   tagArray: Array<TagArrayInputType>;
   updatedAt: Scalars['DateTime'];
@@ -2968,48 +3332,6 @@ export type PickUser = {
   pdfExpDate?: Maybe<Scalars['DateTime']>;
   role?: Maybe<Scalars['String']>;
   schoolGrade?: Maybe<Scalars['String']>;
-};
-
-export type ViewBoardContentsOutput = {
-  __typename?: 'ViewBoardContentsOutput';
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-  result?: Maybe<Board>;
-};
-
-export type Board = {
-  __typename?: 'Board';
-  commentNum: Scalars['Int'];
-  content: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  date: Scalars['Int'];
-  hits: Scalars['Int'];
-  id: Scalars['Float'];
-  kind: Scalars['String'];
-  month: Scalars['Int'];
-  name: Scalars['String'];
-  nickname: Scalars['String'];
-  recommend: Scalars['Int'];
-  schoolGrade: UserSchoolGrade;
-  title: Scalars['String'];
-  updatedAt: Scalars['DateTime'];
-  userid: Scalars['Int'];
-  year: Scalars['Int'];
-};
-
-export type ViewBoardsInput = {
-  kind?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
-  page?: Scalars['Int'];
-};
-
-export type ViewBoardsOutput = {
-  __typename?: 'ViewBoardsOutput';
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-  results?: Maybe<Array<Board>>;
-  totalPages?: Maybe<Scalars['Int']>;
-  totalResults?: Maybe<Scalars['Int']>;
 };
 
 export type ViewCommentsInput = {

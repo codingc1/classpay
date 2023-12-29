@@ -1,23 +1,24 @@
-import { useMutation } from "@apollo/client"
+import { useMutation, useReactiveVar } from "@apollo/client"
 import { useState } from "react"
-import { useParams } from "react-router-dom"
 import { client } from "../../../../apollo"
 import NomadButton from "../../../../components/button/nomad-btn"
 import NomadInputPrice from "../../../../components/input/nomad-input/nomad-input-price"
 import NomadInputText from "../../../../components/input/nomad-input/nomad-input-text"
-import PopupCenter from "../../../../components/popup/sm-center/popup-center"
-import useError from "../../../../func/sys/err/useErr"
 import useErrorShow from "../../../../func/sys/err/useErrShow"
 import { CP_CREATE_PRODUCT_MUTATION } from "../../../../hooks/cp-pay/products/createProduct"
 import { cp_createProductMutationMutation,cp_createProductMutationMutationVariables } from "../../../../hooks/cp-pay/products/createProduct.generated"
 import { CP_MY_PRODUCTS_QUERY } from "../../../../hooks/cp-pay/products/useCpProducts"
-
+import { cpPayVar } from "../../../../stores/cp-pay-store"
+import NomadInputCount from "../../../../components/input/nomad-input/nomad-input-count"
+import PopupCenterHCustom from "../../../../components/popup/center-h-custom/popup-real-center";
+import { CP_PRODUCT_COLUMN } from "../../../../routers/contains-len"
+import { chkCpProduct } from "../../../../utils/check-create/cp-product-check"
 //화살표 함수형 컴포넌트 생성rsc
 // const fast = fa
 
 
 export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.SetStateAction<boolean>>})=>{
-    const {payid} = useParams(); 
+    // const payid = useReactiveVar(cpPayVar).payid;
     
     
     // const [price, setPrice] =useState(0)
@@ -35,11 +36,16 @@ export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.S
 
     const productNumchange=(e: React.ChangeEvent<HTMLInputElement>)=>{ 
         const { value, name, type } = e.target;
-        setProductNum({...productNum, [name]: Number(value)})
+        const num = Number(value)
+        if(num < 0)return
+        setProductNum({...productNum, [name]: num})
+    }
+    const oneChange=(num:number)=>{
+        const nowNum = productNum.qty+num
+        if(nowNum < 0)return
+        setProductNum({...productNum, qty:nowNum})
     }
 
-
-     
     
 
     const activePopupClose=()=>{ //닫기 - 그 데이터 삭제
@@ -78,41 +84,52 @@ export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.S
             const {name, desciption,imgurl} =productObj
             const {price,qty}=productNum
             if(loading)return;
+            if(chkCpProduct.name(name).error){
+                alert(chkCpProduct.name(name).error);return;
+            }
+            // if(name.length <1){
+            //     alert('물품 이름을 입력해 주세요');
+            //     return;
+            // }
+            //max
+            if(chkCpProduct.price(price).error){    
+                alert(chkCpProduct.price(price).error);return;
+            }
+            // if(isNaN(Number(price)) ||price < 0 || price >CP_PRODUCT_COLUMN.maxPrice  ){
+            //     alert('가격을 입력해 주세요');
+            //     return;
+            // }
+            if(chkCpProduct.qty(qty).error){
+                alert(chkCpProduct.qty(qty).error);return;
+            }
+            // if(isNaN(Number(qty)) ||qty < 0 || qty >CP_PRODUCT_COLUMN.maxPrice  ){
+            //     alert('보유 개수를 입력해 주세요');
+            //     return;
+            // }
             const isConfirm = window.confirm(name+'을 추가할까요? ')
             if(!isConfirm)return
-           
-           
-            if(!payid){
-                alert('물품 이름을 입력해 주세요');
-                return;
-            }
-            if(name.length <1){
-                alert('물품 이름을 입력해 주세요');
-                return;
-            }
-            if(price < 1 || price >2000000000 || isNaN(Number(price))){
-                alert('가격을 입력해 주세요');
-                return;
-            }
+            // console.log('submit', name, desciption, price, qty, imgurl)
             cp_createProductMutation({
                 variables: {
-                    cp_createProductIdInput: { cppay_id:Number(payid),name,desciption,qty,price,imgurl },
+                    cp_createProductIdInput: { name,desciption,qty,price,imgurl }, //cppay_id:Number(payid),
                 },
               });
          }
 
-        const contents =(
-            <div className="w-full p-12">
+        const contents =( //p-12
+            <div className="w-full p-8">
                 <div className=" text-sm">
                     <NomadInputText value={productObj.name}  onChange={productOnchange} label="물품이름" name="name" />
+                    <div className="mt-3"></div>
                     <NomadInputPrice value={productNum.price}  onChange={productNumchange} label="가격" name="price" isHideZeoro={true} />
-                    <NomadInputPrice value={productNum.qty}  onChange={productNumchange} label="보유 개수" name="qty"  />
+                    <div className="mt-3"></div>
+                    <NomadInputCount value={productNum.qty}  onChange={productNumchange} oneChange={oneChange} label="보유 개수(재고)" name="qty"  />
                     
                     <br />
 
                 </div>
 
-                <NomadButton text={ loading ? "Loading..." :"등록하기"} onClick={submit}/>
+                <NomadButton text={ loading ? "Loading..." :"등록하기"} onClick={submit} large={true}  />
                 {/* <div className="mt-5 w-full h-12 flex justify-center items-center bg-slate-700 rounded-lg text-white
                     cursor-pointer" onClick={()=>setIsModal(true)}>
                     <div>판매물품 추가</div>  
@@ -121,6 +138,7 @@ export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.S
         )
         
     return(
-        <PopupCenter onClose={activePopupClose} contents={contents} />
+        <PopupCenterHCustom onClose={activePopupClose} contents={contents} option={{width:450, height:450}} isTopClose={true} />
+        // <PopupCenter onClose={activePopupClose} contents={contents} />
     )
 }

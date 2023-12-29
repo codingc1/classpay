@@ -23,12 +23,19 @@ export const CLASS_PAY_SIGNUP_ROUTE_NAME="/classpay/signup";//ClassPaySignUp
 
 export const CP_PAY_CREATE_ROUTE_NAME = '/classpay/create'//학급 만들기
 // const CP_PAY_ID = '/:payid'
-export const CP_PAY_APP_ROUTE_NAME = '/classpay/app'//payid//학급 만들기
-export const cp_pay_app_route_fn =(num:number):string=>CP_PAY_APP_ROUTE_NAME+'/'+num;
-// export const CP_PAY_SETTING_ROUTE_NAME = CP_PAY_APP_ROUTE_NAME+'/:payid'+'/setting';
-export const cp_pay_member_route_fn =(num:number|string):string=>CP_PAY_APP_ROUTE_NAME+'/'+num +'/member' 
-export const cp_pay_products_route_fn =(num:number|string):string=>CP_PAY_APP_ROUTE_NAME+'/'+num +'/products' //판매상품
-export const cp_pay_setting_route_fn =(num:number):string=>CP_PAY_APP_ROUTE_NAME+'/'+num +'/setting'
+export const CP_PAY_HOME_ROUTE_NAME = '/classpay/app'//payid//학급 만들기
+export const CP_PAY_MEMBER_ROUTE_NAME = '/classpay/member'//학급 만들기
+export const CP_PAY_CREATE_MEMBER_ROUTE_NAME = '/classpay/member/create'//학생추가
+export const CP_PAY_MODIFY_MEMBER_ROUTE_NAME = '/classpay/member/edit'//학생추가
+//product는 어디에??
+export const CP_PAY_TRADE_HISTORY_ROUTE_NAME = '/classpay/tradehistory'//거래내역
+
+//!--Deprecated--!
+export const cp_pay_app_route_fn =(num:number):string=>CP_PAY_HOME_ROUTE_NAME+'/'+num;
+// export const CP_PAY_SETTING_ROUTE_NAME = CP_PAY_HOME_ROUTE_NAME+'/:payid'+'/setting';
+export const cp_pay_member_route_fn =(num:number|string):string=>CP_PAY_HOME_ROUTE_NAME+'/'+num +'/member' 
+export const cp_pay_products_route_fn =(num:number|string):string=>CP_PAY_HOME_ROUTE_NAME+'/'+num +'/products' //판매상품
+export const cp_pay_setting_route_fn =(num:number):string=>CP_PAY_HOME_ROUTE_NAME+'/'+num +'/setting'
 
 
 export const CP_PAY_QRSCAN_ROUTE_NAME = '/classpay/scan'//학급 만들기

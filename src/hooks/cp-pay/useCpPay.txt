@@ -24,12 +24,13 @@ export const CP_PAYS_QUERY = gql`
 `;
 //
 
-export const useCpPays = (user:cpMeQueryQuery |undefined) => { //user가 있을때만 사용가능
+//HomeClassListComponent에서 사용 //현재는 1개이지만 원래 의도는 여러개
+export const useCpPays = () => { //user:cpMeQueryQuery |undefined  user가 있을때만 사용가능
   // const { data, loading, error } = useQuery<meQuery>(ME_QUERY);
   // return useQuery<meQuery>(ME_QUERY);
   try{
   const aa = useQuery<cp_paysQueryQuery>(CP_PAYS_QUERY, {
-    skip: !user || !user.cp_me, //https://stackoverflow.com/questions/70715621/dont-run-query-if-parameter-is-null
+    // skip: !user || !user.cp_me, //https://stackoverflow.com/questions/70715621/dont-run-query-if-parameter-is-null
   });
   return aa
   }catch(e){

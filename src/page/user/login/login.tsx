@@ -12,6 +12,7 @@ import { editAuth } from "../../../stores/authstore";
 import { logoutFunc } from "../../../func/sys/auth/logout-func";
 import { editRouteVar } from "../../../stores/route-info-store";
 import { CP_ME_QUERY } from "../../../hooks/user/useMe";
+import { editCpPayVar } from "../../../stores/cp-pay-store";
 export const CP_LOGIN_MUTATION = gql`
   mutation cp_loginMutation($cp_LoginInput: CP_LoginInput!) {
     cp_login(input: $cp_LoginInput) {
@@ -65,7 +66,12 @@ const loginSuccess=(token:string)=>{
 const [callQuery,] = useLazyQuery(CP_ME_QUERY, { // { data:lzaymedata, called }
   onCompleted: res => {
     if(res.cp_me){
-      editAuth.setLogin(true) //login처리
+      editAuth.setLogin(true) //login처리 //same CreateCpPay, deleteCpPay
+      if(res.cp_me.joinclasspay){
+        editCpPayVar.setPayID(res.cp_me.joinclasspay.id)
+        editCpPayVar.cppay.set(res.cp_me.joinclasspay)
+        // console.log('res.cp_me.joinclasspay', res.cp_me.joinclasspay)
+      }
       navigate('/')
     }
   }

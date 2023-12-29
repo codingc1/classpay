@@ -3,9 +3,11 @@ import { gql } from "@apollo/client";
 export const CP_USER_BASIC_FRAGMENT = gql`
 fragment CPUserBasicParts on CP_User {
     id
+    mainId
     number
     name
     position
+    money
 }
 `;
 
@@ -19,17 +21,18 @@ fragment CPPayParts on CP_Pay {
     classNum
     code
     imgurl
+    moneyUnit
 }
 `;
 
-export const CP_PAY_MONEY_FRAGMENT = gql`
-fragment CPPayMoneyParts on CP_PayMoney {
-    id
-    user_id
-    pay_id
-    money
-}
-`;
+// export const CP_PAY_MONEY_FRAGMENT = gql`
+// fragment CPPayMoneyParts on CP_PayMoney {
+//     id
+//     user_id
+//     pay_id
+//     money
+// }
+// `;
 
 export const CP_PRODUCT_FRAGMENT = gql`
 fragment CPProductParts on CP_Product {

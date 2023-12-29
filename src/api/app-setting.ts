@@ -7,7 +7,7 @@ export const REFESH_TOKEN_TIMER = 1000*60*3; //리프레쉬 시간
 
 // export const BaseHangUrlName = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')?'http://localhost:3000':'https://hangbal.net' 
 
-const isProduction =() => {
+export const isProduction =() => {
     if ( process.env.NODE_ENV === 'development') {
         return false
     } else {

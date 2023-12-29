@@ -9,12 +9,14 @@ import { addCommaMan } from "../../../func/basic/number/addComma";
 import { cpPayVar, editCpPayVar } from "../../../stores/cp-pay-store";
 import { cpPayFn } from "../../../stores/sub-store-fn/cp-pay-fn";
 import {  useBuyGetTradeTmp, useBuyIngTradeSubmit } from "./useBuyGetTradeTmp";
+import { ConsoleHelper } from "../../../func/sys/consoleHelper";
 
+//qr코드 스캔 후 상품을 보여줌
 //https://www.npmjs.com/package/react-zxing
 export const BuyQrScan=({setIsBuyModal}:{setIsBuyModal:React.Dispatch<React.SetStateAction<boolean>>})=>{
     let navigate = useNavigate()
-    const {payid} = useParams(); 
-    const tradeTmp = useReactiveVar(cpPayVar).trade.tradeTmpCode;
+    const payid = useReactiveVar(cpPayVar).payid;
+    const tradeTmp = useReactiveVar(cpPayVar).trade.tradeTmpProduct;
   const [result, setResult] = useState("");
   const { ref } = useZxing({
     onResult(result) {
@@ -43,8 +45,8 @@ export const BuyQrScan=({setIsBuyModal}:{setIsBuyModal:React.Dispatch<React.SetS
     // if(result)navigate(-1)
     if(result){ 
       const resData = JSON.parse(result)
-      console.log(resData, 'res')
-      getTradeTmp({payid:Number(payid), code:resData, setIsScanCode}) //=>이후 에 상품 정보 보여주며 결제하기 나옴
+      ConsoleHelper(resData, 'res')
+      getTradeTmp({ code:resData, setIsScanCode}) //스캐모달닫고=>이후 에 상품 정보 보여주며 결제하기 나옴
       // editCpPayVar.trade.setTmpcode({...tradeTmp, code:resData })  //String입력으로 바꿔야함~~~~~~~~~
       
     }
@@ -57,10 +59,10 @@ export const BuyQrScan=({setIsBuyModal}:{setIsBuyModal:React.Dispatch<React.SetS
   }
 
  //3번
- const [buyIngTradeSubmit]=useBuyIngTradeSubmit()
+ const [buyIngTradeSubmit]=useBuyIngTradeSubmit() //CP_ME_QUERY, //money refech
   const buySubmit=() => {
     setIsSubmitLoading(true)
-    buyIngTradeSubmit({payid:Number(payid), code:tradeTmp.code, setIsBuyModal})
+    buyIngTradeSubmit({ code:tradeTmp.code, setIsBuyModal})
   }
   const buyContents =(
     <div className="w-full p-12">
@@ -75,9 +77,11 @@ export const BuyQrScan=({setIsBuyModal}:{setIsBuyModal:React.Dispatch<React.SetS
 )
   return (
     <>
+      {/* 시작하자마자 qr코드 스캐너 작동중 */}
+      {isScanCode && <PopupCenter onClose={activePopupClose} contents={contents} />}
+      {/* qr코드 스캔 성공 상품을 보여줌 */}
       {isScanCode===false && tradeTmp.qty >0 && isSubmitLoading === false && 
         <PopupCenter onClose={activePopupClose} contents={buyContents} />}
-      {isScanCode && <PopupCenter onClose={activePopupClose} contents={contents} />}
     </>
 
   );

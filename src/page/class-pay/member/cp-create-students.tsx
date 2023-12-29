@@ -1,36 +1,74 @@
-import { useCallback, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { client } from "../../../apollo"
+import {  useEffect, useState } from "react";
 import { arrayClone } from "../../../func/array/arrayClone";
-import { generateRandomEnglish } from "../../../func/basic/string/random-string";
+
 import { useDebounceFunction } from "../../../func/basic/useDebounce";
 import { checkCPNickname, checkCPPassOk, checkCPUserMainIdOk } from "../../../func/server/id-password-check";
-import useError from "../../../func/sys/err/useErr"
-import { cp_CreateStudentsMutationDocument } from "../../../hooks/cp-pay/cp-pay-user/createCpUser.generated";
-import { CP_PAY_USERLIST_QUERY } from "../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
+import { UserEnterStudentDirectly } from "./create-students/userEnterStudentDirectly";
+import { CrestuExcelUpload } from "./create-students/crestu-excel-upload";
+import { CreateStuCheckBoxGroup } from "./create-students/checkbox-group";
+import { chkCpUser } from "../../../utils/check-create/cp-id-password-check";
+import { CreateStudentSubmit } from "./create-students/crestu-submit";
+import { usePossibleIds } from "../../../hooks/cp-pay/cp-pay-user/usePossibleIds";
+import { ConsoleHelper } from "../../../func/sys/consoleHelper";
 
-
-
+//Homr
+export interface IFCreateTempStudent {mainId:string,password:string,name:string,number:number}
+// export type UploadCombiType = {fullHang_id:number, kind:string, mark:number, sentence: string,  schoolGrade: UserSchoolGrade, tagArray:string[]}
 export const CPCreateStudents=()=>{
-    const {payid} = useParams();
-    const [memberNum, setMemberNum] = useState(0)
-    const [commMainId, setCommMainId] = useState(generateRandomEnglish(4,{type:'lower'}))
-    const [commPassword, setCommPassword] = useState('1111')
-    const [studentList, setStudentList] = useState<{mainId:string,password:string,name:string,number:number}[]>([])
-    const [idPossible, setIdPossible] = useState<boolean[]>([])//id사용가능한가 서버 통신 후-추후
+    // const payid = useReactiveVar(cpPayVar).payid;
+    const [isHumanInput, setIsHumanInput] = useState(true)
+    const [errMessage, setErrMessage] = useState('')
+
+   
+    //{mainId:string,password:string,name:string,number:number}
+    const [studentList, setStudentList] = useState<IFCreateTempStudent[]>([])
+    
+    useEffect(() => {
+        if(studentList.length ===0){return}
+        const isFind = errMessage.includes('이미 존재하는')
+        if(isFind){ //아디체크 문제가 아니면 초기화
+            return;
+        }
+
+        const errMsg = chkCpUser.checkStudent(studentList)
+        if(errMsg.error && errMsg.index ===-1){
+            setErrMessage(errMsg.error)
+        }else if(errMsg.error && errMsg.index !==-1){
+            setErrMessage((errMsg.index+1)+'번째 학생 : '+errMsg.error)
+        }else{
+            setErrMessage('')
+        }
+        
+    },[studentList])
+    // const onChangStuList=(e: React.ChangeEvent<HTMLInputElement>,num:number)=>{ //input의 name에 따라 알아서? 변경
+    //     const { value, name, type } = e.target; 
+    //     const copyArr = arrayClone(studentList)
+    //     copyArr[num] ={...copyArr[num], [name]: value}
+    //     setStudentList(copyArr)
+    // }
+
+    // const [idPossible, setIdPossible] = useState<boolean[]>([])//id사용가능한가 서버 통신 후-추후
     
     const [debounceFn] = useDebounceFunction()
-    const onChangeMemberNum = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        setMemberNum( Number(e.target.value))
-      }, [])
-
-    const handleOK=()=>{ //인원 + 확인
-        const stu =[]
-        for(let i=1; i<memberNum+1; i++){
-            stu.push({mainId:commMainId+i,password:commPassword,name:'',number:i})
-        }
-        setStudentList(stu)
-        setIdPossible([...Array(memberNum)].fill(false))
+    
+    //excel file
+    const [selectedFile, setSelectedFile] = useState('')
+    const [theInputKey, setTheInputKey] = useState('')
+    // const [tmpExcelData, setTmpExcelData] = useState<IFCreateTempStudent[]>([]) 
+    const jsonOption = [{colName:'id',keyName:'mainId'},{colName:'password',keyName:'password'},{colName:'name',keyName:'name'},{colName:'number',keyName:'number',},]
+    const setObj =(arr:any[])=>{
+        const res:any[] = []
+        const throwError = (index:number, type:string)=>{throw Error(index+`번째 줄에 ${type}가 없거나 에 오류가 있습니다.`)}
+        arr.forEach((el:any,index)=> {
+            const mainId = Number(el.id)
+            if(isNaN(mainId)){throwError(index,'id')}
+            const password = String(el.password)
+            const name = String(el.name)
+            const number = Number(el.number)
+            const obj = {mainId, password, name, number}
+            res.push(obj)
+        });
+        setStudentList(res)
     }
  
     //id, name, number체크 함수
@@ -42,13 +80,24 @@ export const CPCreateStudents=()=>{
         //아이디는 서버와 통신해서 가능한지 살펴야함
         return 'bg-green-400'
     }
-    const debouncdFunction=()=>console.log('hi')
-    const onChang=(e: React.ChangeEvent<HTMLInputElement>,num:number)=>{ //
+    
+    
+    const [studentPossibelMutationFunc] = usePossibleIds({mainIds:studentList.map(v=>v.mainId),setErrMessage:setErrMessage})
+    const debouncdFunction=()=>{
+        studentPossibelMutationFunc()
+        ConsoleHelper('debounce')
+    }
+    const onChang=(e: React.ChangeEvent<HTMLInputElement>,num:number)=>{ //input의 name에 따라 알아서? 변경 
         const { value, name, type } = e.target; 
         const copyArr = arrayClone(studentList)
         copyArr[num] ={...copyArr[num], [name]: value}
+        //errmessage가 없을때 id체크
+        const errMsg = chkCpUser.checkStudent(copyArr)
         setStudentList(copyArr)
-        debounceFn(debouncdFunction)
+        if(errMsg.error)return; //에러가 있으면 api호출 안함
+        if(name === 'mainId'){ //id중복체크
+            debounceFn(debouncdFunction, 1000)
+        }
     }
     const onChangNum=(e: React.ChangeEvent<HTMLInputElement>,num:number)=>{ //
         const { value, name, type } = e.target; 
@@ -56,68 +105,106 @@ export const CPCreateStudents=()=>{
         copyArr[num] ={...copyArr[num], [name]: Number(value)}
         setStudentList(copyArr)
     }
+    
 
-    const [handleError] = useError()
-    const submit=()=>{
-        if(studentList.length ===0)return;
-        //각각체크
-        client.mutate({ //https://www.youtube.com/watch?v=cYIhx8dusa4
-            mutation:cp_CreateStudentsMutationDocument,
-            variables:{
-                createCpStudentsInput:{payid:Number(payid), students:studentList}
-            }
-          })
-          .then(async({data})=>{
-            // console.log(data, ': data res')
-            if(data &&data.cp_CreateStudents.ok ){
-              await client.refetchQueries({
-                include: [CP_PAY_USERLIST_QUERY],
-              });
-            }else if(data?.cp_CreateStudents.error){
-                let sameId = data.cp_CreateStudents.mainIds.reduce((acc,cur)=>acc+cur,'')
-                sameId = sameId.length>0 ?' :' +sameId:''
-              alert(data.cp_CreateStudents.error+sameId)
-            }
-          })
-          .catch(e => handleError(e, 'cp_LoginMutation'))
+   
 
-    }
+    const notificationMethods = [
+        { id: 'email', title: '직접입력',isHumanInput:true,onChange:()=>{setStudentList([]);setIsHumanInput(true);} },
+        { id: 'sms', title: '엑셀업로드',isHumanInput:false,onChange:()=>{setStudentList([]);setIsHumanInput(false); }},
+    ]
     return(
-        <div className="mb-3">
-            <div>
-                <div>공통 id: <input className="w-24 px-1  bg-green-200" placeholder="공통id" value={commMainId} onChange={(e)=>setCommMainId(e.target.value)}/>
-                    <span className="text-xs">반에 맞게 바꿔주세요</span>
-                </div>
-                <div className="text-xs mb-3 text-gray-400">영어 또는 숫자</div>
-                <div>초기 비밀번호: <input className="w-24 px-1  bg-green-200" placeholder="공통id" value={commPassword} onChange={(e)=>setCommPassword(e.target.value)}/></div>
-                <div className="text-xs mb-3 text-gray-400">영어 또는 숫자, 숫자만 있어도 가능</div>
-            </div>
-            <div >
-                <input className="w-24 input-lime mb-3 text-center" placeholder="id" type={'number'} value={memberNum} onChange={onChangeMemberNum}/>
-                <span>명</span>
-                <button className="ml-2 px-3 py-2 bg-slate-200 hover:bg-slate-300 text-xs" onClick={handleOK}>확인</button>
-            </div> 
+        <div className="w-full  flex justify-center ">
+        <div className="w-full max-w-sm pb-16">
+        <div className="py-5 mb-3">
+            <CreateStuCheckBoxGroup notificationMethods={notificationMethods} isHumanInput={isHumanInput} />
+            <br />
+            
+            {isHumanInput && <UserEnterStudentDirectly studentList={studentList} setStudentList={setStudentList}  />}
+            {!isHumanInput &&<div>
+            <CrestuExcelUpload selectedFile={selectedFile} 
+               theInputKey={theInputKey} jsonOption={jsonOption} 
+               setTmpExcelData={setObj} />
+            <button onClick={()=>{
+              const randomString = Math.random().toString(12); //input 초기화
+              setTheInputKey(randomString);
+              setSelectedFile(''); setStudentList([])
+            }}>초기화</button>
+            </div>}
 
+            <br />
             <div >
+            {studentList.length>0 && //table-auto  style={{width:'23rem'}}
+            <table className=" text-gray-800  w-full border-2" >
+                {/* justify-between */}
+            <thead className="" >
+                <tr className="" >
+                    {/* w-10 w-24 w-20 w-10 w-24 */}
+                    <th className="" style={{width:'7%'}}></th>
+                    <th className=" text-center"style={{width:'23%'}}>아이디</th>
+                    <th className=" text-center"style={{width:'23%'}}>비밀번호</th>
+                    
+                    <th className=" text-center"style={{width:'13%'}}>번호</th>
+                    <th className=" text-center"style={{width:'24%'}}>이름</th>
+                </tr>
+            </thead>
+            <tbody>
                 {studentList.map((el,index)=>{
                     return(
-                        <div className="w-[350px] h-[64px] mb-2 px-1 py-1 border flex " key={'stulist'+index}>
-                            <div className="w-10 pr-1 h-full flex justify-center items-center "><div className={`w-3 h-3 rounded-full ${chkIsCreatable(index)}`}></div></div>
-                            <div ><label>아이디 : 
+                        <tr className="bg-white " style={{height:'2rem', paddingTop:'1px',paddingBottom:'1px'}} key={'stulist'+index}>
+                            <td style={{width:'7%'}}><div className=" h-full flex justify-center items-center "><div className={`w-3 h-3 rounded-full ${chkIsCreatable(index)}`}></div></div></td>
+                            <td className=" "style={{width:'23%'}}>
+                                <input  className="w-full  bg-green-200 px-1" placeholder="학생id" name={'mainId'}  value={el.mainId} onChange={(e)=>onChang(e,index)}/>
+                                
+                            </td>
+                            <td className=""style={{width:'23%'}}>
+                                <input className="w-full bg-green-200 px-1" placeholder="password" name={'password'}  value={el.password} onChange={(e)=>onChang(e,index)}/>
+                                
+                            </td>
+                            
+                            {/* <td>{el.password}</td> */}
+                            <td className=""style={{width:'13%'}}>  
+                                <input  className="w-full bg-green-200 text-center" placeholder="번호" name={'number'} type={'number'}  value={el.number} onChange={(e)=>onChangNum(e,index)}/>
+                            </td>
+                            <td className=" "style={{width:'23%'}}>
+                                <input  className="w-full bg-green-200 px-1" placeholder="이름" name={'name'}  value={el.name} onChange={(e)=>onChang(e,index)}/>
+                            </td>
+                        </tr>
+                    )
+                })}
+            </tbody>
+            </table>}
+            {/*     {studentList.map((el,index)=>{
+                    return(//w-[310px] h-[64px]
+
+                        <div className="mb-1 px-1 border flex justify-start space-x-2 " style={{width:'18rem',height:'4rem', paddingTop:'1px',paddingBottom:'1px'}} key={'stulist'+index}>
+                            <div className="w-10 r-1 h-full flex justify-center items-center "><div className={`w-3 h-3 rounded-full ${chkIsCreatable(index)}`}></div></div>
+                            <div className="w-24"><label>학생아이디 
                                 <input className="w-24 bg-green-200" placeholder="학생id" name={'mainId'}  value={el.mainId} onChange={(e)=>onChang(e,index)}/>
                             </label></div>
-                            <div><label>번호 : 
-                                <input className="w-24 bg-green-200" placeholder="번호" name={'number'} type={'number'}  value={el.number} onChange={(e)=>onChangNum(e,index)}/>
+                            <div className="w-10"><label>번호  
+                                <input className=" w-10 bg-green-200 text-center" placeholder="번호" name={'number'} type={'number'}  value={el.number} onChange={(e)=>onChangNum(e,index)}/>
                             </label></div>
-                            <div><label>이름 : 
+                            <div className="w-24"><label>이름 
                                 <input className="w-24 bg-green-200" placeholder="이름" name={'name'}  value={el.name} onChange={(e)=>onChang(e,index)}/>
                             </label></div>
                                 
                         </div>
                     )
-                })}
-            </div>
-            <button className="mt-3 block px-3 py-2 rounded-lg bg-indigo-200 hover:bg-indigo-300 text-xs" onClick={submit}>학생 등록</button>
+                })}*/}
+            </div> 
+            <div className="text-red-500 text-xs">{errMessage}</div>
+            {errMessage.length === 0 && <CreateStudentSubmit studentList={studentList} setErrMessage={setErrMessage} />}
+
+            {/* <div className="py-3">
+                <div>추가 방법</div>
+                <button className="block px-3 py-2 rounded-lg bg-indigo-200 hover:bg-indigo-300 text-xs"
+                    onClick={()=>alert('아직 지원하지 않습니다^^;')}>id로 추가</button>
+                <button className="mt-3 block px-3 py-2 rounded-lg bg-indigo-200 hover:bg-indigo-300 text-xs">학생 계정 생성 + 학급멤버로 가입</button>
+            </div> */}
+        </div>
+
+        </div>
         </div>
     )
 }

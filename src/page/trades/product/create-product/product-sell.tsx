@@ -1,21 +1,16 @@
 
 import { useMutation, useReactiveVar } from "@apollo/client"
 import { useParams } from "react-router-dom"
-import { client } from "../../../../apollo"
 import NomadButton from "../../../../components/button/nomad-btn"
-import NomadInput from "../../../../components/input/nomad-input"
-import NomadInputNumber from "../../../../components/input/nomad-input/nomad-input-number"
-import NomadInputText from "../../../../components/input/nomad-input/nomad-input-text"
-import PopupCenter from "../../../../components/popup/sm-center/popup-center"
 import { addCommaMan } from "../../../../func/basic/number/addComma"
-import useError from "../../../../func/sys/err/useErr"
 import useErrorShow from "../../../../func/sys/err/useErrShow"
 import { CP_SELLING_START_MUTATION } from "../../../../hooks/cp-pay/trade/selling"
 import { cp_sellingStartMutationMutation,cp_sellingStartMutationMutationVariables} from "../../../../hooks/cp-pay/trade/selling.generated"
-
+import PopupCenterHCustom from "../../../../components/popup/center-h-custom/popup-real-center";
 
 import { cpPayVar, editCpPayVar } from "../../../../stores/cp-pay-store"
-import { CP_Product } from "../../../../__generated__/gql-types"
+import OneLineInputNumber from "../../../../components/input/one-line-input-num/line-input-number"
+import { ConsoleHelper } from "../../../../func/sys/consoleHelper"
 
 
 
@@ -24,7 +19,7 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
     setIsModal:React.Dispatch<React.SetStateAction<boolean>>
     setIsQrcode:React.Dispatch<React.SetStateAction<boolean>>}) => {
         const {payid} = useParams(); 
-        
+    const cppay = useReactiveVar(cpPayVar).cppay;     
     const productRedux = useReactiveVar(cpPayVar).trade;
 
     const popupClose=()=>{ //닫기 - 그 데이터 삭제
@@ -62,7 +57,8 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
             return;
         }
         
-
+        console.log(Number(payid), productRedux.product.id, productRedux.qty, 'sell')
+        console.log()
         //pendingSelling - subscribe시작
         cp_sellingStartMutation({
             variables: {
@@ -78,14 +74,24 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
     }
   
 
-    const contents =(
-        <div className="w-full p-12">
-            <div className="mb-5 text-base">
-                {/* <div className='w-full text-center'>판매하기</div> */}
-                <div className='w-full '>{productRedux.product.name}, 개당{addCommaMan(productRedux.product.price)}원</div>
-                <div>보유 개수 : {productRedux.product.qty}개</div>
-                <NomadInputNumber value={productRedux.qty}  onChange={productOnchange} label="판매 개수" name="qty" unit="개" />
-                <div className='w-full text-center'>판매 금액 :{addCommaMan(productRedux.product.price*productRedux.qty)} 원</div>
+    const contents =( //p-12
+        <div className="w-full px-3 pt-0 pb-3 text-lg">
+            <div className="mb-3 text-lg">
+                <div className='w-full text-center font-bold '>상품 판매</div>
+                <div className="flex mt-3 py-1">
+                    <div>상품 이름:&nbsp;</div>
+                    <div className='flex-1 font-semibold '>{productRedux.product.name}</div>
+                </div>
+                <div className="flex py-1">
+                    <div>상품 가격:&nbsp;</div>
+                    <div className='flex-1 font-semibold'>{addCommaMan(productRedux.product.price)}원</div>
+                </div>
+                {/* <div className='w-full '>{productRedux.product.name}, 개당{addCommaMan(productRedux.product.price)}원</div> */}
+                {/* <div className="py-1">보유 개수 : {productRedux.product.qty}개</div> */}
+                <OneLineInputNumber value={productRedux.qty}  onChange={productOnchange} label="판매 개수" name="qty" unit="개" />
+                {/* style={{fontSize:'1.5rem'}} */}
+                <div className='w-full  text-center py-2 mt-2' >총 판매 금액 :&nbsp;
+                    <span className="font-bold" style={{textDecoration:'underline'}}>{addCommaMan(productRedux.product.price*productRedux.qty)}{cppay.moneyUnit}</span></div>
 
             </div>
             {/* <div className="mb-5 text-sm">
@@ -94,10 +100,11 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
                 <div>{productRedux.product.name}</div>
 
             </div> */}
-
+            <div className="p-3 border-orange-500 border-2 rounded-md">
             <NomadButton text={ loading?'loading':"qr코드 보여주기"} onClick={submit}/>
             <div className="py-3"></div>
             <NomadButton text={ loading?'loading':"qr코드 스캔하기"} onClick={submit}/>
+            </div>
             {/* <div className="mt-5 w-full h-12 flex justify-center items-center bg-slate-700 rounded-lg text-white
                 cursor-pointer" onClick={()=>setIsModal(true)}>
                 <div>판매물품 추가</div>  
@@ -106,6 +113,7 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
     )
 
     return(
-        <PopupCenter onClose={popupClose} contents={contents} />
+        <PopupCenterHCustom onClose={popupClose} contents={contents} option={{width:450, height:400}} isTopClose={true} />
+        // <PopupCenter onClose={popupClose} contents={contents} />
     )
 }

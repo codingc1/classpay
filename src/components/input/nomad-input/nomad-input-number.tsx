@@ -21,7 +21,7 @@ export default function NomadInputNumber({
   return (
     <div>
       <label
-        className="mb-1 block text-sm font-medium text-gray-700"
+        className="mb-1 block text-lg font-medium text-gray-700"
         htmlFor={name}
       >
         {label}
@@ -38,7 +38,8 @@ export default function NomadInputNumber({
             required={required}
             {...rest}
             type={'number'}
-            className="appearance-none pl-7 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+            className="appearance-none pl-7 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 
+            focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-lg"
           />
           <div className="absolute right-0 pointer-events-none pr-3 flex items-center">
             <span className="text-gray-500">{unit}</span>

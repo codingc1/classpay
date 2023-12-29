@@ -1,4 +1,5 @@
 import { gql,   } from "@apollo/client";
+import { CP_PAY_FRAGMENT } from "../../../fragments";
 // import { CP_PAY_FRAGMENT } from "../../../fragments";
 // ${CP_PAY_FRAGMENT}
 
@@ -8,9 +9,12 @@ mutation cp_createClassPayMutation($cp_createClassPayInput: CP_CreateClassPayInp
     cp_CreateClassPay(input: $cp_createClassPayInput) {
     ok
     error
+    result{
+    ...CPPayParts
+    }
   }
 }
-
+${CP_PAY_FRAGMENT}
 `;
 
 

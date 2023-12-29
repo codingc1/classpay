@@ -13,11 +13,12 @@ mutation cp_CreateStudentsMutation($createCpStudentsInput: CreateCpStudentsInput
 }
 `;
 
-export const CP_WITHRAW_USER_MUTATION = gql`
-mutation cp_withdrawUserPayMutation($cpWithdrawUserPayInput: CpWithdrawUserPayInput!) {
-  cp_withdrawUserPay(input: $cpWithdrawUserPayInput) {
+export const CP_MODIFY_USER_MUTATION = gql`
+mutation cp_modifyStudentMutation($modifyCpStudentsInput: ModifyCpStudentsInput!) {
+  cp_modifyStudent(input: $modifyCpStudentsInput) {
     ok
     error
   }
 }
 `;
+

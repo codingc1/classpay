@@ -1,7 +1,7 @@
 import * as Types from '../../__generated__/gql-types';
 
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-import { CPPayPartsFragmentDoc, CPPayMoneyPartsFragmentDoc } from '../../fragments.generated';
+import { CPPayPartsFragmentDoc } from '../../fragments.generated';
 export type cp_paysQueryQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 

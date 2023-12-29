@@ -1,64 +1,89 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 import { useCpPayUserList } from "../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 import { useMe } from "../../../hooks/user/useMe";
-import { POSITION } from "../../../__generated__/gql-types";
-import { CPCreateStudents } from "./cp-create-students";
-import { CP_UserDeleteBtn } from "./cp-user-delete";
+import { CP_User, POSITION } from "../../../__generated__/gql-types";
+import { useReactiveVar } from "@apollo/client";
+import { cpPayVar } from "../../../stores/cp-pay-store";
+import { CP_PAY_CREATE_MEMBER_ROUTE_NAME,  } from "../../../routers/route-name-constants";
+import { OpenMenu } from "./member-home/open-menu";
+import { useState } from "react";
+import { ICpStudent, cpStudentsVar, editStudentsVar } from "../../../stores/cp-students-store";
+import { ResetPassword } from "./member-home/reaset-password";
+import { HomeIconTitle } from "../../../components/home/icon/home-icon-title";
 
+ 
 
-
-export const CPMemberHome=()=>{
+export type IFstudnet =Pick<CP_User,"id"|"name"|"number">
+export const CPMemberHome=()=>{ //변경 : delete, create, modify
     let navigate = useNavigate()
-    const {payid} = useParams();
+    // const payid = useReactiveVar(cpPayVar).payid;
+    const student = useReactiveVar(cpStudentsVar).student;
+    // const pay = useReactiveVar(cpPayVar).cppay;
 
     const {data:meDate} = useMe()
-    const{data} = useCpPayUserList({id:payid})
+    const{data} = useCpPayUserList() //이것도 바꿔야함..
+    // const [student, setStudent] = useState<IFstudnet>({id:0,name:'',number:0,});
 
+    const [isOpend, setIsOpend] = useState(false) //modal 하위메뉴 띄우기
+    const [onClickCoordinate, setOnClickCoordinate] = useState({x: 0, y: 0, });
+    const setElementPosition = (e:any, student:ICpStudent) => { //https://jemerald.tistory.com/9
+        const obj = { x:(e.nativeEvent.clientX - 0), y: (e.nativeEvent.clientY - 0)}// / photoOverlay.current.offsetHeight) *100,
+        setOnClickCoordinate(obj); //position
+        editStudentsVar.setStudent(student)
+        setIsOpend(true); //modal open
+    };
+    const onClose = () => { setIsOpend(false); }
+
+    const [isResetPassModel, setIsResetPassModel] = useState(false) //modal 하위메뉴 띄우기
+    const viewResetPass = ()=>{ setIsOpend(false); setIsResetPassModel(true); }
+    
+    const isTeacher = meDate?.cp_me.position===POSITION.Teacher //선생님인지
     const teacherT = <span className="banselect text-blue-700">T</span>
 
     const handlesubmit=()=>{
-
+        // navigate(`/classpay/${payid}/member/create`)
+        navigate(CP_PAY_CREATE_MEMBER_ROUTE_NAME)
     }
 
-
+    const isNotTeacherCss =()=>{ //선생님 제외
+        if(meDate?.cp_me.position!==POSITION.Teacher)return 'mt-2'
+        return ''
+    }
     return(
-        <div className="w-full mx-auto flex justify-center ">
+        <div className="w-full mx-auto flex justify-center " >
         <div className="w-full max-w-sm pb-16">
-            <div className="py-5">멤버</div>
+            <div className="py-5 flex text-lg items-center"><HomeIconTitle />멤버</div>
             <div className="flex py-5">
                 {data && data.cp_PayUserLists.map((el)=>{
                     return(
-                        <div className="px-2"  onClick={handlesubmit} key={el.id}>
-                            <div className=" w-12 h-12 p-1 bg-indigo-300 rounded-full   ">
+                        <div className="px-2"  key={el.id}>
+                            <div className=" w-12 h-12 p-1 bg-indigo-300 rounded-full "  onClick={()=>{}}>
                                 {/* <div className="font-thin">QR코드</div>
                                 <div className=" font-bold text-lg">스캔하기</div>
                             <div className="flex justify-end text-5xl"><AiOutlineScan /></div> */}
                             </div>
                             {meDate?.cp_me.position===POSITION.Teacher &&
                                 <div className="w-12 mt-2 text-center text-xs ">{el.number}번</div>}
-                            <div className="w-12 text-center text-xs ">{el.name}{el.position===POSITION.Teacher?teacherT:''}</div> 
+                            <div className={`w-12 text-center text-xs ${isNotTeacherCss()}`}>{el.name}{el.position===POSITION.Teacher?teacherT:''}</div> 
 
-                            {meDate?.cp_me.position===POSITION.Teacher &&
-                                <CP_UserDeleteBtn user={el} />}
+                            {meDate?.cp_me.position===POSITION.Teacher && meDate?.cp_me.id!==el.id && //https://jemerald.tistory.com/9
+                                <div style={{color:'rgb(96 165 250)'}} className="w-12 text-center text-xs cursor-pointer" onClick={(e)=>{setElementPosition(e,el)}} >수정</div>}
                       </div>
                     )
                 })}
             </div>
-            <button className="px-3 py-2 rounded-lg bg-indigo-200 hover:bg-indigo-300 text-xs" onClick={handlesubmit}>+ 멤버 추가</button> 
-            <div className="py-3">
-                <div>추가 방법</div>
-                <button className="block px-3 py-2 rounded-lg bg-indigo-200 hover:bg-indigo-300 text-xs"
-                    onClick={()=>alert('아직 지원하지 않습니다^^;')}>id로 추가</button>
-                <button className="mt-3 block px-3 py-2 rounded-lg bg-indigo-200 hover:bg-indigo-300 text-xs">학생 계정 생성 + 학급멤버로 가입</button>
-            </div>
+            {isTeacher &&
+            <button className="px-3 py-2 rounded-lg bg-indigo-200 hover:bg-indigo-300 text-xs" onClick={handlesubmit}>+ 멤버 추가</button> }
+            
 
-            <CPCreateStudents />
+            {/* <CPCreateStudents /> */}
             {/* cp_myCreatedStudentButNotPayLists */}
-            <div>학급에는 제외되지만 선생님이 생성한 학생 계정</div>
-            {/* <button onClick={handlesubmit}>삭제하기</button> */}
-            <div>추후: 가입버튼 작동하게, 학생 정보 수정-이름번호, 학급페이 삭제</div>
-        </div>
 
+             {/* <button onClick={handlesubmit}>삭제하기</button> */}
+           
+        </div>
+        {isOpend && <OpenMenu position={onClickCoordinate} onClose={onClose} user={student}  setResetPassModel={viewResetPass}/>}
+        {isResetPassModel && <ResetPassword onClose={()=>{setIsResetPassModel(false)}} />}
     </div>
     )
 }

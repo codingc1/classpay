@@ -12,10 +12,11 @@ import {
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useReactiveVar } from '@apollo/client';
 import { authVar } from '../../stores/authstore';
-import { routeVar } from '../../stores/route-info-store';
+import { editRouteVar, routeVar } from '../../stores/route-info-store';
 import { HamburgerIcon } from '../../page/Home/header/left-menu/hambuger-icon';
 import { useLogout } from '../../func/sys/auth/useLogout';
-import { cp_pay_app_route_fn, cp_pay_member_route_fn, cp_pay_setting_route_fn,  } from '../../routers/route-name-constants';
+import { CP_PAY_MEMBER_ROUTE_NAME, cp_pay_app_route_fn, cp_pay_member_route_fn, cp_pay_setting_route_fn,  } from '../../routers/route-name-constants';
+import { cpPayVar } from '../../stores/cp-pay-store';
 
 
   
@@ -29,15 +30,18 @@ function LayoutLeft() {
     let navigate = useNavigate()
     const isLoggedIn = useReactiveVar(authVar).isLogin;
     const routeInfo = useReactiveVar(routeVar);
-    const {payid} = useParams();
+    const payid = useReactiveVar(cpPayVar).payid;
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const isShow =isLoggedIn && routeInfo.header.isVisible
+  // const closeSidebar = () => {
+  //   editRouteVar.header.setVisible()
+  // }
 
   const navigation = [
-    { name: '기본화면', href: cp_pay_app_route_fn(Number(payid)), icon: HomeIcon, current: true },
-    { name: '멤버', href: cp_pay_member_route_fn(Number(payid)), current: false },
+    { name: '기본화면', href: '/', icon: HomeIcon, current: true },
+    { name: '멤버', href: CP_PAY_MEMBER_ROUTE_NAME, current: false },
     { name: '판매물품', href: '#', icon: UserGroupIcon, current: false },
     { name: 'Directory', href: '#', icon: MagnifyingGlassCircleIcon, current: false },
     { name: 'Announcements', href: '#', icon: MegaphoneIcon, current: false },
@@ -115,7 +119,10 @@ function LayoutLeft() {
                           <button
                             key={item.name}
                             // href={item.href}
-                            onClick={()=>navigate(item.href)}
+                            onClick={()=>{
+                              editRouteVar.header.setVisible(false)//왼쪽 창 닫기
+                              navigate(item.href)
+                            }}
                             className={classNames(
                               'w-full ',
                               item.current

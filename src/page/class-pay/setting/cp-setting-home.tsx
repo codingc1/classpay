@@ -3,8 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { client } from "../../../apollo"
 import useError from "../../../func/sys/err/useErr"
 import { cp_deleteClassPayMutationDocument } from "../../../hooks/cp-pay/basic/createClassPay.generated"
-import { CP_PAYS_QUERY } from "../../../hooks/cp-pay/useCpPay";
-import { cpPayVar } from "../../../stores/cp-pay-store";
+import { cpPayVar, editCpPayVar } from "../../../stores/cp-pay-store";
+import { cpPayFn } from "../../../stores/sub-store-fn/cp-pay-fn";
+import { logoutFunc } from "../../../func/sys/auth/logout-func";
 
 
 
@@ -13,7 +14,7 @@ import { cpPayVar } from "../../../stores/cp-pay-store";
 export const CpSettingHome=()=>{
     // const cpPayRedux = useReactiveVar(cpPayVar); 
     let navigate = useNavigate()
-    const {payid} = useParams();
+    const payid = useReactiveVar(cpPayVar).payid;
 
       const [handleError] = useError()
 
@@ -29,10 +30,14 @@ export const CpSettingHome=()=>{
           .then(async({data})=>{
             // console.log(data, ': data res')
             if(data &&data.cp_DeleteClassPay.ok ){
-                await client.refetchQueries({
-                    include: [CP_PAYS_QUERY],//cppay list refech
-                  });
-              alert('삭제하였습니다.')
+              // editCpPayVar.setPayID(0) 
+              // editCpPayVar.cppay.set(cpPayFn.store.cpay)
+
+                // await client.refetchQueries({
+                //     include: [CP_PAYS_QUERY],//cppay list refech
+                //   });
+              alert('삭제하였습니다. 계정이 존재하지 않으므로 아용하시려면 다시 생성하여야 합니다.')
+              logoutFunc()
               navigate('/')
             }else if(data?.cp_DeleteClassPay.error){
               alert(data.cp_DeleteClassPay.error)
@@ -44,8 +49,8 @@ export const CpSettingHome=()=>{
         <div className="w-full mx-auto flex justify-center ">
             <div className="w-full max-w-sm">
                 <div>학급페이 설정</div>
-                <div>payid : {payid}</div>
-                <button onClick={handlesubmit}>삭제하기</button>
+                {/* <div>payid : {payid}</div> */}
+                <button onClick={handlesubmit}>학급 삭제하기</button>
             </div>
 
         </div>
