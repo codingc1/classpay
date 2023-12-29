@@ -8,18 +8,20 @@ export const REFESH_TOKEN_TIMER = 1000*60*3; //리프레쉬 시간
 // export const BaseHangUrlName = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')?'http://localhost:3000':'https://hangbal.net' 
 
 export const isProduction =() => {
-    if ( process.env.NODE_ENV === 'development') {
-        return false
-    } else {
+    if ( process.env.NODE_ENV === 'prod') { //development
         return true
+    } else {
+        return false
     }
 }
 export const serverAddress =()=>{
     // return 'https://ec2.hangbal.net'
     // return 'http://3.37.198.102:2021';
     if (isProduction()===false) {
+        console.log('development')
         return "http://localhost:2021";
     } else {
+        console.log('development')
         return 'https://ec2.hangbal.net'
     }
 
