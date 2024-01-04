@@ -8,17 +8,23 @@ export const REFESH_TOKEN_TIMER = 1000*60*3; //리프레쉬 시간
 // export const BaseHangUrlName = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')?'http://localhost:3000':'https://hangbal.net' 
 
 export const isProduction =() => {
-    
     //@ts-ignore
-    if(IS_DEVELOPMENT){ console.log(IS_DEVELOPMENT, 'IS_DEVELOPMENT??')
-    return false //development
-    }else{
-        console.log('prod-not exist IS_DEVELOPMENT??')
+    if(PROCESS_ENV){
+        //@ts-ignore
+        console.log(PROCESS_ENV, 'env.TEST_ENV??')
         return true //production
+    }else{
+        console.log('prod-not exist PROCESS_ENV??')
+        return false //development
     }
-    // if(process.env.TEST_ENV){
-    //     console.log(process.env.TEST_ENV, 'env.TEST_ENV??')
+    //@ts-ignore
+    // if(IS_DEVELOPMENT){ console.log(IS_DEVELOPMENT, 'IS_DEVELOPMENT??')
+    // return false //development
+    // }else{
+    //     console.log('prod-not exist IS_DEVELOPMENT??')
+    //     return true //production
     // }
+
     
     // return true; //production
     
