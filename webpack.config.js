@@ -85,6 +85,13 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.DefinePlugin({ //24.1.4 https://bobbyhadz.com/blog/react-referenceerror-process-not-defined
+      // NICE_FEATURE: JSON.stringify(true),
+      IS_DEVELOPMENT: JSON.stringify(true), //https://webpack.kr/plugins/define-plugin/
+      PROCESS_ENV: JSON.stringify(process.env.NODE_ENV),
+      // 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      // 'process.env.TEST_ENV': JSON.stringify(process.env.TEST_ENV),
+    }),
     // HtmlWebpackPlugin은 html파일이나 favicon을 번들링과정에 포함
     // 예를들어 번들된 파일 bundle.[hash].js를 index.html에 자동 삽입
     new HtmlWebpackPlugin({
