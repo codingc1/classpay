@@ -4,7 +4,7 @@ import { ProtectedRoute } from "../components/home/protected/ProtectedRoute ";
 
 import LayoutLeft from "../components/layout/Layout-left";
 import { HomeNew } from "../page/Home/Home-new";
-import { CP_PAY_HOME_ROUTE_NAME,   } from "./route-name-constants";
+import { PAY_HOME,   } from "./route-name-constants";
 import { QrScanner } from "../page/class-pay/qr-scan/qr-scanning";
 import { CpSettingHome } from "../page/class-pay/setting/cp-setting-home";
 import { classpayRouters, userRouters } from "./logged-in-router";
@@ -45,9 +45,9 @@ const logOutRoutes=(...args:IRoute[][])=>{
             {/* <Route path={QR_SCANB_ROUTE_NAME} element={ <QrScan />} /> */}
             {ProtectRoutes(classpayRouters, userRouters)} 
 
-            <Route path={CP_PAY_HOME_ROUTE_NAME+'/:payid'+'/setting'} element={ <CpSettingHome />} />
+            <Route path={PAY_HOME+'/:payid'+'/setting'} element={ <CpSettingHome />} />
 
-            <Route path={CP_PAY_HOME_ROUTE_NAME+'/:payid'+'/scan'} element={ <QrScanner />} />
+            <Route path={PAY_HOME+'/:payid'+'/scan'} element={ <QrScanner />} />
 
             
             
@@ -65,6 +65,6 @@ const logOutRoutes=(...args:IRoute[][])=>{
 
 //<Route path={CP_PAY_CREATE_ROUTE_NAME} element={ <CreateCpPay />} />
 
-            // <Route path={CP_PAY_HOME_ROUTE_NAME+'/:payid'} element={ <ClassPayApp />} />
-            // <Route path={CP_PAY_HOME_ROUTE_NAME+'/:payid'+'/member'} element={ <CPMemberHome />} />
-            // <Route path={CP_PAY_HOME_ROUTE_NAME+'/:payid'+'/products'} element={ <CProductsHome />} /> 
+            // <Route path={PAY_HOME+'/:payid'} element={ <ClassPayApp />} />
+            // <Route path={PAY_HOME+'/:payid'+'/member'} element={ <CPMemberHome />} />
+            // <Route path={PAY_HOME+'/:payid'+'/products'} element={ <CProductsHome />} /> 

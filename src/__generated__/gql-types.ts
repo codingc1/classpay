@@ -19,7 +19,6 @@ export type Query = {
   boardView: ViewBoardContentsOutput;
   cp_allProducts: Array<CP_Product>;
   cp_me: CP_MeOutput;
-  cp_MyBills: Array<CP_Bill>;
   cp_myProducts: Array<CP_Product>;
   cp_PayInfo: CP_PayOutput;
   cp_pays: Array<CP_Pay>;
@@ -52,11 +51,6 @@ export type QueryboardViewArgs = {
 
 
 export type Querycp_allProductsArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type Querycp_MyBillsArgs = {
   id: Scalars['Int'];
 };
 
@@ -190,22 +184,6 @@ export enum POSITION {
   Teacher = 'Teacher'
 }
 
-export type CP_Bill = {
-  __typename?: 'CP_Bill';
-  consumer_id: Scalars['Int'];
-  cppay_id: Scalars['Int'];
-  createdAt: Scalars['DateTime'];
-  desciption: Scalars['String'];
-  id: Scalars['Float'];
-  imgurl: Scalars['String'];
-  name: Scalars['String'];
-  price: Scalars['Int'];
-  qty: Scalars['Int'];
-  seller_id: Scalars['Int'];
-  sumPrice: Scalars['Int'];
-  updatedAt: Scalars['DateTime'];
-};
-
 export type CP_PayOutput = {
   __typename?: 'CP_PayOutput';
   error?: Maybe<Scalars['String']>;
@@ -225,6 +203,7 @@ export type CP_Pay = {
   isTrade: Scalars['Boolean'];
   moneyUnit: Scalars['String'];
   schoolName: Scalars['String'];
+  stopProduce: Scalars['Boolean'];
   subAdmin: Scalars['String'];
   updatedAt: Scalars['DateTime'];
   user: Array<CP_User>;
@@ -677,7 +656,6 @@ export type Mutation = {
   checkPossibleNickname: CheckPossibleIdOutput;
   confirmPassword: VerifyEmailOutput;
   cp_buyingTrade: CoreOutput;
-  cp_buyProduct: CoreOutput;
   cp_CreateClassPay: CP_PayOutput;
   cp_createProduct: CoreOutput;
   cp_CreateStudents: CP_CheckPossibleIsdOutput;
@@ -689,6 +667,7 @@ export type Mutation = {
   cp_getBuyTmpTrade: CP_TradeTmpCodeOutput;
   cp_login: LoginOutput;
   cp_modifyStudent: CoreOutput;
+  cp_MyBillsMonth: Array<CP_Bill>;
   cp_PayPossibleName: CoreOutput;
   cp_sellingStart: CP_TradeTmpCodeOutput;
   cp_studentsPossibleIds: CP_CheckPossibleIsdOutput;
@@ -787,6 +766,7 @@ export type Mutation = {
   setIsFirst: CoreOutput;
   tagListGradeMu: TagsListMuOutput;
   testConfirm: CoreOutput;
+  testSubPush: CoreOutput;
   thisyears: DiThisyearsOutput;
   timeTables: DiTimetablesOutput;
   todayDiClasses: DiClassesOutput;
@@ -926,11 +906,6 @@ export type Mutationcp_buyingTradeArgs = {
 };
 
 
-export type Mutationcp_buyProductArgs = {
-  input: CP_BuyProductIdInput;
-};
-
-
 export type Mutationcp_CreateClassPayArgs = {
   input: CP_CreateClassPayInput;
 };
@@ -983,6 +958,11 @@ export type Mutationcp_loginArgs = {
 
 export type Mutationcp_modifyStudentArgs = {
   input: ModifyCpStudentsInput;
+};
+
+
+export type Mutationcp_MyBillsMonthArgs = {
+  input: YearMonthInput;
 };
 
 
@@ -1858,12 +1838,6 @@ export type CP_GetTradeTmpCodeInput = {
   code: Scalars['String'];
 };
 
-export type CP_BuyProductIdInput = {
-  cppay_id: Scalars['Int'];
-  product_id: Scalars['Int'];
-  qty?: Scalars['Int'];
-};
-
 export type CP_CreateClassPayInput = {
   className?: Scalars['String'];
   classNum?: Scalars['Int'];
@@ -1918,7 +1892,6 @@ export type CP_TradeTmpCodeOutput = {
 export type CP_TradeTmpCode = {
   __typename?: 'CP_TradeTmpCode';
   code: Scalars['String'];
-  consumer_id: Scalars['Int'];
   cppay_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   id: Scalars['Float'];
@@ -1927,6 +1900,7 @@ export type CP_TradeTmpCode = {
   product_id: Scalars['Int'];
   qty: Scalars['Int'];
   seller_id: Scalars['Int'];
+  seller_name: Scalars['String'];
   sumPrice: Scalars['Int'];
 };
 
@@ -1942,8 +1916,37 @@ export type ModifyCpStudentsInput = {
   password?: InputMaybe<Scalars['String']>;
 };
 
+export type YearMonthInput = {
+  month: Scalars['Int'];
+  year: Scalars['Int'];
+};
+
+export type CP_Bill = {
+  __typename?: 'CP_Bill';
+  consumer_id: Scalars['Int'];
+  consumer_name: Scalars['String'];
+  cppay_id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  desciption: Scalars['String'];
+  id: Scalars['Float'];
+  isCanceled: Scalars['Boolean'];
+  name: Scalars['String'];
+  price: Scalars['Int'];
+  qty: Scalars['Int'];
+  seller_id: Scalars['Int'];
+  seller_name: Scalars['String'];
+  sumPrice: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type CP_PayPossibleNameInput = {
   className?: Scalars['String'];
+};
+
+export type CP_BuyProductIdInput = {
+  cppay_id: Scalars['Int'];
+  product_id: Scalars['Int'];
+  qty?: Scalars['Int'];
 };
 
 export type CheckPossibleIdsInput = {
@@ -3360,19 +3363,13 @@ export type WeeklyWorksInput = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  pendingSelling: CP_BillOutput;
+  pendingSelling: CoreOutput;
+  testSub: CoreOutput;
 };
 
 
 export type SubscriptionpendingSellingArgs = {
   tradetmpcode_id: Scalars['Int'];
-};
-
-export type CP_BillOutput = {
-  __typename?: 'CP_BillOutput';
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-  result?: Maybe<CP_Bill>;
 };
 
 export type Completion = {

@@ -55,11 +55,28 @@ fragment CPTmpTradeParts on CP_TradeTmpCode {
     product_id
     cppay_id
     seller_id
-    consumer_id
+    seller_name
     name
     qty
     price
     sumPrice
     code
+}
+`;
+
+export const CP_BILL_FRAGMENT = gql`
+fragment CP_BillParts on CP_Bill {
+    id
+    cppay_id
+    seller_id
+    seller_name
+    consumer_id
+    consumer_name
+    name
+    desciption
+    qty
+    price
+    sumPrice
+    createdAt
 }
 `;

@@ -18,7 +18,7 @@ import { ConsoleHelper } from "../../../../func/sys/consoleHelper"
 export const ProductSell=({setIsModal,setIsQrcode}:{
     setIsModal:React.Dispatch<React.SetStateAction<boolean>>
     setIsQrcode:React.Dispatch<React.SetStateAction<boolean>>}) => {
-        const {payid} = useParams(); 
+        // const {payid} = useParams(); 
     const cppay = useReactiveVar(cpPayVar).cppay;     
     const productRedux = useReactiveVar(cpPayVar).trade;
 
@@ -57,12 +57,12 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
             return;
         }
         
-        console.log(Number(payid), productRedux.product.id, productRedux.qty, 'sell')
-        console.log()
+        // console.log(Number(payid), productRedux.product.id, productRedux.qty, 'sell')
+        
         //pendingSelling - subscribe시작
         cp_sellingStartMutation({
             variables: {
-                cp_buyProductIdInput: { cppay_id:Number(payid),product_id:productRedux.product.id,qty:productRedux.qty, },
+                cp_buyProductIdInput: { cppay_id:cppay.id,product_id:productRedux.product.id,qty:productRedux.qty, },
             },
           });
          

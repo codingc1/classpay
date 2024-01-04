@@ -4,7 +4,7 @@ import { editCpPayVar } from "../../../stores/cp-pay-store";
 import { client } from "../../../apollo";
 import { cpPayFn } from "../../../stores/sub-store-fn/cp-pay-fn";
 import { useNavigate } from "react-router-dom";
-import { CP_PAY_HOME_ROUTE_NAME } from "../../../routers/route-name-constants";
+import { PAY_HOME } from "../../../routers/route-name-constants";
 import { CP_ME_QUERY } from "../../../hooks/user/useMe";
 
 //buy-qr-scan-popup
@@ -56,9 +56,10 @@ export const useBuyIngTradeSubmit =() => {
                 include: [CP_ME_QUERY], //money refech
               });
 
-              navigate(CP_PAY_HOME_ROUTE_NAME)
+              navigate(PAY_HOME)
             }else if(data?.cp_buyingTrade.error){
               alert(data.cp_buyingTrade.error)
+              navigate(PAY_HOME) //실패해도 홈으로 - 다시 구입하기
             }
           })
           .catch(e => {handleError(e, 'buyIngTradeSubmit');})

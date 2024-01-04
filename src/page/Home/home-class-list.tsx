@@ -1,7 +1,7 @@
 // import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/20/solid'
 import { useNavigate } from 'react-router-dom'
 // import { useCpPays } from '../../hooks/cp-pay/useCpPay'
-import { CP_PAY_HOME_ROUTE_NAME } from '../../routers/route-name-constants'
+import { PAY_HOME } from '../../routers/route-name-constants'
 import { cpPayVar, editCpPayVar } from '../../stores/cp-pay-store'
 import { useEffect } from 'react'
 import { cp_paysQueryQuery } from '../../hooks/cp-pay/useCpPay.generated'
@@ -39,8 +39,8 @@ export default function HomeClassListComponent() {
 
   const moveClassPay=(data: cp_paysQueryQuery)=>{
     // editCpPayVar.setPayID(data.cp_pays[0].id)
-    // navigate(CP_PAY_HOME_ROUTE_NAME+'/'+data.cp_pays[0].id)
-    navigate(CP_PAY_HOME_ROUTE_NAME)
+    // navigate(PAY_HOME+'/'+data.cp_pays[0].id)
+    navigate(PAY_HOME)
   }
   // useEffect(()=>{
   //   if(data && data.cp_pays.length > 0){
@@ -61,7 +61,7 @@ export default function HomeClassListComponent() {
             onClick={()=>{
               // moveClassPay(data)
               // editCpPayVar.setPayID(cppay.id)
-              // navigate(CP_PAY_HOME_ROUTE_NAME+'/'+cppay.id)
+              // navigate(PAY_HOME+'/'+cppay.id)
             }}>
             <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"/>
             {/* <img className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300" src={cppay.imageUrl} alt="" /> */}

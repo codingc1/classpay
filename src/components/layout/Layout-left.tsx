@@ -15,7 +15,7 @@ import { authVar } from '../../stores/authstore';
 import { editRouteVar, routeVar } from '../../stores/route-info-store';
 import { HamburgerIcon } from '../../page/Home/header/left-menu/hambuger-icon';
 import { useLogout } from '../../func/sys/auth/useLogout';
-import { CP_PAY_MEMBER_ROUTE_NAME, cp_pay_app_route_fn, cp_pay_member_route_fn, cp_pay_setting_route_fn,  } from '../../routers/route-name-constants';
+import { CP_PAY_MEMBER_ROUTE_NAME, PAY_HOME, cp_pay_app_route_fn, cp_pay_member_route_fn, cp_pay_setting_route_fn,  } from '../../routers/route-name-constants';
 import { cpPayVar } from '../../stores/cp-pay-store';
 
 
@@ -25,7 +25,7 @@ import { cpPayVar } from '../../stores/cp-pay-store';
   }
 
 
-
+//leftMenu, leftLayout
 function LayoutLeft() {
     let navigate = useNavigate()
     const isLoggedIn = useReactiveVar(authVar).isLogin;
@@ -35,12 +35,13 @@ function LayoutLeft() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const isShow =isLoggedIn && routeInfo.header.isVisible
+  //햄버거가 없어지는 현상
   // const closeSidebar = () => {
   //   editRouteVar.header.setVisible()
   // }
 
   const navigation = [
-    { name: '기본화면', href: '/', icon: HomeIcon, current: true },
+    { name: '기본화면', href: PAY_HOME, icon: HomeIcon, current: true },
     { name: '멤버', href: CP_PAY_MEMBER_ROUTE_NAME, current: false },
     { name: '판매물품', href: '#', icon: UserGroupIcon, current: false },
     { name: 'Directory', href: '#', icon: MagnifyingGlassCircleIcon, current: false },
@@ -49,7 +50,9 @@ function LayoutLeft() {
   ]
 
   const [logout] = useLogout()
-  const HomeComponent=<div className='h-8 px-2 cursor-pointer' onClick={()=>navigate('/')}>Home</div>
+  //최상단에 보여짐
+  const HomeComponent=<div className='h-8 px-2 cursor-pointer' onClick={()=>{
+    setSidebarOpen(false);navigate(PAY_HOME)}}>Home</div>
   const Logoutcomponent=<div className='w-full flex flex-shrink-0 border-t border-gray-200 p-4 cursor-pointer'
     onClick={()=>logout()}>로그아웃</div>
   
@@ -120,7 +123,8 @@ function LayoutLeft() {
                             key={item.name}
                             // href={item.href}
                             onClick={()=>{
-                              editRouteVar.header.setVisible(false)//왼쪽 창 닫기
+                              setSidebarOpen(false)
+                              // editRouteVar.header.setVisible(false)//왼쪽 창 닫기
                               navigate(item.href)
                             }}
                             className={classNames(

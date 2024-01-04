@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 
 import { CP_MY_PRODUCTS_QUERY, useMyProducts } from "../../../hooks/cp-pay/products/useCpProducts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductCreatePopup } from "./create-product/product-create-popup";
 import { client } from "../../../apollo";
 import { cp_cp_deleteProductMutationDocument } from "../../../hooks/cp-pay/products/createProduct.generated";
@@ -14,7 +14,26 @@ import { addCommaMan } from "../../../func/basic/number/addComma";
 import useErrorShow from "../../../func/sys/err/useErrShow";
 import { CiEdit } from "react-icons/ci";
 import { UpdateProduct } from "./update-product/update-product";
+import { gql, useMutation, useSubscription } from "@apollo/client";
+import { testSubPushMutationMutation, testSubPushMutationMutationVariables } from "./product-home.generated";
  
+const TEST_SUBSCRIPTION = gql`
+  subscription testSubsub {
+    testSub {
+      ok
+      error
+    }
+  }
+`;
+export const CP_TEST_SUB_MUTATION = gql`
+mutation testSubPushMutation {
+    testSubPush {
+    ok
+    error
+  }
+}
+`;
+
 
 export const CProductsHome=()=>{ 
     let navigate = useNavigate();
@@ -23,10 +42,31 @@ export const CProductsHome=()=>{
     const [isUpdateModat, setIsUpdateModal] = useState(false) //product update
     const [isBuyMadal, setIsBuyModal] = useState(false)
     const [isQrcode, setIsQrcode] = useState(false)
-
-    const {payid} = useParams(); 
+    
     const {data} =useMyProducts()//{id:payid}
 
+    // const { data:subData, loading,error } = useSubscription( TEST_SUBSCRIPTION,  );
+    // useEffect(() => {
+    //     if(subData){
+    //         console.log('subData',subData)
+    //     }
+    // }, [subData]);
+    // if(error){console.log('error',error)}
+
+    // const [testSubPushMutation, { loading:muloaing,  }] = useMutation<testSubPushMutationMutation, testSubPushMutationMutationVariables>(CP_TEST_SUB_MUTATION, {async onCompleted (data){
+    //     if(data.testSubPush.ok ){ //
+    //         console.log('testSubPushMutation',data.testSubPush.ok)
+    //     }else if(data.testSubPush.error){
+    //         // console.log(data.myChecks.error)
+    //         alert(`판매를 시도하는데 실패하였습니다..\n${data.testSubPush.error}` );
+    //     }
+    //     }, onError: (err) => {
+    //         console.log(err, '판매에 실패하였습니다.')
+    //     } });
+    // const submit =() => {
+    //     if(muloaing)return
+    //     testSubPushMutation()
+    // }
 
     //팜내하기 : qr보여주기, 상대방에 읽으면 웹소켓으로 받기
     //읽기 =>tmpcode생성 => 읽으면 {payid, productid, tmpcode}
@@ -101,6 +141,7 @@ export const CProductsHome=()=>{
          cursor-pointer" onClick={()=>setIsModal(true)}>
           <div>판매물품 추가</div>  
         </div>
+        
        
 
         </div>

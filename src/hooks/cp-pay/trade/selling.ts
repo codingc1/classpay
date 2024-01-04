@@ -25,20 +25,20 @@ subscription pendingSellingSubscription($tradetmpcode_id:Int!){
     pendingSelling(tradetmpcode_id:$tradetmpcode_id){
         ok
         error
-        result{
-          id
-          name
-          qty
-          price
-          sumPrice
-          imgurl
-        }
+
     }
 }
 `
+// result{
+//   id
+//   name
+//   qty
+//   price
+//   sumPrice
+//   imgurl
+// }
 
 export const useSellingSubscribe = ({id}:{id:number}) => {
-    
     try{
     const aa = useSubscription<pendingSellingSubscriptionSubscription,pendingSellingSubscriptionSubscriptionVariables>(CP_SELLING_PENDING_SUBSCRIPTION, {
         variables: { tradetmpcode_id:Number(id) }, //id===0?null:id
@@ -47,7 +47,7 @@ export const useSellingSubscribe = ({id}:{id:number}) => {
     return aa
     }catch(e){
       ConsoleHelper(e, 'useSubscription')
-      return {error:'useSubscription error', data:undefined, loading:false}
+      return {error:'useSubscription error', data:undefined, loading:false, } //subscribeToMore:undefined
     }
   
   };

@@ -5,7 +5,7 @@ import { CP_User } from "../../../__generated__/gql-types";
 import { CP_PAY_USERLIST_QUERY } from "../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 import { gql,  } from "@apollo/client";
 import { cp_deleteStudentMutationDocument } from "./cp-user-delete.generated";
-import { CP_PAY_HOME_ROUTE_NAME,  } from "../../../routers/route-name-constants";
+import { PAY_HOME,  } from "../../../routers/route-name-constants";
 
 
 //추가 등록 되는가?
@@ -44,7 +44,7 @@ export const CP_UserDeleteBtn=({user}:{user: Pick<CP_User,"id"|"name">})=>{
               await client.refetchQueries({
                 include: [CP_PAY_USERLIST_QUERY], //pay
               });
-              navigate(CP_PAY_HOME_ROUTE_NAME) //pay home으로
+              navigate(PAY_HOME) //pay home으로
             }else if(data?.cp_deleteStudent.error){
               alert(data.cp_deleteStudent.error)
             }

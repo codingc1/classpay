@@ -3,7 +3,7 @@ import { useEffect,  } from "react";
 import {Helmet} from "react-helmet-async";
 import { useNavigate,  } from "react-router-dom";
 import TokenRepository from "../../api/token/tokenRepo";
-import { CP_PAY_HOME_ROUTE_NAME, CP_PAY_CREATE_ROUTE_NAME, LOGIN_ROUTE_NAME } from "../../routers/route-name-constants";
+import { PAY_HOME, CP_PAY_CREATE_ROUTE_NAME, LOGIN_ROUTE_NAME } from "../../routers/route-name-constants";
 import { authVar } from "../../stores/authstore";
 import { editRouteVar, routeVar } from "../../stores/route-info-store";
 import HomeClassListComponent from "./home-class-list";
@@ -33,7 +33,7 @@ export const HomeNew = () => {
             navigate(LOGIN_ROUTE_NAME)
             }
         }else if(cppay.id !== 0){
-            navigate(CP_PAY_HOME_ROUTE_NAME)
+            navigate(PAY_HOME)
         }
     },[cppay ]) 
 

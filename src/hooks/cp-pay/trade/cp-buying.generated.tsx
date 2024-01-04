@@ -7,7 +7,7 @@ export type cp_getBuyTmpTradeMutationMutationVariables = Types.Exact<{
 }>;
 
 
-export type cp_getBuyTmpTradeMutationMutation = { __typename?: 'Mutation', cp_getBuyTmpTrade: { __typename?: 'CP_TradeTmpCodeOutput', ok: boolean, error: string | null, result: { __typename?: 'CP_TradeTmpCode', id: number, product_id: number, cppay_id: number, seller_id: number, consumer_id: number, name: string, qty: number, price: number, sumPrice: number, code: string } | null } };
+export type cp_getBuyTmpTradeMutationMutation = { __typename?: 'Mutation', cp_getBuyTmpTrade: { __typename?: 'CP_TradeTmpCodeOutput', ok: boolean, error: string | null, result: { __typename?: 'CP_TradeTmpCode', id: number, product_id: number, cppay_id: number, seller_id: number, seller_name: string, name: string, qty: number, price: number, sumPrice: number, code: string } | null } };
 
 export type cp_buyingTradeMutationMutationVariables = Types.Exact<{
   cp_getTradeTmpCodeInput: Types.CP_GetTradeTmpCodeInput;

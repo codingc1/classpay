@@ -11,6 +11,7 @@ import { cpPayFn } from "../../../stores/sub-store-fn/cp-pay-fn";
 import {  useBuyGetTradeTmp, useBuyIngTradeSubmit } from "./useBuyGetTradeTmp";
 import { ConsoleHelper } from "../../../func/sys/consoleHelper";
 
+//구매자
 //qr코드 스캔 후 상품을 보여줌
 //https://www.npmjs.com/package/react-zxing
 export const BuyQrScan=({setIsBuyModal}:{setIsBuyModal:React.Dispatch<React.SetStateAction<boolean>>})=>{
@@ -60,8 +61,9 @@ export const BuyQrScan=({setIsBuyModal}:{setIsBuyModal:React.Dispatch<React.SetS
 
  //3번
  const [buyIngTradeSubmit]=useBuyIngTradeSubmit() //CP_ME_QUERY, //money refech
-  const buySubmit=() => {
+  const buySubmit=() => { //결제하기 버튼 누르면
     setIsSubmitLoading(true)
+    //구입 성공시 홈으로 //me refech -money가 잇음
     buyIngTradeSubmit({ code:tradeTmp.code, setIsBuyModal})
   }
   const buyContents =(
