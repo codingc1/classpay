@@ -13,6 +13,9 @@ import NomadInputCount from "../../../../components/input/nomad-input/nomad-inpu
 import PopupCenterHCustom from "../../../../components/popup/center-h-custom/popup-real-center";
 import { CP_PRODUCT_COLUMN } from "../../../../routers/contains-len"
 import { chkCpProduct } from "../../../../utils/check-create/cp-product-check"
+import { useWindowSizeTrans } from "../../../../func/html/useWidthTrans"
+import { CSS_LEN } from "../../../../func/html/width-contain/css-contain"
+
 //화살표 함수형 컴포넌트 생성rsc
 // const fast = fa
 
@@ -75,7 +78,7 @@ export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.S
       
            }else if(data.cp_createProduct.error){
              // console.log(data.myChecks.error)
-             alert(`불러오는데 실패하였습니다..\n${data.cp_createProduct.error}` );
+             alert(`만드는데 실패하였습니다..\n${data.cp_createProduct.error}` );
            }
          }, onError: (err) => {
             handleError(err, '물품 만들기를 실패하였습니다.')
@@ -106,7 +109,7 @@ export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.S
             //     alert('보유 개수를 입력해 주세요');
             //     return;
             // }
-            const isConfirm = window.confirm(name+'을 추가할까요? ')
+            const isConfirm = window.confirm(name+'을 생산할까요? ')
             if(!isConfirm)return
             // console.log('submit', name, desciption, price, qty, imgurl)
             cp_createProductMutation({
@@ -115,9 +118,10 @@ export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.S
                 },
               });
          }
+         const {transWidth} = useWindowSizeTrans()
 
         const contents =( //p-12
-            <div className="w-full p-8">
+            <div className=" p-8" style={{width:transWidth(CSS_LEN.popup.wide),}}>
                 <div className=" text-sm">
                     <NomadInputText value={productObj.name}  onChange={productOnchange} label="물품이름" name="name" />
                     <div className="mt-3"></div>

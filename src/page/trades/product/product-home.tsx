@@ -4,18 +4,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CP_MY_PRODUCTS_QUERY, useMyProducts } from "../../../hooks/cp-pay/products/useCpProducts";
 import { useEffect, useState } from "react";
 import { ProductCreatePopup } from "./create-product/product-create-popup";
-import { client } from "../../../apollo";
 import { cp_cp_deleteProductMutationDocument } from "../../../hooks/cp-pay/products/createProduct.generated";
-import { CP_Product } from "../../../__generated__/gql-types";
 import { ProductSell } from "./create-product/product-sell";
 import { SellQrCodeGen } from "./create-product/sell-qr-code-gen";
 import { editCpPayVar, IProduct } from "../../../stores/cp-pay-store";
 import { addCommaMan } from "../../../func/basic/number/addComma";
-import useErrorShow from "../../../func/sys/err/useErrShow";
 import { CiEdit } from "react-icons/ci";
 import { UpdateProduct } from "./update-product/update-product";
 import { gql, useMutation, useSubscription } from "@apollo/client";
-import { testSubPushMutationMutation, testSubPushMutationMutationVariables } from "./product-home.generated";
+import { CSS_LEN } from "../../../func/html/width-contain/css-contain";
+import { useWindowSizeTrans } from "../../../func/html/useWidthTrans";
  
 const TEST_SUBSCRIPTION = gql`
   subscription testSubsub {
@@ -79,12 +77,15 @@ export const CProductsHome=()=>{
         editCpPayVar.product.setProduct(item)
         setIsUpdateModal(true) //product-sell 화면이 뜸
     }
+    // const windowSize = useWindowSize()
+    const {transWidth} = useWindowSizeTrans()
     
+     
     return(
         <div className="w-full min-h-screen flex flex-col items-center bg-white">
-        <div className="py-5    rounded-xl shadow-xl bg-slate-200 flex flex-col items-center" 
-        //mt-5 ,height:'500px'
-            style={{width:'396px', minHeight:'500px'}}>
+        <div className="py-5 max-w-sm  rounded-xl shadow-xl bg-slate-200 flex flex-col items-center" 
+        //mt-5 ,height:'500px' //490px
+            style={{width:transWidth(CSS_LEN.basic_wide), minHeight:'500px'}}>
             <section className="px-1 w-full h-[50px] flex justify-between items-center bg-white ">
                 <div className="w-[40px] h-full flex justify-center items-center cursor-pointer rounded-t-xl" onClick={()=>navigate(-1)}>&#60;</div>
                 <div>판매 물품 리스트</div>

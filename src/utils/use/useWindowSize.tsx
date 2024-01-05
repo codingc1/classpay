@@ -13,7 +13,7 @@ export const useWindowSize=()=> { //https://usehooks.com/useWindowSize/
     function handleResize() {
       // Set window width/height to state
       setWindowSize({
-        width: window.innerWidth,
+        width: window.innerWidth, //브라우저의 현재 크기(width, height)
         height: window.innerHeight,
       });
     }

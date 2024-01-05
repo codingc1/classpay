@@ -14,6 +14,8 @@ import { cp_cp_deleteProductMutationDocument, cp_updateProductMutationMutation, 
 import { CP_UPDATE_PRODUCT_MUTATION } from "../../../../hooks/cp-pay/products/createProduct";
 import {BsTrash } from 'react-icons/bs'; 
 import { CP_Product } from "../../../../__generated__/gql-types";
+import { useWindowSizeTrans } from "../../../../func/html/useWidthTrans";
+import { CSS_LEN } from "../../../../func/html/width-contain/css-contain";
 
 
 export const UpdateProduct=({setIsModal}:{setIsModal:React.Dispatch<React.SetStateAction<boolean>>}) => {
@@ -121,8 +123,9 @@ export const UpdateProduct=({setIsModal}:{setIsModal:React.Dispatch<React.SetSta
           .catch(e => handleError(e, 'cp_deleteProductMutation'))
     }
 
+    const {transWidth} = useWindowSizeTrans()
     const contents =( //p-12
-    <div className="w-full p-8">
+    <div className="p-8" style={{width:transWidth(CSS_LEN.popup.wide),}}>
         <div className=" text-sm">
             <NomadInputText value={productRedux.name}  onChange={setName} label="물품이름" name="name" />
             <div className="mt-3"></div>

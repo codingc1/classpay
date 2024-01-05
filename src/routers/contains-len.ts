@@ -8,3 +8,4 @@ export const CP_PRODUCT_COLUMN ={ //https://choewy.tistory.com/157
         maxPrice: 2100000000, //21억 //mysql 21,4748,3647 //msql bigint 9223,3720,3685,477,5807
     
     } as const
+

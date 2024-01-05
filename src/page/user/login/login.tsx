@@ -26,8 +26,8 @@ export const CP_LOGIN_MUTATION = gql`
 
 export const Login = () => {
   const navigate = useNavigate();
-  const [mainId, setMainId] = useState('')
-  const [password, setPassword] = useState('')
+  const [mainId, setMainId] = useState('aaa1')
+  const [password, setPassword] = useState('1111')
 
   // const {setRouteGotoFunc} = useRouteGoTo() 
   useEffect(()=>{

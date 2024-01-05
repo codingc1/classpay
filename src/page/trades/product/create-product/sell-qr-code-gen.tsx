@@ -27,7 +27,7 @@ export const SellQrCodeGen=({setIsModal}:{setIsModal:React.Dispatch<React.SetSta
   const {data, error, } = useSellingSubscribe({id:Number(productRedux.tradeTmpProduct.id)})
   if(error){
     ConsoleHelper(error, 'SellQrCodeGen useEffect error')
-    alert('결제에 오류가 생겼습니다.')
+    alert('결제에 오류가 생겼습니다.'+String(error))
     setIsModal(false)
     navegate(PAY_HOME)
   }
