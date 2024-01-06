@@ -123,10 +123,15 @@ export const UpdateProduct=({setIsModal}:{setIsModal:React.Dispatch<React.SetSta
           .catch(e => handleError(e, 'cp_deleteProductMutation'))
     }
 
+
     const {transWidth} = useWindowSizeTrans()
+    const transWFull = transWidth(CSS_LEN.popup.wide)
+    const innerPopupWidth = transWFull-CSS_LEN.popup.paddingX
+    
+    //product-create-popup.tsx 과 비슷함
     const contents =( //p-12
-    <div className="p-8" style={{width:transWidth(CSS_LEN.popup.wide),}}>
-        <div className=" text-sm">
+    <div className=" box-border" style={{width:transWFull+'px',padding:'5px'}} >
+        <div className="text-sm  box-border" style={{width:innerPopupWidth+'px',}}>
             <NomadInputText value={productRedux.name}  onChange={setName} label="물품이름" name="name" />
             <div className="mt-3"></div>
             <NomadInputPrice value={productRedux.price}  onChange={setPrice} label="가격" name="price" isHideZeoro={true} />
@@ -136,7 +141,7 @@ export const UpdateProduct=({setIsModal}:{setIsModal:React.Dispatch<React.SetSta
 
         </div>
 
-        <div className="w-full flex">
+        <div className="  flex" style={{width:innerPopupWidth+'px',}}>
 
             <NomadButton text={ loading ? "Loading..." :"수정하기"} onClick={submit} large={true} width="90%"/>
             
@@ -155,7 +160,8 @@ export const UpdateProduct=({setIsModal}:{setIsModal:React.Dispatch<React.SetSta
 )
 
     return( //삭제하기 전 400
-        <PopupCenterHCustom onClose={popupClose} contents={contents} option={{width:450, height:400}} isTopClose={true} />
+    //24.1.5
+        <PopupCenterHCustom onClose={popupClose} contents={contents} option={{width:transWidth(CSS_LEN.popup.wide), height:400}} isTopClose={true} />
         // <PopupCenter onClose={popupClose} contents={contents} />
     )
 }

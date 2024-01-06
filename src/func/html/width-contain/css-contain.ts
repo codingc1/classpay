@@ -7,9 +7,9 @@ export const CSS_LEN = {
     basic_wide:490, //최대너비인 500px에서 5px를 좌우 padding
 
     //445,400
-    popup:{
-        wide:445,
-        tall:400,
+    popup:{//445,
+        wide:480, tall:400,
+        paddingX:50, innerWidth:480-50,
     },
     
     

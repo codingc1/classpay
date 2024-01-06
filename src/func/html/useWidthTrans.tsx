@@ -17,7 +17,9 @@ export const useWindowSizeTrans=()=>{
         if(windowSize.width > 500)return width;
 
         const ratio = windowSizeTrans.width(windowSize.width)
-        return width*ratio
+        const size= width*ratio
+        //소수점 제거
+        return Math.floor(size)
     }
     // const transHeight = (height:number) => {
     //     const ratio = widthTrans(windowSize.width)

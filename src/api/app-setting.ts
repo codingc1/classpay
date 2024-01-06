@@ -14,7 +14,7 @@ export const isProduction =() => {
         console.log(PROCESS_ENV, 'env.TEST_ENV??')
         return true //production
     }else{
-        console.log('prod-not exist PROCESS_ENV??')
+        console.log('development not-exist PROCESS_ENV??')
         return false //development
     }
     //@ts-ignore

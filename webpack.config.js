@@ -117,8 +117,9 @@ module.exports = {
  
   // 개발 서버 정의
   devServer: {
-    host: "localhost",
+    host: "localhost",//'192.168.0.3', //
     port: port,
+    // disableHostCheck: true, //webpack 모바일 로컬 접속 https://stackoverflow.com/questions/35412137/how-to-get-access-to-webpack-dev-server-from-devices-in-local-network
     static: {
       directory: path.join(__dirname, 'public'),
   },

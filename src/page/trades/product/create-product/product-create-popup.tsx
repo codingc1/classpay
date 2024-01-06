@@ -119,10 +119,14 @@ export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.S
               });
          }
          const {transWidth} = useWindowSizeTrans()
+         const transWFull = transWidth(CSS_LEN.popup.wide)
+         const innerPopupWidth = transWFull-CSS_LEN.popup.paddingX
 
         const contents =( //p-12
-            <div className=" p-8" style={{width:transWidth(CSS_LEN.popup.wide),}}>
-                <div className=" text-sm">
+            <div className=" box-border" style={{width:transWFull+'px',padding:'5px'}} >
+            {/* <div className=" p-8" style={{width:transWidth(CSS_LEN.popup.wide),}}> */}
+                {/* <div className=" text-sm"> */}
+                <div className="text-sm  box-border" style={{width:innerPopupWidth+'px',}}>                    
                     <NomadInputText value={productObj.name}  onChange={productOnchange} label="물품이름" name="name" />
                     <div className="mt-3"></div>
                     <NomadInputPrice value={productNum.price}  onChange={productNumchange} label="가격" name="price" isHideZeoro={true} />
@@ -132,17 +136,18 @@ export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.S
                     <br />
 
                 </div>
-
-                <NomadButton text={ loading ? "Loading..." :"등록하기"} onClick={submit} large={true}  />
+                <div className="  flex" style={{width:innerPopupWidth+'px',}}>
+                    <NomadButton text={ loading ? "Loading..." :"등록하기"} onClick={submit} large={true}  />
                 {/* <div className="mt-5 w-full h-12 flex justify-center items-center bg-slate-700 rounded-lg text-white
                     cursor-pointer" onClick={()=>setIsModal(true)}>
                     <div>판매물품 추가</div>  
                 </div> */}
+                </div>
            </div>
         )
         
     return(
-        <PopupCenterHCustom onClose={activePopupClose} contents={contents} option={{width:450, height:450}} isTopClose={true} />
+        <PopupCenterHCustom onClose={activePopupClose} contents={contents} option={{width:transWidth(CSS_LEN.popup.wide), height:450}} isTopClose={true} />
         // <PopupCenter onClose={activePopupClose} contents={contents} />
     )
 }

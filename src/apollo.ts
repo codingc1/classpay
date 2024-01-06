@@ -21,7 +21,7 @@ export let client: ApolloClient<object>;
 //23.1 웹소켓
 const wsLink = new GraphQLWsLink(createClient({
   //https://www.apollographql.com/docs/react/data/subscriptions/
-  url: webSoketAddress()+'/subscriptions',
+  url: webSoketAddress()+'/graphql',
   connectionParams: {//인증
     'x-jwt':'',
     'cp-jwt':TokenRepository.getToken(),// authVar().token//authTokenVar() || "", //authToken: user.authToken,
