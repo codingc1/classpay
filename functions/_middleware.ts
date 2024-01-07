@@ -7,6 +7,7 @@ export const onRequestOptions: PagesFunction = async () => {
         'Access-Control-Allow-Headers': '*',
         'Access-Control-Allow-Methods': 'GET, OPTIONS',
         'Access-Control-Max-Age': '86400',
+        'Access-Control-Expose-Headers': '*',
       },
     });
   };
@@ -16,6 +17,7 @@ export const onRequestOptions: PagesFunction = async () => {
     const response = await context.next();
     response.headers.set('Access-Control-Allow-Origin', '*');
     response.headers.set('Access-Control-Max-Age', '86400');
+    response.headers.set('Access-Control-Expose-Headers', '*');
     return response;
   };
 // function onRequestOptions() {
