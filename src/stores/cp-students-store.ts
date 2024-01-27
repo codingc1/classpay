@@ -14,7 +14,7 @@ export interface ICpStudent{
 // export type IProduct = Pick<CP_Product, "id"|"name"|"qty"|"desciption"|"seller_id"|"price" >
 
 interface IInitStudents { 
-    student:ICpStudent
+    student:ICpStudent //member에서 선택한 학생
 
 
     

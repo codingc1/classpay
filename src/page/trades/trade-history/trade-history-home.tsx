@@ -22,7 +22,7 @@ export default function TradeHistoryHome() {
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
     const [currentDate, setCurrentDate] = useState({ year: new Date().getFullYear(), month: new Date().getMonth() + 1,  });
     const [nowBill, setNowBill] = useState<IBill[]>([]);
-
+    const [isLoading, setIsLoading] = useState(false); 
     //bill 다른 파일로 분리하기 - bill-detail.tsx
     // 월 바꾸면 0.8초후에 함수 실행하기, loding중이면 실행x (useEffect는 처음에만)
     // porduct 생산후 결제해야 반영 기능?-isSettle  //eneity 생산불가-isProduce
@@ -92,13 +92,13 @@ export default function TradeHistoryHome() {
             </section>
             <section className="w-full px-1 bg-white">
                 {/* useEffect로 bill데이터 가져옴 */}
-                <TradeHistoryMonth currentDate={currentDate} setCurrentDate={setCurrentDate} setNowBill={setNowBill} />
+                <TradeHistoryMonth currentDate={currentDate} setCurrentDate={setCurrentDate} setNowBill={setNowBill} isLoading={isLoading} setIsLoading={setIsLoading} />
                 {/* <div className="flex justify-between items-center  " style={{height:'3.5rem',borderTop:'1px solid #C0C0C0', borderBottom:'1px solid #C0C0C0'}}>
                     <div className="cursor-pointer text-center" style={{width:'3rem'}} onClick={handleMinusButtonClick}>&#9001;</div>
                     <div className="text-lg">{currentDate.year}.{currentDate.month}</div>
                     <div className=" text-center cursor-pointer" style={{width:'3rem'}} onClick={handlePlusButtonClick}>&#9002;</div>
                 </div> */}
-                {nowBill.map((bill, index) => <TradeHistoryDetail key={'bill'+index}bill={bill} />)}
+                {!isLoading && nowBill.map((bill, index) => <TradeHistoryDetail key={'bill'+index}bill={bill} />)}
                 {/* <div className="py-3 w-full flex">
                     <div className="flex justify-center items-center" style={{width:'20%'}}>
                         <div className="text-center " ><FaCircleMinus color="red" size={'2rem'} /></div>

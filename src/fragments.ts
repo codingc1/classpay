@@ -72,6 +72,7 @@ fragment CP_BillParts on CP_Bill {
     seller_name
     consumer_id
     consumer_name
+    kind
     name
     desciption
     qty
@@ -80,3 +81,25 @@ fragment CP_BillParts on CP_Bill {
     createdAt
 }
 `;
+
+
+export const CP_BANKBOOK_FRAGMENT = gql`
+fragment CP_BankBookParts on CP_BankBook {
+    id
+    cppay_id
+    user_id
+    recordtype
+    kind
+    desciption
+    beforeMoney
+    price
+    resultMoney
+    insti_id
+    broker_id
+    createdAt
+    sender_name
+    receiver_name
+}
+`;
+
+

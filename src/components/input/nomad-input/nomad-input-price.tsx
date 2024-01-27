@@ -3,6 +3,8 @@
 
 //숫자입력 +-막기 https://velog.io/@support/styled-components-Input-%EC%88%AB%EC%9E%90-%EC%9E%85%EB%A0%A5-jbskjgya
 
+import { cls } from "../../../func/basic/string/cls";
+import "../../../styles/button/button-color.css";
 
 //https://nomadcoders.co/carrot-market/lectures/3541
 interface InputProps {
@@ -12,10 +14,12 @@ interface InputProps {
   name: string;
   required?: boolean;
   isHideZeoro?:boolean;
+  moneyUnit:string;
+  options?: {focusColor?:string,};
 }
 
 export default function NomadInputPrice({
-  label,value, onChange, name,    required=true, isHideZeoro, ...rest
+  label,value, onChange, name,    required=true, isHideZeoro,moneyUnit, ...rest
 }: InputProps) {
   return (
     <div>
@@ -38,11 +42,14 @@ export default function NomadInputPrice({
             required={required}
             {...rest}
             type={'number'}
-            className="appearance-none pl-7 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 
-            focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-center text-lg"
+            // focus:ring-orange-500 focus:border-orange-500
+            //rest.options?.focusColor?rest.options?.focusColor:'focus:ring-orange-500 focus:border-orange-500'
+            className={cls("appearance-none pl-7 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none  text-center text-lg",
+              rest.options?.focusColor?rest.options?.focusColor:"focus:ring-orange-500 focus:border-orange-500")}
+              
           />
           <div className="absolute right-0 pointer-events-none pr-3 flex items-center">
-            <span className="text-gray-500">원</span>
+            <span className="text-gray-500">{moneyUnit}</span>
           </div>
         </div>
 

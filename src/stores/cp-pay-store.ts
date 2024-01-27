@@ -1,6 +1,7 @@
 import { makeVar } from '@apollo/client';
-import { CP_Product } from '../__generated__/gql-types';
+import { BILL_KIND_TYPE, CP_Product } from '../__generated__/gql-types';
 import { cpPayFn } from './sub-store-fn/cp-pay-fn';
+import { IBankBook } from './type/cppay-type';
 
 interface ICpPay{
     id:number;
@@ -34,13 +35,16 @@ export interface IBill{
     seller_name:string;
     consumer_id:number;  
     consumer_name:string;
+    kind:BILL_KIND_TYPE; //
     name:string; //product name
     qty:number;
     price:number;
     sumPrice:number;
+    desciption:string;
     createdAt:string;
 }
 interface IBillObj{ [key: string]: IBill[];}
+interface IBankBookObj{ [key: string]: IBankBook[];}
 interface IRoute { 
     payid: number;
     cppay: ICpPay;
@@ -52,6 +56,7 @@ interface IRoute {
     }
     //{'year+month':IBill}
     bills:IBillObj;
+    bankBooks:IBankBookObj;
     // routeName: string;
     // header: {
     //   isVisible :boolean;
@@ -65,7 +70,7 @@ interface IRoute {
   }
 
 const aa:IRoute = {payid:0, cppay:cpPayFn.store.cpay, trade:{product: cpPayFn.store.product, qty:0, tradeTmpProduct:cpPayFn.store.tradeTmpCode},
-    bills:{} }// routeName: 'Home',}
+    bills:{}, bankBooks:{} }// routeName: 'Home',}
 export const cpPayVar = makeVar(aa);
 
 export const editCpPayVar={
@@ -97,7 +102,15 @@ export const editCpPayVar={
         },
         
     },
-
+    bankBook:{
+        add:function({year,month,data}:{year:number,month:number,data:IBankBook[]}){
+            const key = cpPayFn.bill.makeKey({year,month})
+            const existData = cpPayVar().bankBooks //.find((item)=>item[key]===data[key])
+            existData[key] = data // '202401':data [] //빈 데이터라도 저장
+            cpPayVar({...cpPayVar(), bankBooks:existData})
+        },
+        
+    },
     reset:function(){
         cpPayVar(aa)
     }

@@ -27,9 +27,13 @@ export const PAY_HOME = '/classpay/app'//payid//학급 만들기
 export const CP_PAY_MEMBER_ROUTE_NAME = '/classpay/member'//학급 만들기
 export const CP_PAY_CREATE_MEMBER_ROUTE_NAME = '/classpay/member/create'//학생추가
 export const CP_PAY_MODIFY_MEMBER_ROUTE_NAME = '/classpay/member/edit'//학생추가
-//product는 어디에??
+
+export const CP_PAY_PRODUCTS_HOME_ROUTE_NAME = '/classpay/products'//판매상품
 export const CP_PAY_TRADE_HISTORY_ROUTE_NAME = '/classpay/tradehistory'//거래내역
 // export const CP_PAY_BILL_HOME_ROUTE_NAME = '/classpay/bill'//거래내역
+
+export const CP_INSTITUTION_HOME_ROUTE_NAME = '/classpay/institution'//거래내역
+export const CP_PAY_ROLE_BANK_ROUTE_NAME = '/classpay/role/bank'//은행 -depressed??
 
 //!--Deprecated--!
 export const cp_pay_app_route_fn =(num:number):string=>PAY_HOME+'/'+num;

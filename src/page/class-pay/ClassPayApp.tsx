@@ -3,7 +3,7 @@ import { useEffect, useState,  } from "react";
 import {Helmet} from "react-helmet-async";
 import { useNavigate, useParams,  } from "react-router-dom";
 import TokenRepository from "../../api/token/tokenRepo";
-import { cp_pay_products_route_fn, CP_PAY_QRSCAN_ROUTE_NAME, cp_pay_setting_route_fn, CP_PAY_TRADE_HISTORY_ROUTE_NAME, LOGIN_ROUTE_NAME } from "../../routers/route-name-constants";
+import { CP_PAY_PRODUCTS_HOME_ROUTE_NAME, cp_pay_products_route_fn, CP_PAY_QRSCAN_ROUTE_NAME, cp_pay_setting_route_fn, CP_PAY_TRADE_HISTORY_ROUTE_NAME, LOGIN_ROUTE_NAME } from "../../routers/route-name-constants";
 import { authVar } from "../../stores/authstore";
 import { editRouteVar } from "../../stores/route-info-store";
 // import { CiMoneyCheck1 } from 'react-icons/ci'; //?
@@ -13,14 +13,15 @@ import {IoMdRefresh } from 'react-icons/io'; //IoIosBarcode
 import {IoQrCodeOutline} from 'react-icons/io5'; //https://react-icons.github.io/react-icons/icons?name=io5
 import { AiOutlineScan } from 'react-icons/ai';
 import { GoTriangleDown } from 'react-icons/go';
-
+import { FaMoneyBillWaveAlt } from "react-icons/fa";
 // import { useCpPayAppInfo } from "../../hooks/cp-pay/useCpPayInfoApp";
 import MaxPageCircelLoading from "../../components/common/loading/pageMaxLoading";
 import { addCommaMan } from "../../func/basic/number/addComma";
 import { useMe } from "../../hooks/user/useMe";
 import { BuyQrScan } from "../trades/buy/buy-qr-scan-popup";
 import { cpPayVar } from "../../stores/cp-pay-store";
-
+import { CP_BANKBOOK_HISTORY_ROUTE_NAME, CP_BANKBOOK_SNEDMONEY_ROUTE_NAME } from "../../routers/contains/ecomomy";
+import { FaRegHeart } from "react-icons/fa";
 //실질적인 홈페이지
 export const ClassPayApp = () => {
 
@@ -95,7 +96,7 @@ export const ClassPayApp = () => {
         space-y-3">
         <div className="w-full flex">
           <div>{cpapy.className}</div>
-          <div className="flex px-1 items-center"><GoTriangleDown /></div>
+          {/* <div className="flex px-1 items-center"><GoTriangleDown /></div> */}
         </div>
         <div className="w-full flex px-4 space-x-2">
           <div className="text-2xl"><BsCreditCard2Back /></div>
@@ -104,11 +105,11 @@ export const ClassPayApp = () => {
 
       </article>
         
-        {/* 보유금액 표시창 */}
+        {/* 보유금액 표시창 <IoMdRefresh />*/}
       <article className=" h-12 flex justify-between items-center shadow-md
         rounded-lg bg-white relative -top-[26px] font-bold" style={{width:'85%'}}>
         <div className="px-2 flex items-center space-x-1  " style={{width:'40%'}}>
-          <div className="cursor-pointer"><IoMdRefresh /></div>
+          <div className="cursor-pointer"><FaRegHeart /></div>
           <div>보유금액</div>
         </div>
         <div className="px-2 flex items-center  space-x-1 text-indigo-500">
@@ -127,29 +128,45 @@ export const ClassPayApp = () => {
       {/* navigate(CP_PAY_QRSCAN_ROUTE_NAME) */}
       <article className="w-full px-3 relative -top-3 ">
       <div className="w-full p-3 flex flex-col justify-center items-center bg-white rounded-lg">
-        <div className="w-full px-2 font-bold">결제</div>
+        {/* <div className="w-full px-2 font-bold">결제</div> */}
+        <div className="w-full mt-3 grid grid-cols-2 gap-x-4 font-bold">
+          <div className="px-2">통장</div>
+          <div className="px-2">판매, 결제</div>
+        </div>
         <div className="w-full h-30 mt-3 grid grid-cols-2 gap-x-4 text-white">
           <div className="p-3 bg-indigo-300 rounded-lg text-sm  cursor-pointer"
-            onClick={()=>setIsBuyModal(true)}>
-            <div className="font-thin">QR코드</div>
-            <div className=" font-bold text-lg">스캔하기</div>
-            <div className="flex justify-end text-5xl"><AiOutlineScan /></div>
+            onClick={()=>navigate(CP_BANKBOOK_SNEDMONEY_ROUTE_NAME)}>
+            {/* <div className="font-thin">QR코드</div> */}
+            <div className=" font-bold text-lg" >송금하기</div>
+            <div className="flex justify-end text-5xl"><FaMoneyBillWaveAlt /></div>
           </div>
           <div className="p-3 bg-indigo-400 rounded-lg text-sm  cursor-pointer">
-            <div className="font-thin">QR코드</div>
-            <div className=" font-bold text-lg">보여주기</div>
+            {/* <div className="font-thin">QR코드</div> */}
+            <div className=" font-bold text-lg">결제하기</div>
             <div className="flex justify-end text-5xl"><IoQrCodeOutline /></div>
           </div>
         </div>
 
-        <div className="w-full h-12 mt-3 flex justify-center items-center bg-slate-700 rounded-lg text-white
+        <div className="w-full h-12 mt-3 grid grid-cols-2 gap-x-4   text-white
+         " >
+          <div className="flex justify-center items-center bg-slate-700 rounded-lg cursor-pointer"
+            onClick={()=>navigate(CP_BANKBOOK_HISTORY_ROUTE_NAME)}>조회</div>  
+          <div className="flex justify-center items-center bg-slate-700 rounded-lg cursor-pointer" onClick={()=>navigate(CP_PAY_TRADE_HISTORY_ROUTE_NAME)}
+            >거래내역</div>  
+        </div>
+        <div className="w-full h-12 mt-3 grid grid-cols-2 gap-x-4   text-white" >
+          <div className="flex justify-center items-center bg-slate-700 rounded-lg cursor-pointer">투자</div>  
+          <div className="flex justify-center items-center bg-slate-700 rounded-lg cursor-pointer"
+            onClick={()=>navigate(CP_PAY_PRODUCTS_HOME_ROUTE_NAME)}>판매물품</div>  
+        </div>
+        {/* <div className="w-full h-12 mt-3 flex justify-center items-center bg-slate-700 rounded-lg text-white
          cursor-pointer" onClick={()=>navigate(CP_PAY_TRADE_HISTORY_ROUTE_NAME)}>
           <div>거래내역</div>  
-        </div>
-        <div className="w-full h-12 mt-3 flex justify-center items-center bg-slate-700 rounded-lg text-white
+        </div> */}
+        {/* <div className="w-full h-12 mt-3 flex justify-center items-center bg-slate-700 rounded-lg text-white
          cursor-pointer" onClick={()=>navigate(cp_pay_products_route_fn(Number(payid)))}>
           <div>판매물품</div>  
-        </div>
+        </div> */}
         
       </div>
     </article>

@@ -30,6 +30,8 @@ export const TradeHistoryDetail = ({bill}:{bill:IBill}) => {
     }
     if(loading)return(<div>loading...</div>)
 
+    //수입과 지출에 따라 내용이 바뀜
+    //isIncome()?'수입':'지출'
     return(
         <div className="py-3 w-full flex">
             <div className="flex justify-center items-center" style={{width:'20%'}}>
@@ -38,12 +40,13 @@ export const TradeHistoryDetail = ({bill}:{bill:IBill}) => {
                 {/* <div className="text-center" >O</div> */}
             </div>
             <div className="" style={{width:'35%'}}>
-                <div>{isIncome()?'수입':'지출'}</div>
+                <div>{bill.name}</div>
                 <div>{addCommaMan(bill.sumPrice)}{moneyUnit}</div>
             </div>
             <div className="" style={{width:'44%'}}>
                 <div className="w-full flex justify-end "><div className="text-right">{isIncome()?bill.consumer_name||' ':bill.seller_name}</div></div>
-                <div className="w-full flex justify-end "><div className="text-right text-gray-400">{madeDate}</div></div>
+                <div className="w-full flex justify-end "><div className="text-right">{bill.desciption}</div></div>
+                <div className="w-full flex justify-end "><div className="text-right text-gray-400 text-sm">{madeDate}</div></div>
             </div>
         </div>
         

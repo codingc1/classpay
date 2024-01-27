@@ -6,6 +6,10 @@ module.exports = {
   content: [ "./src/**/*.{js,jsx,ts,tsx}",],
   darkMode: 'media', // or 'media' or 'class' //https://cpro95.tistory.com/663
   theme: {
+    screens: {//https://tailwindcss.com/docs/screens
+      'xs': '360px', //iphone 12및 작은 폰 대응
+      ...defaultTheme.screens,
+    },
     fontSize: {
       'xxs':'.65rem',
       'xs': '.75rem',

@@ -11,6 +11,8 @@ import PopupCenterHCustom from "../../../../components/popup/center-h-custom/pop
 import { cpPayVar, editCpPayVar } from "../../../../stores/cp-pay-store"
 import OneLineInputNumber from "../../../../components/input/one-line-input-num/line-input-number"
 import { ConsoleHelper } from "../../../../func/sys/consoleHelper"
+import { useWindowSizeTrans } from "../../../../func/html/useWidthTrans"
+import { CSS_LEN } from "../../../../func/html/width-contain/css-contain"
 
 
 
@@ -70,14 +72,21 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
        
     }
     const productOnchange=(e: React.ChangeEvent<HTMLInputElement>) => {
+        //앞에 0이 붙으면 제거
+        const num = Number(e.target.value)
+        if(isNaN(num) ||num < 0)return
+        
       editCpPayVar.product.setQty(Number(e.target.value))
     }
-  
+    const {transWidth} = useWindowSizeTrans()
+    const transWFull = transWidth(CSS_LEN.popup.wide)
+    const innerPopupWidth = transWFull-CSS_LEN.popup.paddingX
 
     const contents =( //p-12
-        <div className="w-full px-3 pt-0 pb-3 text-lg">
-            <div className="mb-3 text-lg">
-                <div className='w-full text-center font-bold '>상품 판매</div>
+        <div className=" box-border" style={{width:transWFull+'px',padding:'5px'}} >
+         {/* <div className="w-full px-3 pt-0 pb-3 text-lg"> */}
+            <div className="mb-3 text-lg px-3" style={{width:innerPopupWidth+'px',}}>
+                <div className='w-full text-center font-bold  border'>상품 판매</div>
                 <div className="flex mt-3 py-1">
                     <div>상품 이름:&nbsp;</div>
                     <div className='flex-1 font-semibold '>{productRedux.product.name}</div>
@@ -100,10 +109,11 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
                 <div>{productRedux.product.name}</div>
 
             </div> */}
-            <div className="p-3 border-orange-500 border-2 rounded-md">
-            <NomadButton text={ loading?'loading':"qr코드 보여주기"} onClick={submit}/>
-            <div className="py-3"></div>
-            <NomadButton text={ loading?'loading':"qr코드 스캔하기"} onClick={submit}/>
+            {/* <div className="p-3 border-orange-500 border-2 rounded-md"> */}
+            <div className="text-sm  box-border" style={{width:innerPopupWidth+'px',}}>
+                <NomadButton text={ loading?'loading':"qr코드 보여주기"} onClick={submit}/>
+                <div className="py-3"></div>
+                <NomadButton text={ loading?'loading':"qr코드 스캔하기"} onClick={submit}/>
             </div>
             {/* <div className="mt-5 w-full h-12 flex justify-center items-center bg-slate-700 rounded-lg text-white
                 cursor-pointer" onClick={()=>setIsModal(true)}>
@@ -112,8 +122,8 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
         </div>
     )
 
-    return(
-        <PopupCenterHCustom onClose={popupClose} contents={contents} option={{width:450, height:400}} isTopClose={true} />
+    return( //450,
+        <PopupCenterHCustom onClose={popupClose} contents={contents} option={{width:transWidth(CSS_LEN.popup.wide), height:400}} isTopClose={true} />
         // <PopupCenter onClose={popupClose} contents={contents} />
     )
 }

@@ -6,24 +6,27 @@ import { cp_MyBillsMonthMutationMutation, cp_MyBillsMonthMutationMutationVariabl
 import { CP_MYBILLS_MONTH_MUTATION } from "../../../../hooks/cp-pay/trade/cp-bill";
 import { useEffect, useState } from "react";
 import { useDebounceFunction } from "../../../../func/basic/useDebounce";
+import { monthCal } from "../../../../utils/date/month-cal";
 
 
 
 
 //월별로 bill 보여줌
-export const TradeHistoryMonth = ({currentDate, setCurrentDate,setNowBill}:{
+export const TradeHistoryMonth = ({currentDate, setCurrentDate,setNowBill,isLoading,setIsLoading}:{
     //{ year: new Date().getFullYear(), month: new Date().getMonth() + 1,  }
     currentDate: { year: number, month: number,  },
     setCurrentDate: React.Dispatch<React.SetStateAction<{ year: number; month: number; }>>
-    setNowBill: React.Dispatch<React.SetStateAction<IBill[]>>
+    setNowBill: React.Dispatch<React.SetStateAction<IBill[]>>,
+    isLoading:boolean,
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
     }) => {
         const billRedux = useReactiveVar(cpPayVar).bills;
-        const [isLoading, setIsLoading] = useState(false); 
+        // const [isLoading, setIsLoading] = useState(false); 
     const [handleError] = useErrorShow()
     const [cp_MyBillsMonthMutation, { loading,  }] = useMutation<cp_MyBillsMonthMutationMutation, cp_MyBillsMonthMutationMutationVariables>(CP_MYBILLS_MONTH_MUTATION, {async onCompleted (data){
         const resultData = data.cp_MyBillsMonth
         editCpPayVar.bill.add({year:currentDate.year, month:currentDate.month, data:resultData}) //전체 데이터에 year, month 데이터 추가
-
+        // console.log(resultData, 'TradeHistoryMonth data.cp_MyBillsMonth')
         // const key =cpPayFn.bill.makeKey({year:currentDate.year, month:currentDate.month})
         setNowBill(resultData); //이번 달 state에 저장
         setIsLoading(false)
@@ -67,21 +70,29 @@ export const TradeHistoryMonth = ({currentDate, setCurrentDate,setNowBill}:{
         }
     }
     const handlePlusButtonClick = () => {
-        let newYear = currentDate.year
-        let newMonth = currentDate.month + 1
-        if (newMonth > 12) {
-            newMonth = 1;  newYear += 1;
-          }
-        setCurrentDate({ year: newYear, month: newMonth });
-        updateBills(newYear, newMonth)
+
+        // let newYear = currentDate.year
+        // let newMonth = currentDate.month + 1
+        // if (newMonth > 12) {
+        //     newMonth = 1;  newYear += 1;
+        //   }
+        // setCurrentDate({ year: newYear, month: newMonth });
+        // updateBills(newYear, newMonth)
+        const {year, month} = monthCal.calMonths({year:currentDate.year, month:currentDate.month,}, 1 )
+        setCurrentDate({ year, month });
+        updateBills(year, month)
       };
     const handleMinusButtonClick = () => {
-        let newMonth = currentDate.month - 1; let newYear = currentDate.year;
-        if (newMonth < 1) {
-            newMonth = 12; newYear -= 1;
-        }
-        setCurrentDate({ year: newYear, month: newMonth });
-        updateBills(newYear, newMonth)
+        // let newMonth = currentDate.month - 1; let newYear = currentDate.year;
+        // if (newMonth < 1) {
+        //     newMonth = 12; newYear -= 1;
+        // }
+        // setCurrentDate({ year: newYear, month: newMonth });
+        // updateBills(newYear, newMonth)
+
+        const {year, month} = monthCal.calMonths({year:currentDate.year, month:currentDate.month,}, -1 )
+        setCurrentDate({ year, month });
+        updateBills(year, month)
     };
     // const handleMinusButtonClick = () => {
     //     setCurrentDate(prevDate => {

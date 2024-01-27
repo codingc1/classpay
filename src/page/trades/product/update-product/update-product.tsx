@@ -21,7 +21,7 @@ import { CSS_LEN } from "../../../../func/html/width-contain/css-contain";
 export const UpdateProduct=({setIsModal}:{setIsModal:React.Dispatch<React.SetStateAction<boolean>>}) => {
     // const cppay = useReactiveVar(cpPayVar).cppay;   
     const productRedux = useReactiveVar(cpPayVar).trade.product;
-
+    const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
 
     useEffect(()=>{
         ()=>editCpPayVar.product.resetProduct()
@@ -134,7 +134,7 @@ export const UpdateProduct=({setIsModal}:{setIsModal:React.Dispatch<React.SetSta
         <div className="text-sm  box-border" style={{width:innerPopupWidth+'px',}}>
             <NomadInputText value={productRedux.name}  onChange={setName} label="물품이름" name="name" />
             <div className="mt-3"></div>
-            <NomadInputPrice value={productRedux.price}  onChange={setPrice} label="가격" name="price" isHideZeoro={true} />
+            <NomadInputPrice value={productRedux.price}  onChange={setPrice} label="가격" name="price" isHideZeoro={true} moneyUnit={moneyUnit}/>
             <div className="mt-3"></div>
             <NomadInputCount value={productRedux.qty}  onChange={setQty} oneChange={oneChange} label="보유 개수(재고)" name="qty"  />
             <br />

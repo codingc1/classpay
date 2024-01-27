@@ -11,10 +11,10 @@ export const isProduction =() => {
     //@ts-ignore
     if(PROCESS_ENV){
         //@ts-ignore
-        console.log(PROCESS_ENV, 'env.TEST_ENV??')
+        // console.log(PROCESS_ENV, 'env.TEST_ENV??')
         return true //production
     }else{
-        console.log('development not-exist PROCESS_ENV??')
+        // console.log('development not-exist PROCESS_ENV??')
         return false //development
     }
     //@ts-ignore

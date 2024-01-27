@@ -5,15 +5,25 @@ import { useNavigate } from "react-router-dom";
 import TokenRepository from "../../../api/token/tokenRepo";
 import { LOGIN_ROUTE_NAME } from "../../../routers/route-name-constants";
 import { editAuth } from "../../../stores/authstore";
+import { useApolloClient } from "@apollo/client";
+import { resetAllStore } from "../../../stores/resetAllStore";
+import { client } from "../../../apollo";
 
 // import { AUTOLOGIN, LOCALSTORAGE_TOKEN } from "../../../constants";
-// const client = useApolloClient();
-// await client.cache.reset()
-export const logoutFunc =()=>{
+
+export const logoutFunc =async()=>{ //로그인버튼, 로그아웃버튼 
+    // const client = useApolloClient();
+    resetAllStore()
+    await client.clearStore()
+    client.resetStore();
+    // await client.cache.reset()
+    // client.resetStore()
+    // client.clearStore();
     TokenRepository.removeLoginBundle()
     // localStorage.removeItem(LOCALSTORAGE_TOKEN); //토큰만 없애면 quthTokenvar isLoggedInvar 모두 false됨
     editAuth.setLogin(false)
     
+
     
     //useMe 캐쉬 삭제
 }

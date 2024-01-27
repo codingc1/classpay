@@ -7,7 +7,7 @@ import { HomeNew } from "../page/Home/Home-new";
 import { PAY_HOME,   } from "./route-name-constants";
 import { QrScanner } from "../page/class-pay/qr-scan/qr-scanning";
 import { CpSettingHome } from "../page/class-pay/setting/cp-setting-home";
-import { classpayRouters, userRouters } from "./logged-in-router";
+import { bankbookRouters, classpayRouters, institutionRouters, userRouters } from "./logged-in-router";
 import { basicRouters } from "./logged-out-router";
 
 
@@ -43,7 +43,7 @@ const logOutRoutes=(...args:IRoute[][])=>{
             {logOutRoutes(basicRouters)}
             
             {/* <Route path={QR_SCANB_ROUTE_NAME} element={ <QrScan />} /> */}
-            {ProtectRoutes(classpayRouters, userRouters)} 
+            {ProtectRoutes(classpayRouters, userRouters, institutionRouters, bankbookRouters)} 
 
             <Route path={PAY_HOME+'/:payid'+'/setting'} element={ <CpSettingHome />} />
 

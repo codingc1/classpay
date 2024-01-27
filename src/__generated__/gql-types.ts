@@ -24,10 +24,10 @@ export type Query = {
   cp_pays: Array<CP_Pay>;
   cp_PayUserLists: Array<CP_User>;
   cp_refreshToken: LoginOutput;
-  getDevelTeacherProjectList: QueryDevelTeacherProjectsOutput;
   getStudentListForCheck: Array<Student>;
   getVersion: ClientVersionsOutput;
   me: User;
+  my_cp_institutions_q: Array<CP_Institution>;
   myHangStudents: HangStudentsOutput;
   refreshToken: LoginOutput;
   tagListGrade: TagsListMuOutput;
@@ -232,26 +232,6 @@ export type LoginOutput = {
   token?: Maybe<Scalars['String']>;
 };
 
-export type QueryDevelTeacherProjectsOutput = {
-  __typename?: 'QueryDevelTeacherProjectsOutput';
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-  results?: Maybe<Array<DevelTeacher>>;
-};
-
-export type DevelTeacher = {
-  __typename?: 'DevelTeacher';
-  className: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  id: Scalars['Float'];
-  nickname: Scalars['String'];
-  numberOfSt: Scalars['Int'];
-  projectid: Scalars['Int'];
-  projectName: Scalars['String'];
-  teacherid: Scalars['Int'];
-  updatedAt: Scalars['DateTime'];
-};
-
 export type MyStudentsInput = {
   thisYear: Scalars['Int'];
 };
@@ -420,6 +400,36 @@ export enum UserRole {
   Client = 'Client',
   Company = 'Company',
   Manager = 'Manager'
+}
+
+export type CP_Institution = {
+  __typename?: 'CP_Institution';
+  cppay_id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  desciption: Scalars['String'];
+  id: Scalars['Float'];
+  insti_name: Scalars['String'];
+  instiPermission: Array<CP_InstiPermission>;
+  th: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type CP_InstiPermission = {
+  __typename?: 'CP_InstiPermission';
+  cppay_id: Scalars['Int'];
+  desciption: Scalars['String'];
+  id: Scalars['Float'];
+  institution: CP_Institution;
+  permissionName: CP_INSTI_PERMISSION;
+  th: Scalars['Int'];
+};
+
+export enum CP_INSTI_PERMISSION {
+  BankDeleteMoney = 'BankDeleteMoney',
+  BankIssueMoney = 'BankIssueMoney',
+  BankPayIncome = 'BankPayIncome',
+  BankSendMoney = 'BankSendMoney',
+  FairTradeCheck = 'FairTradeCheck'
 }
 
 export type HangStudentsOutput = {
@@ -656,6 +666,7 @@ export type Mutation = {
   checkPossibleNickname: CheckPossibleIdOutput;
   confirmPassword: VerifyEmailOutput;
   cp_buyingTrade: CoreOutput;
+  cp_cp_getMoneySupply: CP_MoneyOutput;
   cp_CreateClassPay: CP_PayOutput;
   cp_createProduct: CoreOutput;
   cp_CreateStudents: CP_CheckPossibleIsdOutput;
@@ -665,8 +676,11 @@ export type Mutation = {
   cp_deleteStudent: CoreOutput;
   cp_editProfile: CoreOutput;
   cp_getBuyTmpTrade: CP_TradeTmpCodeOutput;
+  cp_insti_deleteMoney: CoreOutput;
+  cp_insti_issueMoney: CoreOutput;
   cp_login: LoginOutput;
   cp_modifyStudent: CoreOutput;
+  cp_MyBankBooksMonth: Array<CP_BankBook>;
   cp_MyBillsMonth: Array<CP_Bill>;
   cp_PayPossibleName: CoreOutput;
   cp_sellingStart: CP_TradeTmpCodeOutput;
@@ -717,15 +731,6 @@ export type Mutation = {
   deleteStudent: MyStudentsOutput;
   delOneClassStudent: MyStudentsOutput;
   delStCheckView: WeeklyStCheckViewsOutput;
-  developerBasicInfo: DeveloperOutPut;
-  developerCode: DeveloperSignupOutPut;
-  developerDelProject: DevelCoreOutPut;
-  developerEditProject: DeveloperOutPut;
-  developerProjectList: DeveloperProjectListAndNumOutPut;
-  developerSignup: DeveloperSignupOutPut;
-  develTeacherProjectList: ViewDevelTeacherProjectsOutput;
-  develTeacherProjectSignup: ViewDevelTeacherProjectsOutput;
-  develTeacherStudentsDevelList: DevelTeacherStudentsDevelListOutput;
   editHang: EditHangOutput;
   editProfile: EditProfileOutput;
   findStcrawlById: Array<StudentRecord>;
@@ -738,6 +743,7 @@ export type Mutation = {
   hangMarkCopy: HangMarkCopyOutput;
   hangs: HangsOutput;
   hangsMid: HangsOutput;
+  individual_sendMoney: CoreOutput;
   initPayment: InitPaymentOutput;
   login: LoginOutput;
   modifyBoardContent: BoardCoreOutPut;
@@ -745,6 +751,7 @@ export type Mutation = {
   monthlyDiClasses: DiClassesOutput;
   monthlyMemos: WeeklyMemosOutput;
   monthlyWorks: WeeklyWorksOutput;
+  my_cp_institutions: Array<CP_Institution>;
   myAttendChecks: StAttendChecksOutput;
   myChecks: StChecksOutput;
   myChecksByTitleId: StChecksOutput;
@@ -783,7 +790,6 @@ export type Mutation = {
   userSetting: SettingOutput;
   viewBoardContents: ViewBoardContentsOutput;
   viewComments: ViewCommentsOutput;
-  viewDevels: ViewDevelsOutput;
   weeklyDiClasses: DiClassesOutput;
   weeklyMemos: WeeklyMemosOutput;
   weeklyStCheckView: WeeklyStCheckViewsOutput;
@@ -951,6 +957,16 @@ export type Mutationcp_getBuyTmpTradeArgs = {
 };
 
 
+export type Mutationcp_insti_deleteMoneyArgs = {
+  input: CP_InstiAcitveTeacherIssueMoneyInput;
+};
+
+
+export type Mutationcp_insti_issueMoneyArgs = {
+  input: CP_InstiAcitveTeacherIssueMoneyInput;
+};
+
+
 export type Mutationcp_loginArgs = {
   input: CP_LoginInput;
 };
@@ -958,6 +974,11 @@ export type Mutationcp_loginArgs = {
 
 export type Mutationcp_modifyStudentArgs = {
   input: ModifyCpStudentsInput;
+};
+
+
+export type Mutationcp_MyBankBooksMonthArgs = {
+  input: YearMonthInput;
 };
 
 
@@ -1206,21 +1227,6 @@ export type MutationdelStCheckViewArgs = {
 };
 
 
-export type MutationdeveloperSignupArgs = {
-  input: DeveloperSignupInput;
-};
-
-
-export type MutationdevelTeacherProjectSignupArgs = {
-  input: DevelTeacherProjectsSignupInput;
-};
-
-
-export type MutationdevelTeacherStudentsDevelListArgs = {
-  input: DevelTeacherStudentsDevelListInput;
-};
-
-
 export type MutationeditHangArgs = {
   input: EditHangInput;
 };
@@ -1273,6 +1279,11 @@ export type MutationhangsArgs = {
 
 export type MutationhangsMidArgs = {
   input: HangsInput;
+};
+
+
+export type Mutationindividual_sendMoneyArgs = {
+  input: CP_SendMoneyIndivisualInput;
 };
 
 
@@ -1838,6 +1849,13 @@ export type CP_GetTradeTmpCodeInput = {
   code: Scalars['String'];
 };
 
+export type CP_MoneyOutput = {
+  __typename?: 'CP_MoneyOutput';
+  error?: Maybe<Scalars['String']>;
+  money: Scalars['Int'];
+  ok: Scalars['Boolean'];
+};
+
 export type CP_CreateClassPayInput = {
   className?: Scalars['String'];
   classNum?: Scalars['Int'];
@@ -1904,6 +1922,10 @@ export type CP_TradeTmpCode = {
   sumPrice: Scalars['Int'];
 };
 
+export type CP_InstiAcitveTeacherIssueMoneyInput = {
+  money: Scalars['Int'];
+};
+
 export type CP_LoginInput = {
   mainId: Scalars['String'];
   password: Scalars['String'];
@@ -1921,15 +1943,53 @@ export type YearMonthInput = {
   year: Scalars['Int'];
 };
 
+export type CP_BankBook = {
+  __typename?: 'CP_BankBook';
+  beforeMoney: Scalars['Int'];
+  broker_id: Scalars['Int'];
+  cppay_id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  desciption: Scalars['String'];
+  id: Scalars['Float'];
+  insti_id: Scalars['Int'];
+  kind: BILL_KIND_TYPE;
+  price: Scalars['Int'];
+  receiver_name: Scalars['String'];
+  recordtype: RECORD_TYPE;
+  resultMoney: Scalars['Int'];
+  sender_name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  user_id: Scalars['Int'];
+};
+
+export enum BILL_KIND_TYPE {
+  BankExpend = 'BankExpend',
+  BankIssue = 'BankIssue',
+  BankPayIncome = 'BankPayIncome',
+  BankSend = 'BankSend',
+  CenterIssue = 'CenterIssue',
+  IndividualSend = 'IndividualSend',
+  Other = 'Other',
+  Trade = 'Trade'
+}
+
+export enum RECORD_TYPE {
+  Expend = 'Expend',
+  Income = 'Income'
+}
+
 export type CP_Bill = {
   __typename?: 'CP_Bill';
+  broker_id: Scalars['Int'];
   consumer_id: Scalars['Int'];
   consumer_name: Scalars['String'];
   cppay_id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   desciption: Scalars['String'];
   id: Scalars['Float'];
+  insti_id: Scalars['Int'];
   isCanceled: Scalars['Boolean'];
+  kind: BILL_KIND_TYPE;
   name: Scalars['String'];
   price: Scalars['Int'];
   qty: Scalars['Int'];
@@ -2744,92 +2804,6 @@ export type DeleteStCheckViewInput = {
   thisYear?: Scalars['Int'];
 };
 
-export type DeveloperOutPut = {
-  __typename?: 'DeveloperOutPut';
-  develProject?: Maybe<DevelProject>;
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-};
-
-export type DevelProject = {
-  __typename?: 'DevelProject';
-  code: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  id: Scalars['Float'];
-  projectName: Scalars['String'];
-  readCount: Scalars['Int'];
-  updatedAt: Scalars['DateTime'];
-  userid: Scalars['Int'];
-  writeCount: Scalars['Int'];
-};
-
-export type DeveloperSignupOutPut = {
-  __typename?: 'DeveloperSignupOutPut';
-  code?: Maybe<Scalars['String']>;
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-};
-
-export type DevelCoreOutPut = {
-  __typename?: 'DevelCoreOutPut';
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-};
-
-export type DeveloperProjectListAndNumOutPut = {
-  __typename?: 'DeveloperProjectListAndNumOutPut';
-  develNum?: Maybe<Scalars['Int']>;
-  develTeachers?: Maybe<Array<DevelTeacher>>;
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-};
-
-export type DeveloperSignupInput = {
-  projectName: Scalars['String'];
-};
-
-export type ViewDevelTeacherProjectsOutput = {
-  __typename?: 'ViewDevelTeacherProjectsOutput';
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-  results?: Maybe<Array<DevelTeacher>>;
-};
-
-export type DevelTeacherProjectsSignupInput = {
-  className?: InputMaybe<Scalars['String']>;
-  numberOfSt: Scalars['Float'];
-  projectName: Scalars['String'];
-};
-
-export type DevelTeacherStudentsDevelListInput = {
-  className: Scalars['String'];
-  projectName: Scalars['String'];
-};
-
-export type DevelTeacherStudentsDevelListOutput = {
-  __typename?: 'DevelTeacherStudentsDevelListOutput';
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-  results?: Maybe<Array<Devel>>;
-};
-
-export type Devel = {
-  __typename?: 'Devel';
-  className: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  date: Scalars['Int'];
-  id: Scalars['Float'];
-  month: Scalars['Int'];
-  name: Scalars['String'];
-  projectName: Scalars['String'];
-  stNumber: Scalars['Int'];
-  updatedAt: Scalars['DateTime'];
-  valStr: Scalars['String'];
-  valueNum1: Scalars['Int'];
-  valueNum2: Scalars['Int'];
-  year: Scalars['Int'];
-};
-
 export type EditHangInput = {
   id?: InputMaybe<Scalars['Float']>;
   kind?: InputMaybe<Scalars['String']>;
@@ -3035,6 +3009,12 @@ export type HangsOutput = {
   results?: Maybe<Array<Hang>>;
   totalPages?: Maybe<Scalars['Int']>;
   totalResults?: Maybe<Scalars['Int']>;
+};
+
+export type CP_SendMoneyIndivisualInput = {
+  desciption: Scalars['String'];
+  money: Scalars['Int'];
+  receiver_id: Scalars['Int'];
 };
 
 export type InitPaymentOutput = {
@@ -3339,14 +3319,6 @@ export type PickUser = {
 
 export type ViewCommentsInput = {
   boardid: Scalars['Float'];
-};
-
-export type ViewDevelsOutput = {
-  __typename?: 'ViewDevelsOutput';
-  develNum?: Maybe<Scalars['Float']>;
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-  results?: Maybe<Array<Devel>>;
 };
 
 export type WeeklyMemosInput = {

@@ -15,9 +15,13 @@ import { authVar } from '../../stores/authstore';
 import { editRouteVar, routeVar } from '../../stores/route-info-store';
 import { HamburgerIcon } from '../../page/Home/header/left-menu/hambuger-icon';
 import { useLogout } from '../../func/sys/auth/useLogout';
-import { CP_PAY_MEMBER_ROUTE_NAME, PAY_HOME, cp_pay_app_route_fn, cp_pay_member_route_fn, cp_pay_setting_route_fn,  } from '../../routers/route-name-constants';
+import { CP_PAY_MEMBER_ROUTE_NAME, PAY_HOME, USER_PROFILE_ROUTE_NAME, cp_pay_app_route_fn, cp_pay_member_route_fn, cp_pay_setting_route_fn,  } from '../../routers/route-name-constants';
 import { cpPayVar } from '../../stores/cp-pay-store';
-
+import { InstitutionChild } from './institution/institution-child';
+import { useInstitutionshMutation } from './institution/useInstitutionshMutation';
+import { GoTriangleDown } from "react-icons/go";
+import { useInstitutionshQuery } from './institution/useInstitutionshQuery';
+import { editCpInstitutionVar } from '../../stores/cp-institution';
 
   
   function classNames(...classes:any) {
@@ -40,21 +44,40 @@ function LayoutLeft() {
   //   editRouteVar.header.setVisible()
   // }
 
+  
+  const [isOpenInstitutions, setIsOpenInstitutions] = useState<boolean>(false)
+  const {data:institutionsList, } = useInstitutionshQuery()
+  // console.log('institutionsList',institutionsList)
+  // <div className='pl-7 text-gray-400 hover:bg-gray-50 hover:text-gray-900 text-base  cursor-pointer'>hi</div>
+  const instiClick=()=>{
+    setIsOpenInstitutions(!isOpenInstitutions) 
+    editCpInstitutionVar.selPermissionNum(0) 
+    // if(isOpenInstitutions){
+    //   setIsOpenInstitutions(false)  
+    // }else{
+    //   submitInstitutions()
+    //   setIsOpenInstitutions(true)
+    // }
+  }
   const navigation = [
-    { name: '기본화면', href: PAY_HOME, icon: HomeIcon, current: true },
-    { name: '멤버', href: CP_PAY_MEMBER_ROUTE_NAME, current: false },
-    { name: '판매물품', href: '#', icon: UserGroupIcon, current: false },
-    { name: 'Directory', href: '#', icon: MagnifyingGlassCircleIcon, current: false },
-    { name: 'Announcements', href: '#', icon: MegaphoneIcon, current: false },
-    { name: '설정', href: cp_pay_setting_route_fn(Number(payid)), icon: MapIcon, current: false },
+    { name: '기본화면', href: PAY_HOME, icon: HomeIcon, current: true, child:null },
+    { name: '멤버', href: CP_PAY_MEMBER_ROUTE_NAME, current: false, child:null },
+    { name: '기관', href: '#', icon: UserGroupIcon, current: false, child:true, onClick: instiClick},
+    { name: 'Directory', href: '#', icon: MagnifyingGlassCircleIcon, current: false, child:null },
+    { name: 'Announcements', href: '#', icon: MegaphoneIcon, current: false, child:null },
+    { name: '설정', href: cp_pay_setting_route_fn(Number(payid)), icon: MapIcon, current: false, child:null },
   ]
 
   const [logout] = useLogout()
   //최상단에 보여짐
   const HomeComponent=<div className='h-8 px-2 cursor-pointer' onClick={()=>{
     setSidebarOpen(false);navigate(PAY_HOME)}}>Home</div>
-  const Logoutcomponent=<div className='w-full flex flex-shrink-0 border-t border-gray-200 p-4 cursor-pointer'
-    onClick={()=>logout()}>로그아웃</div>
+  const Logoutcomponent=(
+    <div className='w-full flex justify-between items-center flex-shrink-0 border-t border-gray-200 p-4'>
+      <div className='cursor-pointer' onClick={()=>logout()}>로그아웃</div>
+      <div className='cursor-pointer' onClick={()=>{navigate(USER_PROFILE_ROUTE_NAME);setSidebarOpen(false);}}>내 정보</div>
+    </div>
+  )
   
   return (
     <div className='w-full flex justify-center items-center'>
@@ -118,37 +141,51 @@ function LayoutLeft() {
                     </div>
                     <nav aria-label="Sidebar" className="mt-5">
                       <div className="space-y-1 px-2">
-                        {navigation.map((item) => (
-                          <button
-                            key={item.name}
-                            // href={item.href}
-                            onClick={()=>{
-                              setSidebarOpen(false)
-                              // editRouteVar.header.setVisible(false)//왼쪽 창 닫기
-                              navigate(item.href)
-                            }}
-                            className={classNames(
-                              'w-full ',
-                              item.current
-                                ? 'bg-gray-100 text-gray-900'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                              'group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                            )}
-                          >
-                            <div className={classNames(
-                                item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                                'mr-4 h-6 w-6'
-                              )}>A</div>
-                            {/* <item.icon
+                        {navigation.map((item,index) => {
+                          if(item.name ==='기관' && institutionsList.length === 0){
+                            return <div key={'navi'+index}></div>
+                          }
+                          return( //모바일에서 보여지는 메뉴
+                          <div key={'navi'+index}>
+                            <button
+                              key={item.name}
+                              // href={item.href}
+                              onClick={()=>{
+                                if(item.onClick){
+                                  item.onClick()
+                                  return
+                                }
+                                setSidebarOpen(false)
+                                // editRouteVar.header.setVisible(false)//왼쪽 창 닫기
+                                navigate(item.href)
+                                // navigate(item.href)
+                              }}
                               className={classNames(
-                                item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                                'mr-4 h-6 w-6'
+                                'w-full ',
+                                item.current
+                                  ? 'bg-gray-100 text-gray-900'
+                                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                                'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                               )}
-                              aria-hidden="true"
-                            /> */}
-                            {item.name}
-                          </button>
-                        ))}
+                            >
+                              <div className={classNames(
+                                  item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
+                                  'mr-4 h-6 w-6'
+                                )}>A</div>
+                              {/* <item.icon
+                                className={classNames(
+                                  item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
+                                  'mr-4 h-6 w-6'
+                                )}
+                                aria-hidden="true"
+                              /> */}
+                              {item.name}
+                            </button>
+                            <div className="w-full ">{item.child&&item.name==='기관'&&isOpenInstitutions?<InstitutionChild institutionsList={institutionsList} setSidebarOpen={setSidebarOpen}/>
+                              :<div></div>}</div>
+                          </div>
+                        )}
+                        )}
                       </div>
                     </nav>
                   </div>
@@ -198,10 +235,17 @@ function LayoutLeft() {
                 </div>
                 <nav className="mt-5 flex-1" aria-label="Sidebar">
                   <div className="space-y-1 px-2">
-                    {navigation.map((item) => (
+                    {navigation.map((item,index) => {
+                      if(item.name ==='기관' && institutionsList.length === 0){
+                        return <div key={'navi'+index}></div>
+                      }
+
+                      return( //큰 사이즈되면 펼친 상태에서 보여지는 메뉴
+                    <div key={'navi'+index}>
+                      
                       <button
                         key={item.name}
-                        onClick={()=>navigate(item.href)}
+                        onClick={item.onClick?item.onClick:()=>navigate(item.href)}
                         // href={item.href}
                         className={classNames(
                           'w-full ',
@@ -222,9 +266,14 @@ function LayoutLeft() {
                           )}
                           aria-hidden="true"
                         /> */}
+                        {item.name==='기관'&&isOpenInstitutions&& <GoTriangleDown />}
                         {item.name}
                       </button>
-                    ))}
+                      <div className="w-full ">{item.child&&item.name==='기관'&&isOpenInstitutions?<InstitutionChild institutionsList={institutionsList} setSidebarOpen={setSidebarOpen}/>
+                      :<div></div>}</div>
+                    </div>
+                    )}
+                    )}
                   </div>
                 </nav>
               </div>

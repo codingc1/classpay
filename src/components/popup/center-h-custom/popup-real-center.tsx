@@ -34,10 +34,10 @@ function PopupCenterHCustom({  onClose, contents=defaultContents, option, isTopC
         onClose() 
     }
     const calWidth = (width:number)=>{
-        return 50-((width/2)/window.innerWidth)*100
+        return 50-Math.floor(((width/2)/window.innerWidth)*100)
     }
     const calTop = (height:number)=>{
-        return 50-((height/2)/window.innerHeight)*100-5
+        return 50-Math.floor((height/2)/window.innerHeight*100)-5
     }
 
     return ( //
