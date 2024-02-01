@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-const colors = require('tailwindcss/colors')
+let colors = require('tailwindcss/colors')
+//https://github.com/tailwindlabs/tailwindcss/issues/4690
+delete colors['lightBlue']; delete colors['warmGray']; delete colors['trueGray']; delete colors['coolGray']; delete colors['blueGray'];
+// colors ={...colors}
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
@@ -27,8 +30,10 @@ module.exports = {
      },
     extend: {
       colors: {
+        ...colors,
         lime:colors.lime,
-        orange:colors.orange
+        orange:colors.orange,
+        transparent: 'transparent'
       },
       spacing: {
         '22': '91px',

@@ -28,6 +28,7 @@ export const useBankBookMu = ({setData,setIsLoading}:{setData?:any,setIsLoading?
         if(loading){return}
         date.current.year = year
         date.current.month = month
+        console.log(year, month, 'year, month')
         cp_MyBanksMonthMutation({
             variables: { //year:newYear, month:newMonth
                 yearMonthInput: { year, month }, //cppay_id:Number(payid),

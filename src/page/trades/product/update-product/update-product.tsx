@@ -124,8 +124,8 @@ export const UpdateProduct=({setIsModal}:{setIsModal:React.Dispatch<React.SetSta
     }
 
 
-    const {transWidth} = useWindowSizeTrans()
-    const transWFull = transWidth(CSS_LEN.popup.wide)
+    const {transW500} = useWindowSizeTrans()
+    const transWFull = transW500(CSS_LEN.popup.wide)
     const innerPopupWidth = transWFull-CSS_LEN.popup.paddingX
     
     //product-create-popup.tsx 과 비슷함
@@ -161,7 +161,7 @@ export const UpdateProduct=({setIsModal}:{setIsModal:React.Dispatch<React.SetSta
 
     return( //삭제하기 전 400
     //24.1.5
-        <PopupCenterHCustom onClose={popupClose} contents={contents} option={{width:transWidth(CSS_LEN.popup.wide), height:400}} isTopClose={true} />
+        <PopupCenterHCustom onClose={popupClose} contents={contents} option={{width:transW500(CSS_LEN.popup.wide), height:400}} isTopClose={true} />
         // <PopupCenter onClose={popupClose} contents={contents} />
     )
 }

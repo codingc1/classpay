@@ -6,7 +6,9 @@ export const CSS_LEN = {
     // basic_wide:'396px',375px
     basic_wide:490, //최대너비인 500px에서 5px를 좌우 padding
     min_height:500,
-
+    w:{
+        md:767, //763 768
+    },
     //445,400
     popup:{//445,
         wide:480, tall:400,

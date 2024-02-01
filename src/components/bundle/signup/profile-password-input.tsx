@@ -5,9 +5,9 @@ interface ITdProps {
   }
 
 
-export const ProfilePasswordInput=({password, setPassword, }:ITdProps)=>{
+export const PasswordInput=({password, setPassword, }:ITdProps)=>{
 
-    const onChangeMainId =(e: React.ChangeEvent<HTMLInputElement>) => {
+    const onChangePassword =(e: React.ChangeEvent<HTMLInputElement>) => {
         const passValue= e.target.value; 
         setPassword(passValue)
     }
@@ -16,7 +16,7 @@ export const ProfilePasswordInput=({password, setPassword, }:ITdProps)=>{
     <div className={`w-full  `}>
         <div className="w-full flex flex-col mb-3" >
           <input className={`w-full input-lime `} placeholder={"비밀번호"} type="password"
-            value={password} onChange={onChangeMainId}/>        
+            value={password} onChange={onChangePassword}/>        
         </div>
         
     </div>

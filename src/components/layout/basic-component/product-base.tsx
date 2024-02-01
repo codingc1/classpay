@@ -28,13 +28,13 @@ interface ProductBaseProps { //chat gpt https://chat.openai.com/c/b9210f57-c161-
     backgroundColor?: string;
 }
 const ProductBase: React.FC<ProductBaseProps>= ({ children, backgroundColor = 'bg-slate-200' }) => {
-    const { transWidth } = useWindowSizeTrans();
+    const { transW500 } = useWindowSizeTrans();
 
     return (
         <div className="w-full min-h-screen flex flex-col items-center bg-white">
             <div
                 className={`py-5 max-w-sm rounded-xl shadow-xl ${backgroundColor} flex flex-col items-center`}
-                style={{ width: transWidth(CSS_LEN.basic_wide), minHeight: '500px' }}
+                style={{ width: transW500(CSS_LEN.basic_wide), minHeight: '500px' }}
             >
                 {children}
             </div>

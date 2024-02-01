@@ -9,9 +9,10 @@ import { InstitutionBank } from "../page/institution/bank/insti-bank";
 import { InstitutionHome } from "../page/institution/institution-home";
 import { CProductsHome } from "../page/trades/product/product-home";
 import TradeHistoryHome from "../page/trades/trade-history/trade-history-home";
+import { TradeHome } from "../page/trades/trade-home";
 import { ProfileHome } from "../page/user/profile/profile-home";
 import { CP_BANKBOOK_HISTORY_ROUTE_NAME, CP_BANKBOOK_SNEDMONEY_ROUTE_NAME } from "./contains/ecomomy";
-import { PAY_HOME, CP_PAY_CREATE_MEMBER_ROUTE_NAME, CP_PAY_CREATE_ROUTE_NAME, CP_PAY_MEMBER_ROUTE_NAME, CP_PAY_MODIFY_MEMBER_ROUTE_NAME, CP_PAY_TRADE_HISTORY_ROUTE_NAME, CP_PAY_ROLE_BANK_ROUTE_NAME, CP_INSTITUTION_HOME_ROUTE_NAME, CP_PAY_PRODUCTS_HOME_ROUTE_NAME, USER_PROFILE_ROUTE_NAME } from "./route-name-constants";
+import { PAY_HOME, CP_PAY_CREATE_MEMBER_ROUTE_NAME, CP_PAY_CREATE_ROUTE_NAME, CP_PAY_MEMBER_ROUTE_NAME, CP_PAY_MODIFY_MEMBER_ROUTE_NAME, CP_PAY_TRADE_HISTORY_ROUTE_NAME, CP_PAY_ROLE_BANK_ROUTE_NAME, CP_INSTITUTION_HOME_ROUTE_NAME, CP_PAY_PRODUCTS_HOME_ROUTE_NAME, USER_PROFILE_ROUTE_NAME, CP_PAY_TRADE_HOME_ROUTE_NAME } from "./route-name-constants";
 
 
 
@@ -21,7 +22,7 @@ export const classpayRouters =[ //TermsConditions
 { path: PAY_HOME,element: <ClassPayApp />, },
 { path: CP_PAY_MEMBER_ROUTE_NAME,element: <CPMemberHome />, },
 { path: CP_PAY_CREATE_MEMBER_ROUTE_NAME,element: <CPCreateStudents />,},
-
+{ path: CP_PAY_TRADE_HOME_ROUTE_NAME,element: <TradeHome />, },
 { path: CP_PAY_TRADE_HISTORY_ROUTE_NAME,element: <TradeHistoryHome />, },
 
 //   { path: PAY_HOME+'/:payid',element: <ClassPayApp />, },

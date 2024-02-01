@@ -11,3 +11,12 @@ mutation individual_sendMoneyMutation($cp_sendMoneyIndivisualInput:CP_SendMoneyI
 }
 `;
 
+export const CP_INSTI_SENDMONEY_ONETOMANY_MUTATION = gql`
+mutation cp_insti_sendMoney_oneToManyMutation($cp_instiBankServeralSendMoneyOneToManyInput:CP_InstiBankServeralSendMoneyOneToManyInput!) {
+  cp_insti_sendMoney_oneToMany(input: $cp_instiBankServeralSendMoneyOneToManyInput) {
+    ok
+    error
+  }
+}
+`;
+

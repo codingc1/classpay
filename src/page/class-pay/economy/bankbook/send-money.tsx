@@ -18,6 +18,7 @@ import { useBankBookMu } from "../../../../hooks/cp-pay/institution/bankbook/use
 import { useNavigate } from "react-router-dom"
 import { TitleAndLine } from "../../../../components/title/title-line"
 import { checkMoney } from "../../../../utils/institution/chk-sendmoney"
+import { cls } from "../../../../func/basic/string/cls"
 
 
 
@@ -85,15 +86,15 @@ export default function BankBookSendMoney() {
             },
             });
     }
-    const {transWidth} = useWindowSizeTrans()
-
+    const {transW500,chk} = useWindowSizeTrans()
+    const marginT3 = chk.w.md ? 'mt-3' : '' //md보다 작으면 mt-5
     return( 
         <div className="w-full min-h-screen flex flex-col items-center bg-white">
         <div className="py-5 max-w-sm  rounded-xl shadow-xl  flex flex-col items-center" //bg-slate-200
         //mt-5 ,height:'500px' //490px 
         //w-[40px] h-[50px]
-            style={{width:transWidth(CSS_LEN.basic_wide), minHeight:'500px'}}>
-        <div className="w-full mt-3 px-3">
+            style={{width:transW500(CSS_LEN.basic_wide), minHeight:'500px'}}>
+        <div className={cls(marginT3,"w-full mt-3 px-3")}>
             <TitleAndLine title="송금하기" />
             {/* <div><div className="text-xl font-bold ">송금하기</div></div> */}
             

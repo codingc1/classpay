@@ -678,7 +678,9 @@ export type Mutation = {
   cp_getBuyTmpTrade: CP_TradeTmpCodeOutput;
   cp_insti_deleteMoney: CoreOutput;
   cp_insti_issueMoney: CoreOutput;
+  cp_insti_sendMoney_oneToMany: CoreOutput;
   cp_login: LoginOutput;
+  cp_modifyProfile: CoreOutput;
   cp_modifyStudent: CoreOutput;
   cp_MyBankBooksMonth: Array<CP_BankBook>;
   cp_MyBillsMonth: Array<CP_Bill>;
@@ -967,8 +969,18 @@ export type Mutationcp_insti_issueMoneyArgs = {
 };
 
 
+export type Mutationcp_insti_sendMoney_oneToManyArgs = {
+  input: CP_InstiBankServeralSendMoneyOneToManyInput;
+};
+
+
 export type Mutationcp_loginArgs = {
   input: CP_LoginInput;
+};
+
+
+export type Mutationcp_modifyProfileArgs = {
+  input: ModifyCpProfileInput;
 };
 
 
@@ -1926,9 +1938,25 @@ export type CP_InstiAcitveTeacherIssueMoneyInput = {
   money: Scalars['Int'];
 };
 
+export type CP_InstiBankServeralSendMoneyOneToManyInput = {
+  desciption: Scalars['String'];
+  insti_id: Scalars['Int'];
+  money: Scalars['Int'];
+  oneuser_id: Scalars['Int'];
+  serveral_ids: Array<Scalars['Int']>;
+};
+
 export type CP_LoginInput = {
   mainId: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type ModifyCpProfileInput = {
+  id: Scalars['Float'];
+  name?: Scalars['String'];
+  newPassword?: InputMaybe<Scalars['String']>;
+  number?: Scalars['Int'];
+  password?: InputMaybe<Scalars['String']>;
 };
 
 export type ModifyCpStudentsInput = {

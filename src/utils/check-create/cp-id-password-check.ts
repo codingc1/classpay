@@ -5,7 +5,7 @@ import { IFCreateTempStudent } from "../../page/class-pay/member/cp-create-stude
 
 
 
-//front와 일치
+//nestjs cp-id-password-check == front와 일치
 export const chkCpUser ={ //학생
    mainId:function(str:string):boolean{ 
       const reg1 =  /^[a-z0-9]{4,14}$/; //영어 숫자로만 4~14자리
@@ -14,6 +14,9 @@ export const chkCpUser ={ //학생
    pass:function(str:string):boolean {
       const reg2 = /^[~`!@#$%^&*()_+=[\]\{}\/<>?a-zA-Z0-9-]+$/; //영어 숫자 특수문자만 허용 https://www.python2.net/questions-655160.htm 
       return( reg2.test(str))
+   },
+   passLength:function(str:string):boolean {
+      return(str.length>=4 && str.length<=40)
    },
    name:function(str:string):boolean {
       //특수만자 있거나 글자수가 안맞으면 true

@@ -26,8 +26,8 @@ export const CP_LOGIN_MUTATION = gql`
 
 export const Login = () => {
   const navigate = useNavigate();
-  const [mainId, setMainId] = useState('aaa1')
-  const [password, setPassword] = useState('1111')
+  const [mainId, setMainId] = useState('test113') //aaa1
+  const [password, setPassword] = useState('aaaaa1')
 
   // const {setRouteGotoFunc} = useRouteGoTo() 
   useEffect(()=>{
@@ -110,17 +110,17 @@ const [handleError] = useError()
   return (
     <div className="w-full h-screen flex flex-col items-center">
     <div className="w-full h-screen flex items-center flex-col justify-center">
-        <Helmet><title>물고기마켓 로그인</title>
-          <meta name="title" content="물고기마켓" />
-          <meta name="description" content="물고기마켓입니다, 구글크롬에서 작동합니다." />
-          <meta property="og:title" content="물고기마켓 로그인" />
-          <meta property="og:description" content="물고기마켓 로그인입니다" />
+        <Helmet><title>물고기경제 로그인</title>
+          <meta name="title" content="물고기경제" />
+          <meta name="description" content="물고기경제입니다, 구글크롬에서 작동합니다." />
+          <meta property="og:title" content="물고기경제 로그인" />
+          <meta property="og:description" content="물고기경제 로그인입니다" />
           <link rel="apple-touch-icon" href="%PUBLIC_URL%/airship192.png" />
           {/* <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> */}
         </Helmet>
 
     <div className="-mt-3 w-full max-w-sm flex flex-col justify-center items-center">
-      <div className=" mb-3 text-4xl font-mono text-center">물고기마켓</div>  
+      <div className=" mb-3 text-4xl font-mono text-center">물고기경제</div>  
         <input className="w-full input-lime mb-3" placeholder="id" value={mainId} onChange={onChangeMainId}/>
         <input className={`w-full input-lime mb-3`} placeholder=" 비밀번호" type="password" value={password} onChange={onChangePassword}/>
         <div className="w-full mb-1">

@@ -22,3 +22,11 @@ mutation cp_modifyStudentMutation($modifyCpStudentsInput: ModifyCpStudentsInput!
 }
 `;
 
+export const CP_MODIFY_PROFILE_MUTATION = gql`
+mutation cp_modifyProfileMutation($modifyCpProfileInput: ModifyCpProfileInput!) {
+  cp_modifyProfile(input: $modifyCpProfileInput) {
+    ok
+    error
+  }
+}
+`;

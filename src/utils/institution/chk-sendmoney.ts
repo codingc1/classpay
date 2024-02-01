@@ -5,9 +5,14 @@ import { ICpStudent } from "../../stores/cp-students-store";
 
 //nestjs trade-money-res에서 가져옴 - sendMoney에서 사용
 export const checkMoney ={
+    maxMoney:(money:number)=>{
+        if(money > CP_PRODUCT_COLUMN.maxPrice)return{ok:false,error:`금액이 너무 큽니다.${CP_PRODUCT_COLUMN.maxPriceHangul}까지 가능합니다.}`}
+        return {ok:true,error:''}
+    },
     money:(money:number)=>{
         if(money <= 0)return{ok:false,error:'금액은 0보다 커야합니다.'}
-        if(money > CP_PRODUCT_COLUMN.maxPrice)return{ok:false,error:`금액이 너무 큽니다.${CP_PRODUCT_COLUMN.maxPriceHangul}까지 가능합니다.}`}
+        if(checkMoney.maxMoney(money).error )return {...checkMoney.maxMoney(money), };
+        // if(money > CP_PRODUCT_COLUMN.maxPrice)return{ok:false,error:`금액이 너무 큽니다.${CP_PRODUCT_COLUMN.maxPriceHangul}까지 가능합니다.}`}
         return {ok:true,error:''}
     },
     //아직 안쓰임
@@ -18,12 +23,11 @@ export const checkMoney ={
         if(sum_price > CP_PRODUCT_COLUMN.maxPrice)return{ok:false,error:'금액이 너무 큽니다.'}
         return {ok:true,error:''}
     },
-    //아직 안쓰임
-    minusMoney:(money:number, minusMoney:number)=>{ //money이미 유저가 보유하고 있으므로 체크x
+    minusMoney:(money:number, minusMoney:number)=>{ //money이미 유저가 보유하고 있으므로 체크x //보유학 금액이 42억이 넘을수 없으므로 그것은 체크x
         if(checkMoney.money(minusMoney).error )return {...checkMoney.money(minusMoney), };
         const sum_price = money - minusMoney
         if(sum_price < 0 )return{ok:false,error:'잔액이 부족합니다.'}
-        return {ok:true,error:''}
+        return {ok:true,error:'', senderResultPrice:sum_price}
     },
     cpCheckSendMoney:(sender:ICpStudent, receiver:ICpStudent, money:number)=>{ //cp_me
         const beforeMoney = sender.money
