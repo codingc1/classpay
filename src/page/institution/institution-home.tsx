@@ -20,7 +20,7 @@ export const InstitutionHome=()=>{
     const selPermissionNum = useReactiveVar(cpInstitutionVar).selPermissionNum;
 
     //
-    const {transW500} = useWindowSizeTrans()
+    const {transW400} = useWindowSizeTrans()
 
     const CPermission = new Class_Insti();
 
@@ -56,7 +56,7 @@ export const InstitutionHome=()=>{
         <div className="w-full min-h-screen flex flex-col items-center bg-white">
         <div className="py-5 max-w-sm  rounded-xl shadow-xl  flex flex-col items-center" //bg-slate-200
         //mt-5 ,height:'500px' //490px
-            style={{width:transW500(CSS_LEN.basic_wide), minHeight:'500px'}}>
+            style={{width:transW400(CSS_LEN.basic_wide), minHeight:'500px'}}>
             <header className="w-full  ">
                 <div className="grid box-border" style={{gridTemplateColumns:'repeat(3, minmax(0, 1fr)',gap: '0.25rem'}}>
                     {institution.instiPermission.map((permission,index)=>{

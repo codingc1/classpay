@@ -6,6 +6,10 @@ import { AiOutlineScan } from 'react-icons/ai';
 import { BuyQrScan } from "./buy/buy-qr-scan-popup";
 import { useState } from "react";
 import { BuyQrcodePopup } from "./buy/buy-qrcode-popup";
+import { useWindowSizeTrans } from "../../func/html/useWidthTrans";
+import { cls } from "../../func/basic/string/cls";
+import { CSS_LEN, CSS_TEST } from "../../func/html/width-contain/css-contain";
+import { TitleAndLine } from "../../components/title/title-line";
 
 
 
@@ -14,18 +18,22 @@ export const TradeHome=()=>{
     const [isBuyMadal, setIsBuyModal] = useState(false)
     const [isQrcode, setIsQrcode] = useState(false)
 
+    const { transW400,chk}= useWindowSizeTrans()
+    const marginT = chk.w.md ? 'mt-5' : '' //md보다 작으면 mt-5
     //qrcode 생성1 https://velog.io/@bishoe01/React%EB%A1%9C-QR%EC%BD%94%EB%93%9C-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0
     //qrcode 생성2 https://velog.io/@jiwonyyy/QR%EC%BD%94%EB%93%9C-%EB%A7%8C%EB%93%A4%EA%B8%B0-qrcode.react
     return(
-        <BaseBgGray backgroundColor={'bg-slate-200'} onClick={()=>navigate(-1)}>
-
+        // <BaseBgGray backgroundColor={'bg-slate-200'} onClick={()=>navigate(-1)}>
+<div className="w-full min-h-screen flex flex-col items-center bg-slate-200 ">
+<div className={cls('mt-5',"rounded-xl shadow-xl bg-white flex flex-col items-center")} style={{ width: transW400(CSS_TEST.basic_wide), minHeight: CSS_LEN.min_height+'px' }}>
 
             
             {!isQrcode && <div className="w-full p-3 flex flex-col justify-center items-center bg-white rounded-lg">
-                <div className="w-full mt-3 grid grid-cols-2 gap-x-4 font-bold">
+                <TitleAndLine title="결제하기" />
+                {/* <div className="w-full mt-3 grid grid-cols-2 gap-x-4 font-bold">
                     <div className="px-2">결제하기</div>
                     <div className="px-2"></div>
-                </div>
+                </div> */}
 
                 <div className="w-full h-30 mt-3 grid grid-cols-2 gap-x-4 text-white">
                 <div className="p-3 bg-indigo-300 rounded-lg text-sm  cursor-pointer"
@@ -45,6 +53,8 @@ export const TradeHome=()=>{
 
             {isBuyMadal && <BuyQrScan setIsBuyModal={setIsBuyModal} />}
             {isQrcode && <BuyQrcodePopup setIsQrcode={setIsQrcode} />}
-        </BaseBgGray>
+        {/* </BaseBgGray> */}
+        </div>
+        </div>
     )
 }

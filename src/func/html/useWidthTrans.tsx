@@ -14,11 +14,11 @@ export const useWindowSizeTrans=()=>{
     //400px보다 작다면(ex iphone 12:390px) transWidth(500)으로 조정
     //크다면 그대로 사용
     const wFull =()=>{
-        if(windowSize.width>500){ return 500 }
+        if(windowSize.width>400){ return 400 }
         return windowSize.width
     }
-    const transW500 = (width:number) => { //transWidth(480)이면 500일때 480비율
-        if(windowSize.width > 500)return width;
+    const transW400 = (width:number) => { //transWidth(480)이면 500일때 480비율
+        if(windowSize.width > 400)return width;
 
         const ratio = windowSizeTrans.width(windowSize.width)
         const size= width*ratio
@@ -32,7 +32,7 @@ export const useWindowSizeTrans=()=>{
     const wPer = (percent:number) => {
         //wFull 에서 percent만큼의 비율
         const ratio = windowSizeTrans.width(windowSize.width)
-        const w = transW500
+        const w = transW400
         return percent*wFull()
     }
     const chk={
@@ -46,6 +46,6 @@ export const useWindowSizeTrans=()=>{
         },
     }
 
-    return {transW500, windowSize, chk}
+    return {transW400, windowSize, chk}
 
 }

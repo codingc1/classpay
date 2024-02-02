@@ -118,13 +118,13 @@ export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.S
                 },
               });
          }
-         const {transW500} = useWindowSizeTrans()
-         const transWFull = transW500(CSS_LEN.popup.wide)
+         const {transW400} = useWindowSizeTrans()
+         const transWFull = transW400(CSS_LEN.popup.wide)
          const innerPopupWidth = transWFull-CSS_LEN.popup.paddingX
 
         const contents =( //p-12
             <div className=" box-border" style={{width:transWFull+'px',padding:'5px'}} >
-            {/* <div className=" p-8" style={{width:transW500(CSS_LEN.popup.wide),}}> */}
+            {/* <div className=" p-8" style={{width:transW400(CSS_LEN.popup.wide),}}> */}
                 {/* <div className=" text-sm"> */}
                 <div className="text-sm  box-border" style={{width:innerPopupWidth+'px',}}>                    
                     <NomadInputText value={productObj.name}  onChange={productOnchange} label="물품이름" name="name" />
@@ -147,7 +147,7 @@ export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.S
         )
         
     return(
-        <PopupCenterHCustom onClose={activePopupClose} contents={contents} option={{width:transW500(CSS_LEN.popup.wide), height:450}} isTopClose={true} />
+        <PopupCenterHCustom onClose={activePopupClose} contents={contents} option={{width:transW400(CSS_LEN.popup.wide), height:450}} isTopClose={true} />
         // <PopupCenter onClose={activePopupClose} contents={contents} />
     )
 }

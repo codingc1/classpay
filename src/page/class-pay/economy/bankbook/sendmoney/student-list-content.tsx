@@ -19,8 +19,8 @@ export const StudentListContent=({setIsModal}:{setIsModal:React.Dispatch<React.S
     const submit =() => {
 
     }
-    const {transW500, windowSize} = useWindowSizeTrans()
-    const transWFull = transW500(CSS_LEN.popup.wide)
+    const {transW400, windowSize} = useWindowSizeTrans()
+    const transWFull = transW400(CSS_LEN.popup.wide)
     const innerPopupWidth = transWFull-CSS_LEN.popup.paddingX
     //화면 heigth를 측정하여 화면보다 100px작게, 화면이 크면 더작게70프로
     //{width:transWFull+'px',padding:'5px'
@@ -41,8 +41,8 @@ export const StudentListContent=({setIsModal}:{setIsModal:React.Dispatch<React.S
     const contents =( //p-12 overflow-y-scroll
     //grid grid-cols-3 gap-x-2
     //borderColor: 'rgb(248 113 113)',
-    <div className=" box-border" style={{width:transW500(CSS_LEN.popup.wide)+'px',}} >
-        <div className=" mt-3 grid box-border  " style={{width:(transW500(CSS_LEN.popup.wide-20))+'px', height:`${(popupHeight()-30)+'px'}`, overflowY: 'scroll',
+    <div className=" box-border" style={{width:transW400(CSS_LEN.popup.wide)+'px',}} >
+        <div className=" mt-3 grid box-border  " style={{width:(transW400(CSS_LEN.popup.wide-20))+'px', height:`${(popupHeight()-30)+'px'}`, overflowY: 'scroll',
             gridTemplateColumns:'repeat(3, minmax(0, 1fr)',gap: '0.25rem'}}>
             {studentList.map((v,i)=>{
                 return(
@@ -79,6 +79,6 @@ export const StudentListContent=({setIsModal}:{setIsModal:React.Dispatch<React.S
 
     
 return(
-    <PopupCenterStudent onClose={popupClose} contents={contents} option={{width:transW500(CSS_LEN.popup.wide), height:popupHeight()}} isTopClose={false} />
+    <PopupCenterStudent onClose={popupClose} contents={contents} option={{width:transW400(CSS_LEN.popup.wide), height:popupHeight()}} isTopClose={false} />
 )
 }

@@ -18,3 +18,8 @@ export const CSS_LEN = {
     
 
 }
+
+export const CSS_TEST = {
+    basic_wide:390, //최대너비인 500px에서 5px를 좌우 padding
+}    
+    

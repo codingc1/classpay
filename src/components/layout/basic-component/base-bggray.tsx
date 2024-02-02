@@ -16,13 +16,13 @@ interface ProductBaseProps { //chat gpt https://chat.openai.com/c/b9210f57-c161-
 const BaseBgGray: React.FC<ProductBaseProps>= ({ children, outterBackgroundColor='bg-slate-200', backgroundColor = 'bg-white', 
      onClick}) => {
     const onClickEvent=()=>{ onClick && onClick() }
-    const { transW500,chk } = useWindowSizeTrans();
+    const { transW400,chk } = useWindowSizeTrans();
     const paddingT = chk.w.md ? 'py-2' : '' 
 
     return (
         <div className={cls(paddingT,`w-full min-h-screen flex flex-col items-center ${outterBackgroundColor}`)} onClick={onClickEvent}>
         <div className={` py-2 max-w-sm rounded-xl shadow-xl ${backgroundColor} flex flex-col items-center`}
-            style={{ width: transW500(CSS_LEN.basic_wide), minHeight: CSS_LEN.min_height+'px' }}>
+            style={{ width: transW400(CSS_LEN.basic_wide), minHeight: CSS_LEN.min_height+'px' }}>
                 {children}
             </div>
         </div>

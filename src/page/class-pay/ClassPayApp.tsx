@@ -90,7 +90,7 @@ const marginT = chk.w.md ? 'mt-5' : '' //md보다 작으면 mt-5
         <Helmet><title>물고기경제홈</title>
           <meta name="title" content="물고기경제홈" />
           <meta property="og:title" content="물고기경제홈" />
-          <meta property="og:description" content="학물고기경제홈입니다" />
+          <meta property="og:description" content="물고기경제홈입니다" />
           <link rel="apple-touch-icon" href="%PUBLIC_URL%/airship192.png" />
           {/* <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> */}
         </Helmet>

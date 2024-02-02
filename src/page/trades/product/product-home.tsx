@@ -78,14 +78,14 @@ export const CProductsHome=()=>{
         setIsUpdateModal(true) //product-sell 화면이 뜸
     }
     // const windowSize = useWindowSize()
-    const {transW500} = useWindowSizeTrans()
+    const {transW400} = useWindowSizeTrans()
     
      
     return(
         <div className="w-full min-h-screen flex flex-col items-center bg-white">
         <div className="py-5 max-w-sm  rounded-xl shadow-xl bg-slate-200 flex flex-col items-center" 
         //mt-5 ,height:'500px' //490px
-            style={{width:transW500(CSS_LEN.basic_wide), minHeight:'500px'}}>
+            style={{width:transW400(CSS_LEN.basic_wide), minHeight:'500px'}}>
             <section className="px-1 w-full h-[50px] flex justify-between items-center bg-white ">
                 <div className="w-[40px] h-full flex justify-center items-center cursor-pointer rounded-t-xl" onClick={()=>navigate(-1)}>&#60;</div>
                 <div>판매 물품 리스트</div>

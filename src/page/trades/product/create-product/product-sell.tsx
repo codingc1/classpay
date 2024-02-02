@@ -78,8 +78,8 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
         
       editCpPayVar.product.setQty(Number(e.target.value))
     }
-    const {transW500} = useWindowSizeTrans()
-    const transWFull = transW500(CSS_LEN.popup.wide)
+    const {transW400} = useWindowSizeTrans()
+    const transWFull = transW400(CSS_LEN.popup.wide)
     const innerPopupWidth = transWFull-CSS_LEN.popup.paddingX
 
     const contents =( //p-12
@@ -123,7 +123,7 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
     )
 
     return( //450,
-        <PopupCenterHCustom onClose={popupClose} contents={contents} option={{width:transW500(CSS_LEN.popup.wide), height:400}} isTopClose={true} />
+        <PopupCenterHCustom onClose={popupClose} contents={contents} option={{width:transW400(CSS_LEN.popup.wide), height:400}} isTopClose={true} />
         // <PopupCenter onClose={popupClose} contents={contents} />
     )
 }
