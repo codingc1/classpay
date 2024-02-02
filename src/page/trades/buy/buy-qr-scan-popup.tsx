@@ -16,7 +16,8 @@ import { ConsoleHelper } from "../../../func/sys/consoleHelper";
 //https://www.npmjs.com/package/react-zxing
 export const BuyQrScan=({setIsBuyModal}:{setIsBuyModal:React.Dispatch<React.SetStateAction<boolean>>})=>{
     let navigate = useNavigate()
-    const payid = useReactiveVar(cpPayVar).payid;
+    const unit = useReactiveVar(cpPayVar).cppay.moneyUnit;
+    const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
     const tradeTmp = useReactiveVar(cpPayVar).trade.tradeTmpProduct;
   const [result, setResult] = useState("");
   const { ref } = useZxing({
@@ -70,8 +71,8 @@ export const BuyQrScan=({setIsBuyModal}:{setIsBuyModal:React.Dispatch<React.SetS
     <div className="w-full p-12">
         <div className="mb-5 text-base">
             {/* <div className='w-full text-center'>판매하기</div> */}
-            <div className='w-full text-center'>{tradeTmp.name} {addCommaMan(tradeTmp.price)}원 x {tradeTmp.qty}개</div>
-            <div className='w-full text-center'>결제금액 : {addCommaMan(tradeTmp.price*tradeTmp.qty)}원</div>
+            <div className='w-full text-center'>{tradeTmp.name} {addCommaMan(tradeTmp.price, numberOfDigits)}{unit} x {tradeTmp.qty}개</div>
+            <div className='w-full text-center'>결제금액 : {addCommaMan(tradeTmp.price*tradeTmp.qty, numberOfDigits)}{unit}</div>
 
         </div>
         <NomadButton text={ "결제하기"} onClick={buySubmit}/>          

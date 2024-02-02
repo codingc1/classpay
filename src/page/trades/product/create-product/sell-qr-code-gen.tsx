@@ -16,6 +16,8 @@ import { PAY_HOME } from '../../../../routers/route-name-constants';
 //https://zpao.github.io/qrcode.react/
 export const SellQrCodeGen=({setIsModal}:{setIsModal:React.Dispatch<React.SetStateAction<boolean>>}) => {
   let navegate = useNavigate()
+  const unit = useReactiveVar(cpPayVar).cppay.moneyUnit;
+  const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
   const productRedux = useReactiveVar(cpPayVar).trade;
 
   // client.subscribe({
@@ -90,9 +92,9 @@ export const SellQrCodeGen=({setIsModal}:{setIsModal:React.Dispatch<React.SetSta
         <div className="w-full p-12">
             <div className="mb-5 text-lg">
                 {/* <div className='w-full text-center'>판매하기</div> */}
-                <div className='w-full text-center '>{productRedux.product.name} {addCommaMan(productRedux.product.price)}원 x {productRedux.qty}개</div>
+                <div className='w-full text-center '>{productRedux.product.name} {addCommaMan(productRedux.product.price, numberOfDigits)}{unit} x {productRedux.qty}개</div>
                 <div className='w-full text-center'>결제금액 :&nbsp; 
-                  <span className='font-bold'>{addCommaMan(productRedux.product.price*productRedux.qty)}원</span></div>
+                  <span className='font-bold'>{addCommaMan(productRedux.product.price*productRedux.qty, numberOfDigits)}{unit}</span></div>
 
             </div>
             <div className="w-full flex justify-center">

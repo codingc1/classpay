@@ -29,6 +29,7 @@ export default function BankBookSendMoney() {
     const {data:meData} =useMe()
     const student = useReactiveVar(cpStudentsVar).student;
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
+    const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
 
     useEffect(()=>{
         editStudentsVar.setStudent(cpStudentFn.store.student)
@@ -100,7 +101,7 @@ export default function BankBookSendMoney() {
             
             <div className="mt-5 flex text-lg ">
                 <div>보유금액:</div>
-                <div className="flex-1 px-2 font-semibold">{meData?addCommaMan(meData.cp_me.money):0}{moneyUnit}</div>
+                <div className="flex-1 px-2 font-semibold">{meData?addCommaMan(meData.cp_me.money,numberOfDigits):0}{moneyUnit}</div>
             </div>
             <div className="mt-2 flex h-10 items-center ">
                 <div className="text-lg ">받는 사람 :</div>

@@ -202,9 +202,9 @@ export type CP_Pay = {
   imgurl: Scalars['String'];
   isTrade: Scalars['Boolean'];
   moneyUnit: Scalars['String'];
+  numberOfDigits: Scalars['Int'];
   schoolName: Scalars['String'];
   stopProduce: Scalars['Boolean'];
-  subAdmin: Scalars['String'];
   updatedAt: Scalars['DateTime'];
   user: Array<CP_User>;
   user_id: Scalars['Float'];

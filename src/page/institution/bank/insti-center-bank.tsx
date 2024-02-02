@@ -17,6 +17,7 @@ import "../../../styles/button/button-color.css";
 
 export const InstiCenterBank=()=>{
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
+    const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
     // const productRedux = useReactiveVar(cpPayVar).trade;
     const {data:meData} =useMe()
 
@@ -91,7 +92,7 @@ export const InstiCenterBank=()=>{
                         </div>
                         <div className="px-2 flex justify-between items-center flex-1">
                             <div className="px-2 flex flex-1 justify-end items-center  space-x-1 text-indigo-500 "  >
-                                <div className="text-right">{addCommaMan(supplyMoney)}</div>
+                                <div className="text-right">{addCommaMan(supplyMoney, numberOfDigits)}</div>
                                 <div>{moneyUnit}</div>
                                 {/* <div>&#62;</div> */}
                             </div> 
@@ -131,7 +132,7 @@ export const InstiCenterBank=()=>{
             
             <div className="mt-5 flex">
                 <div>한국은행 보유금액(선생님):</div>
-                <div className="flex-1 px-2">{meData?addCommaMan(meData.cp_me.money):0}{moneyUnit}</div>
+                <div className="flex-1 px-2">{meData?addCommaMan(meData.cp_me.money, numberOfDigits):0}{moneyUnit}</div>
             </div>
             <div className="mt-2"></div>
             <NomadInputPrice value={money}  onChange={moneychange} label="발행할 금액" name="price" isHideZeoro={true} options={{focusColor:'c_input_blue'}} moneyUnit={moneyUnit}/>

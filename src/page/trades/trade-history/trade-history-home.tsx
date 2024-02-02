@@ -19,6 +19,7 @@ export default function TradeHistoryHome() {
     const billRedux = useReactiveVar(cpPayVar).bills;
    
     const {data:meData, } = useMe()
+    const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
     const [currentDate, setCurrentDate] = useState({ year: new Date().getFullYear(), month: new Date().getMonth() + 1,  });
     const [nowBill, setNowBill] = useState<IBill[]>([]);
@@ -88,7 +89,7 @@ export default function TradeHistoryHome() {
                 <div className="w-[40px]  rounded-t-xl"></div>
             </section>
             <section style={{height:'5rem'}} className="w-full flex justify-center items-center border-b-2 border-t-2 border-blue-400 bg-white">
-                <div className=" font-bold" style={{fontSize:'1.5rem'}}>{addCommaMan(meData?.cp_me.money||0)}{moneyUnit}</div>
+                <div className=" font-bold" style={{fontSize:'1.5rem'}}>{addCommaMan(meData?.cp_me.money||0,numberOfDigits)}{moneyUnit}</div>
             </section>
             <section className="w-full px-1 bg-white">
                 {/* useEffect로 bill데이터 가져옴 */}

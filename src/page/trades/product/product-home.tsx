@@ -7,11 +7,11 @@ import { ProductCreatePopup } from "./create-product/product-create-popup";
 import { cp_cp_deleteProductMutationDocument } from "../../../hooks/cp-pay/products/createProduct.generated";
 import { ProductSell } from "./create-product/product-sell";
 import { SellQrCodeGen } from "./create-product/sell-qr-code-gen";
-import { editCpPayVar, IProduct } from "../../../stores/cp-pay-store";
+import { cpPayVar, editCpPayVar, IProduct } from "../../../stores/cp-pay-store";
 import { addCommaMan } from "../../../func/basic/number/addComma";
 import { CiEdit } from "react-icons/ci";
 import { UpdateProduct } from "./update-product/update-product";
-import { gql, useMutation, useSubscription } from "@apollo/client";
+import { gql, useMutation, useReactiveVar, useSubscription } from "@apollo/client";
 import { CSS_LEN } from "../../../func/html/width-contain/css-contain";
 import { useWindowSizeTrans } from "../../../func/html/useWidthTrans";
  
@@ -42,7 +42,8 @@ export const CProductsHome=()=>{
     const [isQrcode, setIsQrcode] = useState(false)
     
     const {data} =useMyProducts()//{id:payid}
-
+    const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
+    const unit = useReactiveVar(cpPayVar).cppay.moneyUnit;
     // const { data:subData, loading,error } = useSubscription( TEST_SUBSCRIPTION,  );
     // useEffect(() => {
     //     if(subData){
@@ -107,7 +108,7 @@ export const CProductsHome=()=>{
                                             <div className="  text-lg ">{el.name}</div>
                                             <div className="flex text-slate-400">
                                             {/* 가격 : */}
-                                                <div className=" ">&#09;{addCommaMan(el.price)}원</div> 
+                                                <div className=" ">&#09;{addCommaMan(el.price,numberOfDigits)}{unit}</div> 
                                                 {/* 개수 : */}
                                                 <div className="px-2">&#09;{el.qty}개</div>
                                             </div>

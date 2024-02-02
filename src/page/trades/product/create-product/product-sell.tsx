@@ -22,6 +22,7 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
     setIsQrcode:React.Dispatch<React.SetStateAction<boolean>>}) => {
         // const {payid} = useParams(); 
     const cppay = useReactiveVar(cpPayVar).cppay;     
+    const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
     const productRedux = useReactiveVar(cpPayVar).trade;
 
     const popupClose=()=>{ //닫기 - 그 데이터 삭제
@@ -93,14 +94,14 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
                 </div>
                 <div className="flex py-1">
                     <div>상품 가격:&nbsp;</div>
-                    <div className='flex-1 font-semibold'>{addCommaMan(productRedux.product.price)}원</div>
+                    <div className='flex-1 font-semibold'>{addCommaMan(productRedux.product.price, numberOfDigits)}원</div>
                 </div>
                 {/* <div className='w-full '>{productRedux.product.name}, 개당{addCommaMan(productRedux.product.price)}원</div> */}
                 {/* <div className="py-1">보유 개수 : {productRedux.product.qty}개</div> */}
                 <OneLineInputNumber value={productRedux.qty}  onChange={productOnchange} label="판매 개수" name="qty" unit="개" />
                 {/* style={{fontSize:'1.5rem'}} */}
                 <div className='w-full  text-center py-2 mt-2' >총 판매 금액 :&nbsp;
-                    <span className="font-bold" style={{textDecoration:'underline'}}>{addCommaMan(productRedux.product.price*productRedux.qty)}{cppay.moneyUnit}</span></div>
+                    <span className="font-bold" style={{textDecoration:'underline'}}>{addCommaMan(productRedux.product.price*productRedux.qty, numberOfDigits)}{cppay.moneyUnit}</span></div>
 
             </div>
             {/* <div className="mb-5 text-sm">

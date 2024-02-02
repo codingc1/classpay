@@ -10,6 +10,7 @@ import { useReactiveVar } from "@apollo/client";
 export const TradeHistoryDetail = ({bill}:{bill:IBill}) => {
     const {data:meData, loading} = useMe()
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
+    const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
 
     //Date => 2023/12/31 14:00 
     const date = new Date(bill.createdAt)
@@ -41,7 +42,7 @@ export const TradeHistoryDetail = ({bill}:{bill:IBill}) => {
             </div>
             <div className="" style={{width:'35%'}}>
                 <div>{bill.name}</div>
-                <div>{addCommaMan(bill.sumPrice)}{moneyUnit}</div>
+                <div>{addCommaMan(bill.sumPrice, numberOfDigits)}{moneyUnit}</div>
             </div>
             <div className="" style={{width:'44%'}}>
                 <div className="w-full flex justify-end "><div className="text-right">{isIncome()?bill.consumer_name||' ':bill.seller_name}</div></div>

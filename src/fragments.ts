@@ -22,6 +22,7 @@ fragment CPPayParts on CP_Pay {
     code
     imgurl
     moneyUnit
+    numberOfDigits
 }
 `;
 

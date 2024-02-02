@@ -3,6 +3,7 @@ import { CSS_LEN } from "../../../../../func/html/width-contain/css-contain"
 import { useCpPayUserList } from "../../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList"
 import PopupCenterStudent from "../../../../../components/popup/center-h-custom/popup-center-student"
 import { cpStudentsVar, editStudentsVar } from "../../../../../stores/cp-students-store"
+import { useEffect } from "react"
 
 
 export const StudentListContent=({setIsModal}:{setIsModal:React.Dispatch<React.SetStateAction<boolean>>}) => {
@@ -24,6 +25,8 @@ export const StudentListContent=({setIsModal}:{setIsModal:React.Dispatch<React.S
     const innerPopupWidth = transWFull-CSS_LEN.popup.paddingX
     //화면 heigth를 측정하여 화면보다 100px작게, 화면이 크면 더작게70프로
     //{width:transWFull+'px',padding:'5px'
+
+    
     const popupHeight=()=>{
         
         //3개 한줄 3rem(48px)

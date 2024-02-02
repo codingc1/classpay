@@ -7,7 +7,7 @@ export type cp_createClassPayMutationMutationVariables = Types.Exact<{
 }>;
 
 
-export type cp_createClassPayMutationMutation = { __typename?: 'Mutation', cp_CreateClassPay: { __typename?: 'CP_PayOutput', ok: boolean, error: string | null, result: { __typename?: 'CP_Pay', id: number, user_id: number, className: string, schoolName: string, classTh: number, classNum: number, code: string, imgurl: string, moneyUnit: string } | null } };
+export type cp_createClassPayMutationMutation = { __typename?: 'Mutation', cp_CreateClassPay: { __typename?: 'CP_PayOutput', ok: boolean, error: string | null, result: { __typename?: 'CP_Pay', id: number, user_id: number, className: string, schoolName: string, classTh: number, classNum: number, code: string, imgurl: string, moneyUnit: string, numberOfDigits: number } | null } };
 
 export type cp_deleteClassPayMutationMutationVariables = Types.Exact<{
   idOnlyInput: Types.IdOnlyInput;

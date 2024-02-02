@@ -17,10 +17,13 @@ export const useWindowSizeTrans=()=>{
         if(windowSize.width>400){ return 400 }
         return windowSize.width
     }
-    const transW400 = (width:number) => { //transWidth(480)이면 500일때 480비율
-        if(windowSize.width > 400)return width;
 
-        const ratio = windowSizeTrans.width(windowSize.width)
+    //max400
+    const transW400 = (width:number) => { //transWidth(480)이면 500일때 480비율
+        if(windowSize.width >= 400)width=400;
+        const nowWidth = windowSize.width >= 400?400:windowSize.width
+        const ratio = nowWidth/400
+        // const ratio = windowSizeTrans.width(windowSize.width)
         const size= width*ratio
         //소수점 제거
         return Math.floor(size)

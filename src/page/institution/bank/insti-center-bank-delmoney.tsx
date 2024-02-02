@@ -15,6 +15,7 @@ import { chkCpInstitutuion } from "../../../utils/check-create/cp-insti-check";
 
 export const InstiCenterBankDeleteMoney=()=>{
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
+    const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
     // const productRedux = useReactiveVar(cpPayVar).trade;
     const {data:meData} =useMe()
 
@@ -69,7 +70,7 @@ export const InstiCenterBankDeleteMoney=()=>{
             
             <div className="mt-5 flex">
                 <div>한국은행 보유금액(선생님):</div>
-                <div className="flex-1 px-2">{meData?addCommaMan(meData.cp_me.money):0}{moneyUnit}</div>
+                <div className="flex-1 px-2">{meData?addCommaMan(meData.cp_me.money, numberOfDigits):0}{moneyUnit}</div>
             </div>
             <div className="mt-2"></div>
             <NomadInputPrice value={money}  onChange={moneychange} label="축소할 금액" name="price" isHideZeoro={true} options={{focusColor:'c_input_blue'}} moneyUnit={moneyUnit} />

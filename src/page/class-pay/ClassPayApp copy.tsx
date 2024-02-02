@@ -27,6 +27,7 @@ export const ClassPayApp = () => {
   let navigate = useNavigate();
   // const {payid} = useParams(); //https://velog.io/@tjdgus0528/React-Router-v6-%EC%A0%95%EB%A6%AC
   const payid = useReactiveVar(cpPayVar).payid;
+  const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
   // const location = useLocation();
   const isLoggedIn = useReactiveVar(authVar).isLogin;
   // const {data:cppayResult} = useCpPayAppInfo({id:Number(payid)})
@@ -115,7 +116,7 @@ export const ClassPayApp = () => {
           <div className="flex">
             <div className="">
               {/* 10,0000,0000 */}
-              {addCommaMan(meData?.cp_me.money||0)}
+              {addCommaMan(meData?.cp_me.money||0, numberOfDigits)}
             </div>
             <div>원</div>
           </div>

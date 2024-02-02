@@ -13,6 +13,7 @@ import { FaRegArrowAltCircleRight } from "react-icons/fa";
 export const BankBookHistoryDetail = ({bankbook}:{bankbook:IBankBook}) => {
     const {data:meData, loading} = useMe()
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
+    const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
 
     //Date => 2023/12/31 14:00 
     const {madeDate} = createdAtToDate(bankbook.createdAt)
@@ -48,7 +49,7 @@ export const BankBookHistoryDetail = ({bankbook}:{bankbook:IBankBook}) => {
             {/* 두줄로 나누기 */}
             <div className="" style={{width:'81%'}}>
                 <div className="flex justify-between">
-                    <div>{addCommaMan(bankbook.price) || 0}{moneyUnit}</div>
+                    <div>{addCommaMan(bankbook.price, numberOfDigits) || 0}{moneyUnit}</div>
                     <div className="flex ">
                         <div className="">{stringSlice(bankbook.desciption,6)}{bankbook.desciption.length>0?',':''}&nbsp;</div>
                         <div className="">{isIncome()?bankbook.sender_name||' ':stringSlice(bankbook.receiver_name,3)}</div>
@@ -57,9 +58,10 @@ export const BankBookHistoryDetail = ({bankbook}:{bankbook:IBankBook}) => {
                 <div className="flex justify-between">
                     <div className="flex items-center">
                         {/* 천만원이상이면 beforeMoney 생략 */}
-                        {bankbook.beforeMoney>=10000000?'':<div className="flex items-center">{addCommaMan(bankbook.beforeMoney)}{moneyUnit}<FaRegArrowAltCircleRight color="gray" /></div>}
+                        {bankbook.beforeMoney>=10000000?'':<div className="flex items-center">{addCommaMan(bankbook.beforeMoney, numberOfDigits)}{moneyUnit}
+                        <FaRegArrowAltCircleRight color="gray" fontSize={'0.8rem'}  /></div>}
                         {/* <div className="flex items-center">{addCommaMan(bankbook.beforeMoney)}{moneyUnit}<FaRegArrowAltCircleRight color="gray" /></div> */}
-                        <div>{addCommaMan(bankbook.resultMoney)}{moneyUnit}</div>
+                        <div>{addCommaMan(bankbook.resultMoney, numberOfDigits)}{moneyUnit}</div>
                     </div>
                     <div className="text-gray-400 text-sm">{madeDate}</div>
                 </div>

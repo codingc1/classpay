@@ -11,6 +11,8 @@ import { cpPayFn } from "../../../../stores/sub-store-fn/cp-pay-fn";
 import { addCommaMan } from "../../../../func/basic/number/addComma";
 import { BankBookHistoryMonth } from "./book-history/book-th-month";
 import { BankBookHistoryDetail } from "./book-history/th-detail";
+import { useWindowSizeTrans } from "../../../../func/html/useWidthTrans";
+import { CSS_LEN } from "../../../../func/html/width-contain/css-contain";
 
 
 //거래내역 
@@ -19,6 +21,7 @@ export default function BankBookHistoryHome() {
     const bookRedux = useReactiveVar(cpPayVar).bankBooks;
    
     const {data:meData, } = useMe()
+    const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
     const [currentDate, setCurrentDate] = useState({ year: new Date().getFullYear(), month: new Date().getMonth() + 1,  });
     const [nowBook, setNowBook] = useState<IBankBook[]>([]);
@@ -28,7 +31,7 @@ export default function BankBookHistoryHome() {
     // porduct 생산후 결제해야 반영 기능?-isSettle  //eneity 생산불가-isProduce
 
 
-
+    const {transW400, windowSize} = useWindowSizeTrans()
     // const handlePlusButtonClick = () => {
     //     setCurrentDate(prevDate => {
     //       let newMonth = prevDate.month + 1; let newYear = prevDate.year;
@@ -49,20 +52,21 @@ export default function BankBookHistoryHome() {
     // };
     //월별 배열[] - useeffect로 아무 데이터도 없으면 mutation
 
+    //style={{width:'396px', }}
     //특수문자 코드표 https://suusuus.tistory.com/14#google_vignette
     return(
-        <div className="w-full min-h-screen flex flex-col items-center bg-slate-200">
+        <div className="w-full min-h-screen flex flex-col items-center bg-slate-200" >
         <div className="py-5 h-full    rounded-xl shadow-xl  flex flex-col items-center bg-white" 
         //mt-5 ,height:'500px'
         //minHeight:'500px'
-            style={{width:'396px', }}>
+            style={{width:transW400(CSS_LEN.popup.wide)+'px',}}>
             <section className="px-1 w-full h-[50px] flex justify-between items-center bg-white " style={{borderBottom:'1px solid #C0C0C0'}}>
                 <div className="w-[40px] h-full flex justify-center items-center cursor-pointer rounded-t-xl" onClick={()=>navigate(-1)}>&#60;</div>
                 <div>나의 통장</div>
                 <div className="w-[40px]  rounded-t-xl"></div>
             </section>
             <section style={{height:'5rem'}} className="w-full flex justify-center items-center border-b-2 border-t-2 border-blue-400 bg-white">
-                <div className=" font-bold" style={{fontSize:'1.5rem'}}>{addCommaMan(meData?.cp_me.money||0)}{moneyUnit}</div>
+                <div className=" font-bold" style={{fontSize:'1.5rem'}}>{addCommaMan(meData?.cp_me.money||0,numberOfDigits)}{moneyUnit}</div>
             </section>
             <section className="w-full px-1 bg-white">
                 {/* useEffect로 bill데이터 가져옴 */}

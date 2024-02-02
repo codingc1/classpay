@@ -12,6 +12,7 @@ interface ICpPay{
     code:string;
     imgurl:string;
     moneyUnit:string;
+    numberOfDigits:number;
 }
 interface ITradeTmpProduct{
     id:number;

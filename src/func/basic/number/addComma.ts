@@ -16,7 +16,8 @@
 //   }
 
 
-  export const addCommaMan=(num:number)=>{
+  export const addCommaMan=(num:number, numberOfDigits:number)=>{
     // const aa = 1000000
-    return num.toString().replace(/\B(?=(\d{4})+(?!\d))/g, ',');
+    return num.toString().replace(/\B(?=(\d{numberOfDigits})+(?!\d))/g, ",");
+    // return num.toString().replace(/\B(?=(\d{4})+(?!\d))/g, ',');
 }
