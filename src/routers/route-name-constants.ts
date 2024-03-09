@@ -1,11 +1,12 @@
 export const HOME ="/"
 export const LOGIN_ROUTE_NAME ="/login"
+export const SIGNUP_ROUTE_NAME ="/signup"
 export const USER_PDFAUTH_ROUTE_NAME = "/user/pdfauth"
 export const USER_PROFILE_ROUTE_NAME = "/user/profile"
 
 
 export const TERMS_CONDITIONS = "/explanation/terms-conditions";
-export const PRIVACY_POLICY_ROUTE_NAME= "/explanation/privacy-policy";
+// export const PRIVACY_POLICY_ROUTE_NAME= "/explanation/privacy-policy";
 export const AGREE_PRIVACY_ROUTE_NAME="/explanation/agree-privacy";
 export const EXPLANATION_HEADER_MENU_ROUTE_NAME="/explanation/howtouse"; //헤더 메뉴 사용방법
 
@@ -33,15 +34,16 @@ export const CP_PAY_PRODUCTS_HOME_ROUTE_NAME = '/classpay/products'//판매상�
 export const CP_PAY_TRADE_HISTORY_ROUTE_NAME = '/classpay/tradehistory'//거래내역
 // export const CP_PAY_BILL_HOME_ROUTE_NAME = '/classpay/bill'//거래내역
 
-export const CP_INSTITUTION_HOME_ROUTE_NAME = '/classpay/institution'//거래내역
-export const CP_PAY_ROLE_BANK_ROUTE_NAME = '/classpay/role/bank'//은행 -depressed??
+
+
+export const CP_SETTING_HOME_ROUTE_NAME = '/classpay/setting'//설정
 
 //!--Deprecated--!
 export const cp_pay_app_route_fn =(num:number):string=>PAY_HOME+'/'+num;
 // export const CP_PAY_SETTING_ROUTE_NAME = PAY_HOME+'/:payid'+'/setting';
 export const cp_pay_member_route_fn =(num:number|string):string=>PAY_HOME+'/'+num +'/member' 
 export const cp_pay_products_route_fn =(num:number|string):string=>PAY_HOME+'/'+num +'/products' //판매상품
-export const cp_pay_setting_route_fn =(num:number):string=>PAY_HOME+'/'+num +'/setting'
+// export const cp_pay_setting_route_fn =(num:number):string=>PAY_HOME+'/'+num +'/setting'
 
 
 export const CP_PAY_QRSCAN_ROUTE_NAME = '/classpay/scan'//학급 만들기

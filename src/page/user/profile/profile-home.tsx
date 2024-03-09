@@ -5,18 +5,22 @@ import { CP_ME_QUERY, useMe } from "../../../hooks/user/useMe"
 import { PasswordInput } from "../../../components/bundle/signup/profile-password-input"
 import { CreateAccPassword } from "../../../components/bundle/signup/create-acc-password"
 import { CreateButton } from "../../../components/button/create-button"
-import { useMutation } from "@apollo/client"
+import { useMutation, useReactiveVar } from "@apollo/client"
 import { CP_MODIFY_PROFILE_MUTATION } from "../../../hooks/cp-pay/cp-pay-user/createCpUser"
 import { cp_modifyProfileMutationMutation, cp_modifyProfileMutationMutationVariables } from "../../../hooks/cp-pay/cp-pay-user/createCpUser.generated"
 import { client } from "../../../apollo"
 import { useNavigate } from "react-router-dom"
 import useErrorShow from "../../../func/sys/err/useErrShow"
+import { UserExit } from "./profile-child/user-exit"
+import { cpPayVar } from "../../../stores/cp-pay-store"
 
 
 
 export const ProfileHome=()=>{ 
     let navigate = useNavigate();
     const {data:meDate} = useMe()
+    const cppay = useReactiveVar(cpPayVar).cppay;
+
     const [isPassModi, setIsPassModi] = useState(false)
     const [oriPassword, setOriPassword] = useState('')
     const [password, setPassword] = useState('')
@@ -67,6 +71,10 @@ export const ProfileHome=()=>{
                 {/* 1.25rem */}
                 <div className="" style={{fontSize: '1rem'}}>
                     {!isPassModi && <div className="flex py-2">
+                        <div className="mr-2">학급명 :</div>
+                        <div>{cppay.className}</div>
+                    </div>}
+                    {!isPassModi && <div className="flex py-2">
                         <div className="mr-2">번호 :</div>
                         <div>{meDate?.cp_me.number||0}번</div>
                     </div>}
@@ -87,6 +95,8 @@ export const ProfileHome=()=>{
                         <div className="mt-3"></div>
                         <CreateButton submit={submit} actionText={"비밀번호 변경"}  />
                     </div>}
+
+                    <UserExit />
                 </div>
                 {/* <div><div className="text-xl font-bold ">송금하기</div></div> */}
                 

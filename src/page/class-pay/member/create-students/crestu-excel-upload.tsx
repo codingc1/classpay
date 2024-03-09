@@ -1,4 +1,5 @@
 import { readExcel_file } from "../../../../utils/readExcel";
+import { CrestuExcelDown } from "./crestu-excel-down";
 
 
 
@@ -74,13 +75,20 @@ export const CrestuExcelUpload=({selectedFile, theInputKey, setTmpExcelData, jso
                }
                obj[keyName] = hangData[colName]
              }
-             dataArr.push(hangData)
-
+             dataArr.push(obj)//hangData
+             //마지막 줄이면
+              if(i === len-1){
+                setTmpExcelData(dataArr)
+              }
          }//tagArray만들기
          
         //  console.log(dataArr.length, 'excel dataArr')
-
-          setTmpExcelData(dataArr)
+        // 비밀번호=>password, 이름=>name, 번호=>number
+        //  const korToEng = dataArr.map((data:any)=>{
+        //   const {학생이름, 학생번호, 학생비밀번호} = data
+        //   return {name:학생이름, number:학생번호, password:학생비밀번호}
+        //  })
+         
         }
             
         }catch(err){
@@ -89,12 +97,15 @@ export const CrestuExcelUpload=({selectedFile, theInputKey, setTmpExcelData, jso
         }
         }
 
-
+//예시 엑셀 파일 생성 react-csv https://mingmeng030.tistory.com/268
 return(
     <div className="w-full">
-    <div>파일업로드</div>
+      <div className="flex justify-between">
+        <div>엑셀파일로 학생 추가</div>
+        <CrestuExcelDown />
+      </div>
     
-    <div className="w-full  flex mt-5 px-5 py-5 border-blue-400 border-2 justify-center">
+    <div className="w-full  flex mt-2 px-5 py-5 border-blue-400 border-2 justify-center">
           <input type="file" name="file" onChange={e => handleFileInput(e)} defaultValue={''} 
           accept='.xlsx'
             className="border-2 border-lime-400 w-44"

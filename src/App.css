@@ -10,10 +10,11 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 
-  -webkit-user-select:none;
+  /* 드래그 방지 https://fresh-mint.tistory.com/entry/css-%EB%93%9C%EB%9E%98%EA%B7%B8-%EB%B0%A9%EC%A7%80*/
+  /* -webkit-user-select:none;
   -moz-user-select:none;
   -ms-user-select:none;
-  user-select:none
+  user-select:none */
 
 }
 body::-webkit-scrollbar{

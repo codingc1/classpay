@@ -3,7 +3,7 @@ import { useEffect, useState,  } from "react";
 import {Helmet} from "react-helmet-async";
 import { useNavigate, useParams,  } from "react-router-dom";
 import TokenRepository from "../../api/token/tokenRepo";
-import { cp_pay_products_route_fn, CP_PAY_QRSCAN_ROUTE_NAME, cp_pay_setting_route_fn, CP_PAY_TRADE_HISTORY_ROUTE_NAME, LOGIN_ROUTE_NAME } from "../../routers/route-name-constants";
+import { cp_pay_products_route_fn, CP_PAY_QRSCAN_ROUTE_NAME,  CP_PAY_TRADE_HISTORY_ROUTE_NAME, LOGIN_ROUTE_NAME } from "../../routers/route-name-constants";
 import { authVar } from "../../stores/authstore";
 import { editRouteVar } from "../../stores/route-info-store";
 // import { CiMoneyCheck1 } from 'react-icons/ci'; //?

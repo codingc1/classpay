@@ -13,6 +13,7 @@ interface ICpPay{
     imgurl:string;
     moneyUnit:string;
     numberOfDigits:number;
+    isTrade:boolean;
 }
 interface ITradeTmpProduct{
     id:number;
@@ -101,6 +102,20 @@ export const editCpPayVar={
             existData[key] = data // '202401':data [] //빈 데이터라도 저장
             cpPayVar({...cpPayVar(), bills:existData})
         },
+        teacherOneStudentAdd:function({year,month,data,student_id}:{year:number,month:number,student_id:number,data:IBill[]}){
+            const key = cpPayFn.bill.makeOneStudentKey({year,month,student_id})
+            const existData = cpPayVar().bills 
+            existData[key] = data 
+            cpPayVar({...cpPayVar(), bills:existData})
+        },
+        //add와 같은 곳에 저장하지만 key가 다름
+        teacherAllStudentsAdd:function({year,month,data}:{year:number,month:number,data:IBill[]}){
+            const key = cpPayFn.bill.makeAllStudentsKey({year,month})
+            const existData = cpPayVar().bills 
+            existData[key] = data 
+            cpPayVar({...cpPayVar(), bills:existData})
+
+        }
         
     },
     bankBook:{
@@ -110,7 +125,21 @@ export const editCpPayVar={
             existData[key] = data // '202401':data [] //빈 데이터라도 저장
             cpPayVar({...cpPayVar(), bankBooks:existData})
         },
-        
+        //insti 공정거래위원회 학생별 조회
+        teacherOneStudentAdd:function({year,month,data,student_id}:{year:number,month:number,student_id:number,data:IBankBook[]}){
+            const key = cpPayFn.bill.makeOneStudentKey({year,month,student_id})
+            const existData = cpPayVar().bankBooks 
+            existData[key] = data 
+            cpPayVar({...cpPayVar(), bankBooks:existData})
+        },
+        //add와 같은 곳에 저장하지만 key가 다름
+        teacherAllStudentsAdd:function({year,month,data}:{year:number,month:number,data:IBankBook[]}){
+            const key = cpPayFn.bill.makeAllStudentsKey({year,month})
+            const existData = cpPayVar().bankBooks 
+            existData[key] = data 
+            cpPayVar({...cpPayVar(), bankBooks:existData})
+
+        }
     },
     reset:function(){
         cpPayVar(aa)

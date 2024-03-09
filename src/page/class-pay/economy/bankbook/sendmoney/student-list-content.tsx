@@ -5,11 +5,12 @@ import PopupCenterStudent from "../../../../../components/popup/center-h-custom/
 import { cpStudentsVar, editStudentsVar } from "../../../../../stores/cp-students-store"
 import { useEffect } from "react"
 
-
+//학생리스트를 보여주는 팝업
 export const StudentListContent=({setIsModal}:{setIsModal:React.Dispatch<React.SetStateAction<boolean>>}) => {
     const{data} = useCpPayUserList() 
     const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
-    
+    //studentList를 3번 반복
+    const dummy = studentList.concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList)
     
     const popupClose=()=>{ //닫기 - 그 데이터 삭제
         setIsModal(false)
@@ -30,31 +31,35 @@ export const StudentListContent=({setIsModal}:{setIsModal:React.Dispatch<React.S
     const popupHeight=()=>{
         
         //3개 한줄 3rem(48px)
-        const lineNumber = Math.ceil(studentList.length/3)
-        const lineHeigth = lineNumber*50+50 //48
-        if(lineHeigth<200)return 200
-        if(windowSize.height-100>500 && lineHeigth > 500){ //화면이 500보다 크고, lineHeigth가 500보다 크면 500
-            return 500
+        const lineNumber = Math.ceil(dummy.length/4) //올림 5명->2줄 50명->13줄
+        const lineHeigth = lineNumber*50+60 //48 //13줄*48px+50px=674px
+        // if(lineHeigth<200)return 200
+        if(windowSize.height>650 && lineHeigth > 650){ //화면이 650보다 크고, lineHeigth가 650보다 크면 650
+            return 650
         }
-        if(windowSize.height-100<=500 && lineHeigth > 500){ //화면이 500보다 작고, lineHeigth가 500보다 크면 화면보다 100작게
-            return windowSize.height-100
+        if(windowSize.height<=650 ){ //화면이 740보다 작고, lineHeigth가 740보다 크면 화면보다 100작게
+            return windowSize.height
         }
         return lineHeigth;
     }
     const contents =( //p-12 overflow-y-scroll
     //grid grid-cols-3 gap-x-2
-    //borderColor: 'rgb(248 113 113)',
+    //borderColor: 'rgb(248 113 113)', 
+    //gridTemplateColumns:'repeat(3, minmax(0, 1fr)',gap: '0.25rem'
     <div className=" box-border" style={{width:transW400(CSS_LEN.popup.wide)+'px',}} >
-        <div className=" mt-3 grid box-border  " style={{width:(transW400(CSS_LEN.popup.wide-20))+'px', height:`${(popupHeight()-30)+'px'}`, overflowY: 'scroll',
-            gridTemplateColumns:'repeat(3, minmax(0, 1fr)',gap: '0.25rem'}}>
-            {studentList.map((v,i)=>{
+        {/* transW400(CSS_LEN.popup.wide-20) */}
+        {/* width:(transW400(CSS_LEN.popup.wide-20))+'px',  */}
+        <div className="px-2 grid box-border grid-cols-4 gap-x-1 " style={{height:`${(popupHeight()-40)+'px'}`, //overflowY: 'scroll',
+            }}>
+            {dummy.map((v,i)=>{
                 return(
-                <div key={'popupstu'+i} className="p-2   border-2 shadow-md rounded-md cursor-pointer flex justify-center items-center hover:bg-indigo-300" style={{height:'3rem'}}
+                    //style={{height:'3rem'}}
+                <div key={'popupstu'+i} className="  border-2 shadow-md rounded-md cursor-pointer flex justify-center items-center hover:bg-indigo-300" 
                     onClick={()=>{
                         editStudentsVar.setStudent(v)
                         popupClose()
                     }}>
-                    <div className=" font-bold text-lg" >{v.number}. {v.name}</div>
+                    <div className=" font-semibold text-lg" >{v.number}.{v.name.slice(0,3)}</div>
                 </div>
                 )}
             )}
@@ -82,6 +87,6 @@ export const StudentListContent=({setIsModal}:{setIsModal:React.Dispatch<React.S
 
     
 return(
-    <PopupCenterStudent onClose={popupClose} contents={contents} option={{width:transW400(CSS_LEN.popup.wide), height:popupHeight()}} isTopClose={false} />
+    <PopupCenterStudent onClose={popupClose} title={'받는 사람'} contents={contents} option={{width:transW400(CSS_LEN.popup.wide), height:popupHeight()}} isTopClose={false} />
 )
 }

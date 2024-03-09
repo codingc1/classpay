@@ -22,13 +22,13 @@ export const useBankBookMu = ({setData,setIsLoading}:{setData?:any,setIsLoading?
         }, onError: (err) => {
             // setIsLoading(false)
             if(setIsLoading)setIsLoading(false)
-            handleError(err, '판매에 실패하였습니다.')
+            handleError(err, '조회에 실패하였습니다.')
         } });
     const billMutation=(year:number, month:number)=>{
         if(loading){return}
         date.current.year = year
         date.current.month = month
-        console.log(year, month, 'year, month')
+        // console.log(year, month, 'year, month')
         cp_MyBanksMonthMutation({
             variables: { //year:newYear, month:newMonth
                 yearMonthInput: { year, month }, //cppay_id:Number(payid),

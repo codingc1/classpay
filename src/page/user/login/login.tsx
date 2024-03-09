@@ -13,6 +13,7 @@ import { logoutFunc } from "../../../func/sys/auth/logout-func";
 import { editRouteVar } from "../../../stores/route-info-store";
 import { CP_ME_QUERY } from "../../../hooks/user/useMe";
 import { editCpPayVar } from "../../../stores/cp-pay-store";
+import { SIGNUP_ROUTE_NAME } from "../../../routers/route-name-constants";
 export const CP_LOGIN_MUTATION = gql`
   mutation cp_loginMutation($cp_LoginInput: CP_LoginInput!) {
     cp_login(input: $cp_LoginInput) {
@@ -27,7 +28,7 @@ export const CP_LOGIN_MUTATION = gql`
 export const Login = () => {
   const navigate = useNavigate();
   const [mainId, setMainId] = useState('test113') //aaa1
-  const [password, setPassword] = useState('aaaaa1')
+  const [password, setPassword] = useState('qqqqqqq1') //aaaaa1
 
   // const {setRouteGotoFunc} = useRouteGoTo() 
   useEffect(()=>{
@@ -59,13 +60,13 @@ const loginSuccess=(token:string)=>{
   }
   TokenRepository.save(token)
   // editAuth.setToken(token);
-  // editAuth.setLogin(true) //login처리
+  editAuth.setLogin(true) //login처리
   resolve(token)
 }
 )}
 const [callQuery,] = useLazyQuery(CP_ME_QUERY, { // { data:lzaymedata, called }
   onCompleted: res => {
-    if(res.cp_me){
+    if(res.cp_me){ 
       editAuth.setLogin(true) //login처리 //same CreateCpPay, deleteCpPay
       if(res.cp_me.joinclasspay){
         editCpPayVar.setPayID(res.cp_me.joinclasspay.id)
@@ -107,7 +108,7 @@ const [handleError] = useError()
     loginMutation()
 
   };
-  return (
+  return ( //
     <div className="w-full h-screen flex flex-col items-center">
     <div className="w-full h-screen flex items-center flex-col justify-center">
         <Helmet><title>물고기경제 로그인</title>
@@ -130,6 +131,12 @@ const [handleError] = useError()
       <div className=" w-full flex justify-between">
         {renderChecks()}
             <button  className="text-lime-600 hover:underline">비밀번호 찾기</button>
+      </div>
+      <div className=" w-full flex justify-start items-center">
+        <div>물고기경제가 처음이세요?{" "}</div>
+        <div className="px-2 py-2">
+          <button className="text-lime-600 hover:underline" onClick={()=>navigate(SIGNUP_ROUTE_NAME)}>선생님회원 가입하기</button>
+        </div>
       </div>
     {/* <div className=" w-full flex justify-start items-center">
       <div>학급페이가 처음이세요?{" "}</div>

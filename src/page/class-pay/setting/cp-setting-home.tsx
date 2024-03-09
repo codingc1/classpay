@@ -1,58 +1,126 @@
 import { useReactiveVar } from "@apollo/client";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate,  } from "react-router-dom";
 import { client } from "../../../apollo"
 import useError from "../../../func/sys/err/useErr"
-import { cp_deleteClassPayMutationDocument } from "../../../hooks/cp-pay/basic/createClassPay.generated"
+import { cp_payUpdateInfoMutationDocument } from "../../../hooks/cp-pay/basic/createClassPay.generated"
 import { cpPayVar, editCpPayVar } from "../../../stores/cp-pay-store";
-import { cpPayFn } from "../../../stores/sub-store-fn/cp-pay-fn";
-import { logoutFunc } from "../../../func/sys/auth/logout-func";
+import BaseMax400 from "../../../components/layout/basic-component/base-max400";
+import { TitleAndLine } from "../../../components/title/title-line";
+// import { useCheckboxAndText } from "../../../components/checkbox/useCheckboxAndText";
+import { useState } from "react";
+import { InlineInputLable } from "../../../components/input/inline-input-lable";
+import { grayBtnCss } from "../../../components/button/tailwind-btn/gray-button";
+import { cls } from "../../../func/basic/string/cls";
+import { useSettingSubmit } from "./setting-home/useSettingSubmit";
+import { SettingMoneyunit } from "./setting-home/setting-moneyunit";
 
 
 
-
-
+export type CpSettingSubmit = {
+    // setLastSettingMutationTime:React.Dispatch<React.SetStateAction<Date>>,
+    moneyUnit?:string,
+    numberOfDigits?:number,
+    isTrade?:boolean
+    objKey:string
+}
+ 
 export const CpSettingHome=()=>{
     // const cpPayRedux = useReactiveVar(cpPayVar); 
     let navigate = useNavigate()
-    const payid = useReactiveVar(cpPayVar).payid;
+    const cppay = useReactiveVar(cpPayVar).cppay;
+    const [moneyUnit, setMoneyUnit] = useState(cppay.moneyUnit) //화폐 단위
+    const [checked, setChecked] = useState(!cppay.isTrade)
 
-      const [handleError] = useError()
-
-    const handlesubmit=()=>{
-        const isConfirm = window.confirm(' 학급페이를 삭제하시겠습니까? ')
-        if(!isConfirm)return
-        client.mutate({ //https://www.youtube.com/watch?v=cYIhx8dusa4
-            mutation:cp_deleteClassPayMutationDocument,
-            variables:{
-                idOnlyInput:{id:Number(payid)}
-            }
-          })
-          .then(async({data})=>{
-            // console.log(data, ': data res')
-            if(data &&data.cp_DeleteClassPay.ok ){
-              // editCpPayVar.setPayID(0) 
-              // editCpPayVar.cppay.set(cpPayFn.store.cpay)
-
-                // await client.refetchQueries({
-                //     include: [CP_PAYS_QUERY],//cppay list refech
-                //   });
-              alert('삭제하였습니다. 계정이 존재하지 않으므로 아용하시려면 다시 생성하여야 합니다.')
-              logoutFunc()
-              navigate('/')
-            }else if(data?.cp_DeleteClassPay.error){
-              alert(data.cp_DeleteClassPay.error)
-            }
-          })
-          .catch(e => handleError(e, 'cp_LoginMutation'))
+    const onChangeMoneyUnit =(e: React.ChangeEvent<HTMLInputElement>)=>{
+        setMoneyUnit(e.target.value)      
     }
-    return( 
-        <div className="w-full mx-auto flex justify-center ">
-            <div className="w-full max-w-sm">
-                <div>학급페이 설정</div>
-                {/* <div>payid : {payid}</div> */}
-                <button onClick={handlesubmit}>학급 삭제하기</button>
-            </div>
+    const handleCheckClick = () => {
+        setChecked(!checked)
+        handlesubmit({objKey:'isTrade', isTrade:checked})
+    }
+    const [lastSettingMutationTime, setLastSettingMutationTime] = useState(new Date()) //마지막 설정 시간
+    // const [lastSettingTime, setLastSettingTime] = useState(new Date()) //마지막 설정 시간
 
-        </div>
+    const isCheckPossibleMutation = ()=>{ //lastSettingTime보다 1초가 지나야 설정이 가능하다.
+        const now = new Date()
+        const diff = now.getTime() - lastSettingMutationTime.getTime()
+        if(diff < 1000){
+            return false
+        }
+        return true
+    }
+    //lastSettingTime보다 1초가 지나야 설정이 가능하다.
+    // const isCheckPossible = ()=>{
+    //     const now = new Date()
+    //     const diff = now.getTime() - lastSettingTime.getTime()
+    //     if(diff < 1000){
+    //         return false
+    //     }
+    //     return true
+    // }
+
+    const {submit} = useSettingSubmit()
+    const handlesubmit=({ numberOfDigits, isTrade, moneyUnit, objKey}:CpSettingSubmit)=>{
+
+        if(!isCheckPossibleMutation()){
+          alert('업데이트에 실패하였습니다 다시 시도해 주세요.')
+          return
+      }
+      submit({setLastSettingMutationTime, objKey, moneyUnit,numberOfDigits, isTrade })
+    }
+
+
+    return(  
+
+<BaseMax400>
+        {/* <div className="py-5 h-full    rounded-xl shadow-xl  flex flex-col items-center bg-white" 
+            style={{width:'396px', }}> */}
+  <TitleAndLine title="설정" />
+  {/* <section className="px-1 w-full h-[50px] flex justify-between items-center bg-white " style={{borderBottom:'1px solid #C0C0C0'}}>
+                <div className="w-[40px] h-full flex justify-center items-center cursor-pointer rounded-t-xl" onClick={()=>navigate(-1)}>&#60;</div>
+                <div>거래 내역</div>
+                <div className="w-[40px]  rounded-t-xl"></div>
+            </section> */}
+                {/* <div>payid : {payid}</div> */}
+  <div className="px-3 mt-3 ">
+    <SettingMoneyunit moneyUnit={moneyUnit} onChangeMoneyUnit={onChangeMoneyUnit} submit={handlesubmit} />
+    {/* <div className="flex items-center">
+      <div className="" style={{width:'80%'}}>
+        <InlineInputLable label={'화폐 단위'} name={'moneyUnit'} placeholder={'화폐 단위'} value={moneyUnit} onChangeValue={onChange} />
+      </div>
+      <div className={cls(grayBtnCss({}), 'ml-1 h-8 text-center')}>변경</div>
+    </div> */}
+    {/* <div className=" flex  items-center">
+      <div>화폐 단위</div>
+      <div className="text-md ">원</div>
+    </div> */}
+  </div>
+  <div className="px-3 mt-3 flex items-center">
+    {/* {isBlockTradeContent} */}
+    <ul className='text-md'>
+            <label>
+                <input
+                type='checkbox'
+                checked={checked}
+                onChange={ handleCheckClick}
+                />
+                &nbsp;송금, 거래 금지
+            </label>
+        </ul>
+      <span className="ml-2 text-lime-600 text-xs cursor-pointer">(체크하더라도 선생님은 가능)</span>
+
+  </div>
+  <div className="px-3 mt-7 text-sm">
+    <div>물고기 경제</div>
+    <div className="flex flex-wrap">사용 가능 기능 : 
+     <div className="flex-1">송금, 시장놀이(물품등록, 판매-qr코드)</div>
+    </div>
+    <div>사용 불가능 기능 : 투자, 세금, 직업</div>
+  </div>
+  {/* <div className="px-3 mt-3">
+    <button onClick={handlesubmit}>송금, 거래 금지</button>
+    <button onClick={handlesubmit}>학급 삭제하기</button>
+  </div> */}
+</BaseMax400>
     )
 }

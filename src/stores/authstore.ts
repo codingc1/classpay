@@ -6,9 +6,10 @@ export interface IAuthBasic{
     isLogin : boolean,
     // token: string | null,
 }
-const aa:IAuthBasic = {
-    isLogin : !!(TokenRepository.getToken() && TokenRepository.getAuto()),
+const aa:IAuthBasic = { //false로 시작
+    // isLogin : !!(TokenRepository.getToken() && TokenRepository.getAuto()),
     // token: TokenRepository.getToken(),
+    isLogin : false,
 }
 export const authVar = makeVar(aa);
 

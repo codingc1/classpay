@@ -29,7 +29,6 @@ export const CreateStudentSubmit=({studentList,setErrMessage}:{
             return
           }
         }
-        
         const isConfirm = confirm('학생을 등록하시겠습니까?')
         if(!isConfirm){return}
         //각각체크
@@ -57,6 +56,6 @@ export const CreateStudentSubmit=({studentList,setErrMessage}:{
     }
 
     return(
-        <button className="mt-3 block px-3 py-2 rounded-lg bg-indigo-200 hover:bg-indigo-300 text-xs" onClick={submit}>학생 등록</button>
+        <button className="mt-3 block px-7 py-2 rounded-lg bg-indigo-200 hover:bg-indigo-300 text-lg " onClick={submit}>학생 등록</button>
     )
 }

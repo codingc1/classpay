@@ -25,5 +25,17 @@ mutation cp_deleteClassPayMutation($idOnlyInput: IdOnlyInput!) {
     error
   }
 }
+`;
+
+export const CP_PAYUPDATE_INFO_MUTATION = gql`
+mutation cp_payUpdateInfoMutation($cp_payInfoEditInput: CP_PayInfoEditInput!) {
+  cp_payUpdateInfo(input: $cp_payInfoEditInput) {
+    ok
+    error
+    result{
+      ...CPPayParts
+    }
+  }
+}
 
 `;

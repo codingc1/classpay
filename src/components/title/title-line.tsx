@@ -9,7 +9,7 @@ export const TitleAndLine = ({title}:{title:string}) => {
 
     return(
         <section className="px-1 w-full flex justify-between items-center bg-white " style={{borderBottom:'1px solid #C0C0C0',height:'3.2rem'}}>
-            <div className=" h-full flex justify-center items-center cursor-pointer rounded-t-xl" style={{height:'2.5rem'}}
+            <div className="  w-5 h-full flex justify-center items-center cursor-pointer rounded-t-xl" style={{height:'2.5rem'}}
                 onClick={()=>navigate(-1)}>&#60;</div>
             <div className="text-base">{title}</div>
             <div className="rounded-t-xl" style={{height:'2.5rem'}}></div>

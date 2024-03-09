@@ -10,15 +10,17 @@ import { chkCpUser } from "../../../utils/check-create/cp-id-password-check";
 import { CreateStudentSubmit } from "./create-students/crestu-submit";
 import { usePossibleIds } from "../../../hooks/cp-pay/cp-pay-user/usePossibleIds";
 import { ConsoleHelper } from "../../../func/sys/consoleHelper";
+import { ExplanAgreeStudent } from "./create-students/explan-agree-stu";
+import { AgreeStudent } from "./create-students/agree-student";
 
 //Homr
 export interface IFCreateTempStudent {mainId:string,password:string,name:string,number:number}
 // export type UploadCombiType = {fullHang_id:number, kind:string, mark:number, sentence: string,  schoolGrade: UserSchoolGrade, tagArray:string[]}
 export const CPCreateStudents=()=>{
     // const payid = useReactiveVar(cpPayVar).payid;
-    const [isHumanInput, setIsHumanInput] = useState(true)
+    const [isHumanInput, setIsHumanInput] = useState(false)
     const [errMessage, setErrMessage] = useState('')
-
+    const [isPopup, setIsPopup] = useState(true)
    
     //{mainId:string,password:string,name:string,number:number}
     const [studentList, setStudentList] = useState<IFCreateTempStudent[]>([])
@@ -55,15 +57,17 @@ export const CPCreateStudents=()=>{
     const [selectedFile, setSelectedFile] = useState('')
     const [theInputKey, setTheInputKey] = useState('')
     // const [tmpExcelData, setTmpExcelData] = useState<IFCreateTempStudent[]>([]) 
-    const jsonOption = [{colName:'id',keyName:'mainId'},{colName:'password',keyName:'password'},{colName:'name',keyName:'name'},{colName:'number',keyName:'number',},]
+    // const jsonOption = [{colName:'id',keyName:'mainId'},{colName:'password',keyName:'password'},{colName:'name',keyName:'name'},{colName:'number',keyName:'number',},]
+    const jsonOption = [{colName:'id',keyName:'mainId'},{colName:'비밀번호',keyName:'password'},{colName:'이름',keyName:'name'},{colName:'번호',keyName:'number',},]
     const setObj =(arr:any[])=>{
         const res:any[] = []
         const throwError = (index:number, type:string)=>{throw Error(index+`번째 줄에 ${type}가 없거나 에 오류가 있습니다.`)}
         arr.forEach((el:any,index)=> {
-            const mainId = Number(el.id)
-            if(isNaN(mainId)){throwError(index,'id')}
-            const password = String(el.password)
-            const name = String(el.name)
+            // const mainId = Number(el.id)
+            const mainId = String(el.mainId).trim()
+            // if(isNaN(mainId)){throwError(index,'id')} //id는 영어 숫자 한글가능..
+            const password = String(el.password).trim()
+            const name = String(el.name).trim()
             const number = Number(el.number)
             const obj = {mainId, password, name, number}
             res.push(obj)
@@ -74,9 +78,12 @@ export const CPCreateStudents=()=>{
     //id, name, number체크 함수
     const chkIsCreatable=(num:number)=>{
         const RED= 'bg-red-500'
-        if(checkCPUserMainIdOk(studentList[num].mainId) === false)return RED
-        if(checkCPPassOk((studentList[num].password)) === false)return RED
-        if(checkCPNickname((studentList[num].name)) === false)return RED
+        const {mainId, password, name, number} = studentList[num]
+        if(chkCpUser.checkPosibleStudent({mainId, password, name, number}).error)return RED
+        // if(number === 0)return RED // checkPosibleCpUser는 교사용체크라 학생이 0번을 갖지 못하도록 체크
+        // if(checkCPUserMainIdOk(studentList[num].mainId) === false)return RED
+        // if(checkCPPassOk((studentList[num].password)) === false)return RED
+        // if(checkCPNickname((studentList[num].name)) === false)return RED
         //아이디는 서버와 통신해서 가능한지 살펴야함
         return 'bg-green-400'
     }
@@ -115,8 +122,10 @@ export const CPCreateStudents=()=>{
     ]
     return(
         <div className="w-full  flex justify-center ">
-        <div className="w-full max-w-sm pb-16">
+            {/* max-w-sm */}
+        <div className="w-full max-w-lg  pb-16">
         <div className="py-5 mb-3">
+            
             <CreateStuCheckBoxGroup notificationMethods={notificationMethods} isHumanInput={isHumanInput} />
             <br />
             
@@ -195,7 +204,7 @@ export const CPCreateStudents=()=>{
             </div> 
             <div className="text-red-500 text-xs">{errMessage}</div>
             {errMessage.length === 0 && <CreateStudentSubmit studentList={studentList} setErrMessage={setErrMessage} />}
-
+            
             {/* <div className="py-3">
                 <div>추가 방법</div>
                 <button className="block px-3 py-2 rounded-lg bg-indigo-200 hover:bg-indigo-300 text-xs"
@@ -205,6 +214,7 @@ export const CPCreateStudents=()=>{
         </div>
 
         </div>
+        {isPopup && <ExplanAgreeStudent onClose={()=>setIsPopup(false)}/>}
         </div>
     )
 }

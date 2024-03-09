@@ -12,8 +12,10 @@ import { client } from "../../../apollo";
 import { CP_ME_QUERY, useMe } from "../../../hooks/user/useMe";
 import { chkCpInstitutuion } from "../../../utils/check-create/cp-insti-check";
 import "../../../styles/button/button-color.css";
+import BaseMax400 from "../../../components/layout/basic-component/base-max400";
+import { InstiHeader } from "../insti-home/insti-header";
 
-
+ 
 
 export const InstiCenterBank=()=>{
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
@@ -79,7 +81,6 @@ export const InstiCenterBank=()=>{
 
     //{addCommaMan(meData?.cp_me.money||0)}
     return( // style={{width:'38%'}} //bg-indigo-500 
-        
         <div className="w-full mt-3 px-3">
             <div>
             <div className="text-xl font-bold">한국 은행</div>
@@ -145,6 +146,6 @@ export const InstiCenterBank=()=>{
                 </div> */}
                 </div>
         </div>
-        
+
     )
 }

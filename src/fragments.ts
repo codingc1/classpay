@@ -23,6 +23,7 @@ fragment CPPayParts on CP_Pay {
     imgurl
     moneyUnit
     numberOfDigits
+    isTrade
 }
 `;
 

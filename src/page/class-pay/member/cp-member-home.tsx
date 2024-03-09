@@ -10,6 +10,8 @@ import { useState } from "react";
 import { ICpStudent, cpStudentsVar, editStudentsVar } from "../../../stores/cp-students-store";
 import { ResetPassword } from "./member-home/reaset-password";
 import { HomeIconTitle } from "../../../components/home/icon/home-icon-title";
+import { useCheckboxAndText } from "../../../components/checkbox/useCheckboxAndText";
+import { StudentListTable } from "./member-home/student-table";
 
  
 
@@ -23,7 +25,7 @@ export const CPMemberHome=()=>{ //변경 : delete, create, modify
     const {data:meDate} = useMe()
     const{data} = useCpPayUserList() //이것도 바꿔야함..
     // const [student, setStudent] = useState<IFstudnet>({id:0,name:'',number:0,});
-
+    const [ checkboxContent, isChecked,] = useCheckboxAndText({text:'표로 보기',size:' text-md'})
     const [isOpend, setIsOpend] = useState(false) //modal 하위메뉴 띄우기
     const [onClickCoordinate, setOnClickCoordinate] = useState({x: 0, y: 0, });
     const setElementPosition = (e:any, student:ICpStudent) => { //https://jemerald.tistory.com/9
@@ -38,12 +40,14 @@ export const CPMemberHome=()=>{ //변경 : delete, create, modify
     const viewResetPass = ()=>{ setIsOpend(false); setIsResetPassModel(true); }
     
     const isTeacher = meDate?.cp_me.position===POSITION.Teacher //선생님인지
-    const teacherT = <span className="banselect text-blue-700">T</span>
+    //banselect
+    const teacherT = <span className=" text-blue-700">T</span>
 
     const handlesubmit=()=>{
         // navigate(`/classpay/${payid}/member/create`)
         navigate(CP_PAY_CREATE_MEMBER_ROUTE_NAME)
     }
+
 
     const isNotTeacherCss =()=>{ //선생님 제외
         if(meDate?.cp_me.position!==POSITION.Teacher)return 'mt-2'
@@ -52,9 +56,11 @@ export const CPMemberHome=()=>{ //변경 : delete, create, modify
     return(
         <div className="w-full mx-auto flex justify-center " >
         <div className="w-full max-w-sm pb-16">
-            <div className="py-5 flex text-lg items-center"><HomeIconTitle />멤버</div>
+            <div className="py-5 flex text-lg items-center"><HomeIconTitle />구성원</div>
+            {isTeacher && checkboxContent} 
+            {isChecked && <StudentListTable />}
             <div className="flex py-5">
-                {data && data.cp_PayUserLists.map((el)=>{
+                {!isChecked && data && data.cp_PayUserLists.map((el)=>{
                     return(
                         <div className="px-2"  key={el.id}>
                             <div className=" w-12 h-12 p-1 bg-indigo-300 rounded-full "  onClick={()=>{}}>
@@ -73,7 +79,7 @@ export const CPMemberHome=()=>{ //변경 : delete, create, modify
                 })}
             </div>
             {isTeacher &&
-            <button className="px-3 py-2 rounded-lg bg-indigo-200 hover:bg-indigo-300 text-xs" onClick={handlesubmit}>+ 멤버 추가</button> }
+            <button className="px-3 py-2 rounded-lg bg-indigo-200 hover:bg-indigo-300 text-xs" onClick={handlesubmit}>+ 구성원 추가</button> }
             
 
             {/* <CPCreateStudents /> */}

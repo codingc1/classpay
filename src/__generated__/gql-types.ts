@@ -173,7 +173,9 @@ export type CP_PaysObj = {
   code: Scalars['String'];
   id: Scalars['Int'];
   imgurl: Scalars['String'];
+  isTrade: Scalars['Boolean'];
   moneyUnit: Scalars['String'];
+  numberOfDigits: Scalars['Int'];
   schoolName: Scalars['String'];
   user_id: Scalars['Int'];
 };
@@ -213,6 +215,7 @@ export type CP_Pay = {
 export type CP_User = {
   __typename?: 'CP_User';
   createdAt: Scalars['DateTime'];
+  email: Scalars['String'];
   id: Scalars['Float'];
   joinclasspay: CP_Pay;
   madeby_userid: Scalars['Int'];
@@ -427,8 +430,8 @@ export type CP_InstiPermission = {
 export enum CP_INSTI_PERMISSION {
   BankDeleteMoney = 'BankDeleteMoney',
   BankIssueMoney = 'BankIssueMoney',
-  BankPayIncome = 'BankPayIncome',
   BankSendMoney = 'BankSendMoney',
+  FairTradeBookBank = 'FairTradeBookBank',
   FairTradeCheck = 'FairTradeCheck'
 }
 
@@ -660,12 +663,14 @@ export type Mutation = {
   allCombi: AllHangCombisOutput;
   allFullsentences: FullsentencesOutput;
   allPopup: PopupsOutput;
+  boardCountUp: CoreOutput;
   boardListsMu: ViewBoardsOutput;
   checkHangPassword: BasicOutput;
   checkPossibleId: CheckPossibleIdOutput;
   checkPossibleNickname: CheckPossibleIdOutput;
   confirmPassword: VerifyEmailOutput;
   cp_buyingTrade: CoreOutput;
+  cp_checkExistId: CoreOutput;
   cp_cp_getMoneySupply: CP_MoneyOutput;
   cp_CreateClassPay: CP_PayOutput;
   cp_createProduct: CoreOutput;
@@ -678,6 +683,7 @@ export type Mutation = {
   cp_getBuyTmpTrade: CP_TradeTmpCodeOutput;
   cp_insti_deleteMoney: CoreOutput;
   cp_insti_issueMoney: CoreOutput;
+  cp_insti_sendMoney: CoreOutput;
   cp_insti_sendMoney_oneToMany: CoreOutput;
   cp_login: LoginOutput;
   cp_modifyProfile: CoreOutput;
@@ -685,9 +691,14 @@ export type Mutation = {
   cp_MyBankBooksMonth: Array<CP_BankBook>;
   cp_MyBillsMonth: Array<CP_Bill>;
   cp_PayPossibleName: CoreOutput;
+  cp_payUpdateInfo: CP_PayOutput;
   cp_sellingStart: CP_TradeTmpCodeOutput;
   cp_studentsPossibleIds: CP_CheckPossibleIsdOutput;
+  cp_teacherGetBankBookAll: Array<CP_BankBook>;
+  cp_teacherGetMarketTradeAll: Array<CP_Bill>;
+  cp_teacherGetStudentBankBook: Array<CP_BankBook>;
   cp_updateProduct: CoreOutput;
+  cp_userExit: CoreOutput;
   cp_userProfile: CP_SomeProfileOutput;
   createAccount: CreateAccountOutput;
   createAttendChecks: StAttendChecksOutput;
@@ -734,9 +745,10 @@ export type Mutation = {
   delOneClassStudent: MyStudentsOutput;
   delStCheckView: WeeklyStCheckViewsOutput;
   editHang: EditHangOutput;
-  editProfile: EditProfileOutput;
+  editProfile: CoreOutput;
   findStcrawlById: Array<StudentRecord>;
   findUserId: UserIdHintOutput;
+  getAdditionalUserProfile: AdditionalUserProfileOutput;
   getChangChes: FullChangsOutput;
   getFullHangs: FullHangsOutput;
   hangById: HangOneOutput;
@@ -884,6 +896,11 @@ export type MutationallPopupArgs = {
 };
 
 
+export type MutationboardCountUpArgs = {
+  input: IdOnlyInput;
+};
+
+
 export type MutationboardListsMuArgs = {
   input: BoardsInput;
 };
@@ -911,6 +928,11 @@ export type MutationconfirmPasswordArgs = {
 
 export type Mutationcp_buyingTradeArgs = {
   input: CP_GetTradeTmpCodeInput;
+};
+
+
+export type Mutationcp_checkExistIdArgs = {
+  input: CheckPossibleIdInput;
 };
 
 
@@ -969,6 +991,11 @@ export type Mutationcp_insti_issueMoneyArgs = {
 };
 
 
+export type Mutationcp_insti_sendMoneyArgs = {
+  input: CP_InstiAcitveSendMoneyInput;
+};
+
+
 export type Mutationcp_insti_sendMoney_oneToManyArgs = {
   input: CP_InstiBankServeralSendMoneyOneToManyInput;
 };
@@ -1004,6 +1031,11 @@ export type Mutationcp_PayPossibleNameArgs = {
 };
 
 
+export type Mutationcp_payUpdateInfoArgs = {
+  input: CP_PayInfoEditInput;
+};
+
+
 export type Mutationcp_sellingStartArgs = {
   input: CP_BuyProductIdInput;
 };
@@ -1014,8 +1046,28 @@ export type Mutationcp_studentsPossibleIdsArgs = {
 };
 
 
+export type Mutationcp_teacherGetBankBookAllArgs = {
+  input: YearMonthInput;
+};
+
+
+export type Mutationcp_teacherGetMarketTradeAllArgs = {
+  input: YearMonthInput;
+};
+
+
+export type Mutationcp_teacherGetStudentBankBookArgs = {
+  input: TeacherGetMonth;
+};
+
+
 export type Mutationcp_updateProductArgs = {
   input: CP_UpdateProductIdInput;
+};
+
+
+export type Mutationcp_userExitArgs = {
+  input: UserExitInput;
 };
 
 
@@ -1903,7 +1955,10 @@ export type CP_CheckPossibleIsdOutput = {
 
 export type CreateCpTeacherInput = {
   className: Scalars['String'];
+  email: Scalars['String'];
+  mainId: Scalars['String'];
   name?: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type CP_EditProfileInput = {
@@ -1936,6 +1991,14 @@ export type CP_TradeTmpCode = {
 
 export type CP_InstiAcitveTeacherIssueMoneyInput = {
   money: Scalars['Int'];
+};
+
+export type CP_InstiAcitveSendMoneyInput = {
+  desciption: Scalars['String'];
+  insti_id: Scalars['Int'];
+  money: Scalars['Int'];
+  receiver_id: Scalars['Int'];
+  sender_id: Scalars['Int'];
 };
 
 export type CP_InstiBankServeralSendMoneyOneToManyInput = {
@@ -1992,8 +2055,6 @@ export type CP_BankBook = {
 
 export enum BILL_KIND_TYPE {
   BankExpend = 'BankExpend',
-  BankIssue = 'BankIssue',
-  BankPayIncome = 'BankPayIncome',
   BankSend = 'BankSend',
   CenterIssue = 'CenterIssue',
   IndividualSend = 'IndividualSend',
@@ -2031,6 +2092,17 @@ export type CP_PayPossibleNameInput = {
   className?: Scalars['String'];
 };
 
+export type CP_PayInfoEditInput = {
+  classNum?: Scalars['Int'];
+  classTh?: Scalars['Int'];
+  code: Scalars['String'];
+  isTrade: Scalars['Boolean'];
+  moneyUnit?: Scalars['String'];
+  numberOfDigits?: Scalars['Int'];
+  objKey: Scalars['String'];
+  schoolName?: Scalars['String'];
+};
+
 export type CP_BuyProductIdInput = {
   cppay_id: Scalars['Int'];
   product_id: Scalars['Int'];
@@ -2041,6 +2113,12 @@ export type CheckPossibleIdsInput = {
   mainIds: Array<Scalars['String']>;
 };
 
+export type TeacherGetMonth = {
+  month: Scalars['Int'];
+  user_id: Scalars['Int'];
+  year: Scalars['Int'];
+};
+
 export type CP_UpdateProductIdInput = {
   desciption: Scalars['String'];
   id: Scalars['Float'];
@@ -2048,6 +2126,10 @@ export type CP_UpdateProductIdInput = {
   name: Scalars['String'];
   price?: Scalars['Int'];
   qty?: Scalars['Int'];
+};
+
+export type UserExitInput = {
+  password: Scalars['String'];
 };
 
 export type CP_UserProfileInInput = {
@@ -2853,12 +2935,6 @@ export type EditProfileInput = {
   password?: InputMaybe<Scalars['String']>;
 };
 
-export type EditProfileOutput = {
-  __typename?: 'EditProfileOutput';
-  error?: Maybe<Scalars['String']>;
-  ok: Scalars['Boolean'];
-};
-
 export type StudentRecord = {
   __typename?: 'StudentRecord';
   admissionYear: Scalars['Int'];
@@ -2951,6 +3027,14 @@ export type UserIdHintOutput = {
   error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
   user_id?: Maybe<Scalars['String']>;
+};
+
+export type AdditionalUserProfileOutput = {
+  __typename?: 'AdditionalUserProfileOutput';
+  countCombi?: Maybe<Scalars['Float']>;
+  countHang?: Maybe<Scalars['Float']>;
+  error?: Maybe<Scalars['String']>;
+  ok: Scalars['Boolean'];
 };
 
 export type FullChangChesInput = {
@@ -3316,11 +3400,6 @@ export type UpdateStudentInput = {
   number?: Scalars['Int'];
   thisYear: Scalars['Int'];
   userid: Scalars['Int'];
-};
-
-export type UserExitInput = {
-  id: Scalars['Float'];
-  password: Scalars['String'];
 };
 
 export type UserProfileInInput = {

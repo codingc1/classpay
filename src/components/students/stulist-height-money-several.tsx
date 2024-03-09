@@ -19,7 +19,7 @@ export const StudentListTableMoneyServeral = ({index,student, onClickStudent,rec
     const checkedIcon = receiveStudents.findIndex((stu)=>stu.id===student.id)!==-1?<FaCheck className=" w-5 flex-shrink-0 text-red-400" aria-hidden="true"/>:
         <div className=" w-5"></div>;
 return(
-    <li className={cls(`flex items-center justify-between py-2 pl-4 pr-5 text-sm leading-6 hover:bg-lime-400 cursor-pointer`,bgClass(index))}
+    <li className={cls(`flex items-center justify-between py-1 pl-4 pr-5 text-sm leading-6 hover:bg-lime-400 cursor-pointer`,bgClass(index))}
         onClick={()=>onClickStudent(student)}>
         <div className="flex w-0 flex-1 items-center">
             {checkedIcon}

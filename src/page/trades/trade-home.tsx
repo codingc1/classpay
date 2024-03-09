@@ -12,7 +12,7 @@ import { CSS_LEN, CSS_TEST } from "../../func/html/width-contain/css-contain";
 import { TitleAndLine } from "../../components/title/title-line";
 
 
-
+//결제하기
 export const TradeHome=()=>{
     let navigate = useNavigate();
     const [isBuyMadal, setIsBuyModal] = useState(false)
@@ -36,17 +36,27 @@ export const TradeHome=()=>{
                 </div> */}
 
                 <div className="w-full h-30 mt-3 grid grid-cols-2 gap-x-4 text-white">
-                <div className="p-3 bg-indigo-300 rounded-lg text-sm  cursor-pointer"
+                {/* <div className="p-3 bg-indigo-300 rounded-lg text-sm  cursor-pointer"
                     onClick={()=>setIsBuyModal(true)}
                     >
                     <div className="font-thin">QR코드</div>
                     <div className=" font-bold text-lg" >스캔하기</div>
                     <div className="flex justify-end text-5xl"><AiOutlineScan /></div>
+                </div> */}
+                <div className="p-3 flex flex-col justify-center items-center bg-indigo-300 rounded-lg text-sm  cursor-pointer"
+                    onClick={()=>setIsBuyModal(true)}
+                    >
+                    <div className=" font-semibold text-base" >QR코드 스캔</div>
+                    <div className="mt-1 flex justify-end text-5xl"><AiOutlineScan /></div>
                 </div>
-                <div className="p-3 bg-indigo-400 rounded-lg text-sm  cursor-pointer" onClick={()=>setIsQrcode(true)}>
+                {/* <div className="p-3 bg-indigo-400 rounded-lg text-sm  cursor-pointer" onClick={()=>setIsQrcode(true)}>
                     <div className="font-thin">QR코드</div>
                     <div className=" font-bold text-lg">보여주기</div>
                     <div className="flex justify-end text-5xl"><IoQrCodeOutline /></div>
+                </div> */}
+                <div className="p-3 flex flex-col justify-center items-center bg-indigo-400 rounded-lg text-sm  cursor-pointer" onClick={()=>setIsQrcode(true)}>
+                    <div className=" font-semibold text-base" >QR코드 보여주기</div>
+                    <div className="mt-1 flex justify-end text-5xl"><IoQrCodeOutline /></div>
                 </div>
                 </div>
             </div>}

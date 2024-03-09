@@ -15,7 +15,7 @@ import { logoutFunc } from "../../../func/sys/auth/logout-func";
 import { editCpPayVar } from "../../../stores/cp-pay-store";
 
 
-
+//!--Depessed --!//
 export const CreateCpPay = () => {
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')

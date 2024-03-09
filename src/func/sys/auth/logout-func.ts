@@ -8,6 +8,7 @@ import { editAuth } from "../../../stores/authstore";
 import { useApolloClient } from "@apollo/client";
 import { resetAllStore } from "../../../stores/resetAllStore";
 import { client } from "../../../apollo";
+import LocalStoragePopup from "../../../api/token/localstorage-create-stu";
 
 // import { AUTOLOGIN, LOCALSTORAGE_TOKEN } from "../../../constants";
 
@@ -20,9 +21,10 @@ export const logoutFunc =async()=>{ //로그인버튼, 로그아웃버튼
     // client.resetStore()
     // client.clearStore();
     TokenRepository.removeLoginBundle()
+    LocalStoragePopup.removeStudentAgree()
     // localStorage.removeItem(LOCALSTORAGE_TOKEN); //토큰만 없애면 quthTokenvar isLoggedInvar 모두 false됨
     editAuth.setLogin(false)
-    
+    // window.location.reload();
 
     
     //useMe 캐쉬 삭제

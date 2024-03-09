@@ -56,12 +56,13 @@ export const BankBookHistoryDetail = ({bankbook}:{bankbook:IBankBook}) => {
                     </div>
                 </div>
                 <div className="flex justify-between">
-                    <div className="flex items-center">
+                    <div className="flex items-center text-sm">
                         {/* 천만원이상이면 beforeMoney 생략 */}
-                        {bankbook.beforeMoney>=10000000?'':<div className="flex items-center">{addCommaMan(bankbook.beforeMoney, numberOfDigits)}{moneyUnit}
-                        <FaRegArrowAltCircleRight color="gray" fontSize={'0.8rem'}  /></div>}
+                        {bankbook.beforeMoney>=10000000?'':<div className="flex items-center">{addCommaMan(bankbook.beforeMoney, numberOfDigits)}
+                        <span className="px-1"><FaRegArrowAltCircleRight color="gray" fontSize={'0.8rem'}  /></span></div>}
                         {/* <div className="flex items-center">{addCommaMan(bankbook.beforeMoney)}{moneyUnit}<FaRegArrowAltCircleRight color="gray" /></div> */}
-                        <div>{addCommaMan(bankbook.resultMoney, numberOfDigits)}{moneyUnit}</div>
+                        <div>{addCommaMan(bankbook.resultMoney, numberOfDigits)}</div>
+                        {/* <span >{moneyUnit}</span> */}
                     </div>
                     <div className="text-gray-400 text-sm">{madeDate}</div>
                 </div>

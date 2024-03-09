@@ -15,8 +15,8 @@ export const checkMoney ={
         // if(money > CP_PRODUCT_COLUMN.maxPrice)return{ok:false,error:`금액이 너무 큽니다.${CP_PRODUCT_COLUMN.maxPriceHangul}까지 가능합니다.}`}
         return {ok:true,error:''}
     },
-    //아직 안쓰임
-    sumMoney:(money:number, plusMoney:number)=>{//money이미 유저가 보유하고 있으므로 체크x
+    //받는 사람 금액 체크
+    plusMoney:(money:number, plusMoney:number)=>{//money이미 유저가 보유하고 있으므로 체크x
         // if(checkMoney.money(money).error )return {...checkMoney.money(money), };
         if(checkMoney.money(plusMoney).error )return {...checkMoney.money(plusMoney), };
         const sum_price = money + plusMoney

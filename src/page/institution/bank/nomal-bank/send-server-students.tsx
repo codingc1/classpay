@@ -29,7 +29,7 @@ export const ServerStudents=()=>{
         return ()=>editStudentsVar.setStudent(cpStudentFn.store.student)
     },[])
     //studentList를 3배로 늘임
-    const dummy = studentList.concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList)
+    // const dummy = studentList.concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList)
     //i가 짝수면 bg color gray-100
     
     const onClickStudent=(stu:ICpStudent)=>{ //한명 선택
@@ -87,7 +87,9 @@ export const ServerStudents=()=>{
         alert(isReceiversMoneyMaxOverError.error)
         return
       }
-      callMutation({insti_id:institution.id, oneuser_id:selectStudent.id, serveral_ids:receiveStudents.map((student)=>student.id), money, desciption:'선생님 송금'})
+      const isConfirm = confirm('송금 하시겠습니까?')
+      if(!isConfirm)return
+      callMutation({insti_id:institution.id, oneuser_id:selectStudent.id, serveral_ids:receiveStudents.map((student)=>student.id), money, desciption:'은행송금'})
     }
     const {sendmoneyInputComponent,money,moneyUnit} = useSendmoneyInput({submit:submit, label:'보낼 금액(1인당)'})
 
@@ -105,7 +107,7 @@ export const ServerStudents=()=>{
             {/* <dt className="text-sm font-medium leading-6 text-gray-900">Attachments</dt> */}
             <dd className="mt-2 text-sm text-gray-900">
               <ul role="list" className="divide-y divide-gray-100 rounded-md border border-gray-200">
-              {dummy.map((student,i)=><StudentListTableMoney index={i} student={student} onClickStudent={onClickStudent} />)}
+              {studentList.map((student,i)=><StudentListTableMoney index={i} student={student} onClickStudent={onClickStudent} />)}
                 {/* <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                   <div className="flex w-0 flex-1 items-center">
                     <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
@@ -145,7 +147,7 @@ export const ServerStudents=()=>{
                   </div>
                   <div className=" text-right font-semibold text-lg cursor-pointer hover:bg-gray-200" onClick={()=>setIsServeralStudentModal(false)}>X</div>
                 </div>
-                {dummy.map((student,i)=><StudentListTableMoneyServeral index={i} student={student} onClickStudent={onClickStudentServeral} 
+                {studentList.map((student,i)=><StudentListTableMoneyServeral index={i} student={student} onClickStudent={onClickStudentServeral} 
                 receiveStudents={receiveStudents} setReceiveStudents={setReceiveStudents} />)}
               </ul>
             </dd>

@@ -23,6 +23,8 @@ export const CP_ME_QUERY = gql`
         className
         imgurl
         moneyUnit
+        numberOfDigits
+        isTrade
       }
     }
   }

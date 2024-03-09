@@ -7,6 +7,8 @@ import { useState } from "react";
 import { InstiCenterBank } from "./bank/insti-center-bank";
 import { InstiCenterBankDeleteMoney } from "./bank/insti-center-bank-delmoney";
 import { InstitutionBank } from "./bank/insti-bank";
+import { useNavigate } from "react-router-dom";
+import { CP_INSTITUTION_CENTERBANK_ROUTE_NAME } from "../../routers/contains/ecomomy";
 
 
 
@@ -16,6 +18,7 @@ import { InstitutionBank } from "./bank/insti-bank";
 //어느 기관을 클릭하던 보여줌, 단지 그 기관에 주어진 권한을 위에 보여줌
 //css-base CProductsHome
 export const InstitutionHome=()=>{
+    let navigate = useNavigate()
     const institution = useReactiveVar(cpInstitutionVar).institution;
     const selPermissionNum = useReactiveVar(cpInstitutionVar).selPermissionNum;
 
@@ -61,7 +64,9 @@ export const InstitutionHome=()=>{
                 <div className="grid box-border" style={{gridTemplateColumns:'repeat(3, minmax(0, 1fr)',gap: '0.25rem'}}>
                     {institution.instiPermission.map((permission,index)=>{
                         return(
-                            <div key={permission.id} className={gridCss(index)} onClick={()=>editCpInstitutionVar.selPermissionNum(index)}>
+                            <div key={permission.id} className={gridCss(index)} onClick={()=>{
+                                editCpInstitutionVar.selPermissionNum(index)
+                            }}>
                                 <div className="w-full text-center   truncate">{CPermission.permition_toString(permission.permissionName)}</div>  
                             </div>
                         )

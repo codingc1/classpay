@@ -15,8 +15,8 @@ import { PopuCenterCloseBtn } from '../sm-center/popup-center-close-btn'
 </div>
 //여러 팝업을 한 화면에
 //https://medium.com/h3o/portal-%EC%82%AC%EC%9A%A9%EC%9C%BC%EB%A1%9C-%ED%9A%A8%EC%9C%A8%EC%A0%81%EC%9D%B8-modal-%EC%82%AC%EC%9A%A9-ae081e8463ee
-function PopupCenterStudent({  onClose, contents=defaultContents, option, isTopClose  }:
-    {  isTopClose?:boolean, onClose:()=>void, contents?: ReactNode ,
+function PopupCenterStudent({  onClose, title, contents=defaultContents, option, isTopClose  }:
+    {  isTopClose?:boolean, onClose:()=>void, title?:string, contents?: ReactNode ,
         option:{width:number, height:number, }
     }) { //className, 
 
@@ -51,11 +51,13 @@ function PopupCenterStudent({  onClose, contents=defaultContents, option, isTopC
             >
                 {/* transform: 'translateY(-50%)', */}
               {/* <div  className={` flex justify-center items-center `} style={{width:option.width, height:option.height}}> */}
-              <div style={{ boxSizing: 'border-box', position: 'fixed',width: `${option.width}px`, height: `${option.height}px`, maxHeight:'600px', zIndex: 1001,
-                top: `${calTop(option.height)}%`,left:`${calWidth(option.width)}%`,  margin: '0 auto', padding: '5px 10px', border:'1px solid black'}}
+              {/* maxHeight:'600px', */}
+              <div style={{ boxSizing: 'border-box', position: 'fixed',width: `${option.width}px`, height: `${option.height}px`,  zIndex: 1001,
+                top: `${calTop(option.height)}%`,left:`${calWidth(option.width)}%`,  margin: '0 auto', padding: '5px 0px', border:'1px solid black'}}
                 className=" bg-white" onClick={(e)=>e.stopPropagation()}>
                 <div className='flex flex-col items-center'></div>
                 { isTopClose && <PopuCenterCloseBtn  close={close} />}
+                    {title && <div className="px-2 text-lg font-bold">{title}</div>}
                     {contents}
             </div>
             </div>

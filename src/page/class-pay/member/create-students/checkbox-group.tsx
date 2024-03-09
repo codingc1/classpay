@@ -1,4 +1,5 @@
 import { HomeIconTitle } from "../../../../components/home/icon/home-icon-title";
+import { AgreeStudent } from "./agree-student";
 
 
 
@@ -13,7 +14,8 @@ export const CreateStuCheckBoxGroup = ({notificationMethods, isHumanInput} :
         <div>
             <div className="py-5 flex text-lg items-center"><HomeIconTitle />학생 추가하기</div>
                 {/* <label className="text-base font-semibold text-gray-900"><HomeIconTitle /></label> */}
-                <p className="text-sm text-gray-500">학생 계정을 생성하고 학급페이에 가입합니다</p>
+                <p className="text-sm text-gray-500">학생 계정을 생성하고 학급에 가입합니다</p>
+                <AgreeStudent />
                 <fieldset className="mt-4">
                     <legend className="sr-only">설명</legend>
                     <div className="flex items-center space-y-0">

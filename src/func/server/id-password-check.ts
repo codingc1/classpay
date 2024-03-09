@@ -1,5 +1,6 @@
 
-
+//Deprecated --!!
+//CPCreateStudents 에서 사용했으나 통합
 
  export const checkCPUserMainIdOk=(str:string):boolean=> {
    const reg1 =  /^[a-z0-9]{4,14}$/; //영어 숫자로만

@@ -13,6 +13,7 @@ import { BankBookHistoryMonth } from "./book-history/book-th-month";
 import { BankBookHistoryDetail } from "./book-history/th-detail";
 import { useWindowSizeTrans } from "../../../../func/html/useWidthTrans";
 import { CSS_LEN } from "../../../../func/html/width-contain/css-contain";
+import { BankBookHistoryMonthContainer } from "./book-history/book-th-month-container";
 
 
 //거래내역 
@@ -69,8 +70,9 @@ export default function BankBookHistoryHome() {
                 <div className=" font-bold" style={{fontSize:'1.5rem'}}>{addCommaMan(meData?.cp_me.money||0,numberOfDigits)}{moneyUnit}</div>
             </section>
             <section className="w-full px-1 bg-white">
-                {/* useEffect로 bill데이터 가져옴 */}
-                <BankBookHistoryMonth currentDate={currentDate} setCurrentDate={setCurrentDate} setNowBook={setNowBook} isLoading={isLoading} setIsLoading={setIsLoading} />
+                {/* useEffect로 bill데이터 가져옴 */} 
+                <BankBookHistoryMonthContainer currentDate={currentDate} setCurrentDate={setCurrentDate} setNowBook={setNowBook} isLoading={isLoading} setIsLoading={setIsLoading} />
+                {/* <BankBookHistoryMonth currentDate={currentDate} setCurrentDate={setCurrentDate} setNowBook={setNowBook} isLoading={isLoading} setIsLoading={setIsLoading} /> */}
 
                 {!isLoading && nowBook.map((book, index) => <BankBookHistoryDetail key={'book'+index}bankbook={book} />)}
 

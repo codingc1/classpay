@@ -24,7 +24,7 @@ const useErrorShow=()=>{
                   }
                   if(err.message === 'Unauthorized'){
                         ConsoleHelper('location : ', aa)
-                      ConsoleHelper(err.message, 'err msg')
+                      ConsoleHelper(err.message, 'Unauthorized message')
                       alert(`문제가 발생하였습니다` );
                   }else if(err.message&& err.message[0]==='@'){
                     alert(err.message.substring(1))
@@ -32,13 +32,13 @@ const useErrorShow=()=>{
                     }else{
                       
                       ConsoleHelper('location : ', aa)
-                      ConsoleHelper(err.message, 'err msg')
+                      ConsoleHelper(err.message, 'else message')
                       alert(`비정상적인 문제가 발생하였습니다..` );
                       // alert(err.message );
                     }
             }else{
               ConsoleHelper('location : ', aa)
-              ConsoleHelper(err, 'err msg elses')
+              ConsoleHelper(err, 'no msg elses')
             }
         }catch(e){
             ConsoleHelper('location : ', aa)

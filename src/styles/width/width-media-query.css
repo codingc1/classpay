@@ -1,0 +1,15 @@
+/* 윈도우 width가 400px 이상인 경우 */
+@media screen and (min-width: 400px) {
+    .max400width {
+      width: 390px;
+      min-height: 550px;
+    }
+  }
+  
+  /* 윈도우 width가 400px 미만인 경우 */
+  @media screen and (max-width: 399px) {
+    .max400width {
+      width: 97.5%;
+      min-height: 550px;
+    }
+  }

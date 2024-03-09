@@ -70,7 +70,7 @@ export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.S
         const [handleError] = useErrorShow()
         const [cp_createProductMutation, { loading,  }] = useMutation<cp_createProductMutationMutation, cp_createProductMutationMutationVariables>(CP_CREATE_PRODUCT_MUTATION, {async onCompleted (data){
             if(data.cp_createProduct.ok  ){ //
-            alert('물품을 만들었습니다')
+            alert('물품을 등록하었습니다')
             await client.refetchQueries({
                 include: [CP_MY_PRODUCTS_QUERY],//cppay list refech
               });
@@ -81,7 +81,7 @@ export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.S
              alert(`만드는데 실패하였습니다..\n${data.cp_createProduct.error}` );
            }
          }, onError: (err) => {
-            handleError(err, '물품 만들기를 실패하였습니다.')
+            handleError(err, '물품 등록하기에 실패하였습니다.')
          } });
          const submit=()=>{
             const {name, desciption,imgurl} =productObj
@@ -109,7 +109,7 @@ export const ProductCreatePopup=({setIsModal}:{setIsModal:React.Dispatch<React.S
             //     alert('보유 개수를 입력해 주세요');
             //     return;
             // }
-            const isConfirm = window.confirm(name+'을 생산할까요? ')
+            const isConfirm = window.confirm(name+'을 등록할까요? ')
             if(!isConfirm)return
             // console.log('submit', name, desciption, price, qty, imgurl)
             cp_createProductMutation({

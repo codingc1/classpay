@@ -32,10 +32,12 @@ export class Class_Insti {
             return '화폐축소'
           case CP_INSTI_PERMISSION.BankSendMoney:
             return '입출금'
-          case CP_INSTI_PERMISSION.BankPayIncome:
-            return '소득지급'
+          // case CP_INSTI_PERMISSION.BankPayIncome:
+          //   return '소득지급'
           case CP_INSTI_PERMISSION.FairTradeCheck:
-            return '거래조회'
+            return '상품거래조회'
+          case CP_INSTI_PERMISSION.FairTradeBookBank:
+            return '통장조회'
           default:
             return '알수없음'
         }
@@ -49,5 +51,4 @@ export class Class_Insti {
   HANGOOK_BANK: "한국은행", //화폐발행-은행
   BANK:"은행",//화폐폐기-은행
   FAIR_TRADE:"공정거래위원회", //거래내역조회-공정거래위원해 //모든학생 거래내역 조회
-
 } as const;

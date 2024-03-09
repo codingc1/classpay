@@ -4,7 +4,7 @@ import {Helmet} from "react-helmet-async";
 import { useNavigate,  } from "react-router-dom";
 import TokenRepository from "../../api/token/tokenRepo";
 import { PAY_HOME, CP_PAY_CREATE_ROUTE_NAME, LOGIN_ROUTE_NAME } from "../../routers/route-name-constants";
-import { authVar } from "../../stores/authstore";
+import { authVar, editAuth } from "../../stores/authstore";
 import { editRouteVar, routeVar } from "../../stores/route-info-store";
 import HomeClassListComponent from "./home-class-list";
 import HomeProfileHeader from "./header/home-profile-header";
@@ -25,12 +25,16 @@ export const HomeNew = () => {
     useEffect(()=>{
       editRouteVar.header.setVisible(false) //학급에 들어가야 시작됨
     },[])
+    //홈과 classPayApp에서만 토큰을 사용하여 자동 로그인 유지
     useEffect(()=>{ //로그인하지 않앗다면 로그인으로 보내기  
         if(!isLoggedIn){//처름 들어왔을때는 isLoggedIn=false이므로 자돌로그인 아니면 로그인 화면으로 이동
             const token = TokenRepository.getToken()
             const isAuto = TokenRepository.getAuto()
             if(!token || !isAuto){
-            navigate(LOGIN_ROUTE_NAME)
+                navigate(LOGIN_ROUTE_NAME)
+            }else{
+                editAuth.setLogin(true) //login처리   
+                navigate(PAY_HOME) 
             }
         }else if(cppay.id !== 0){
             navigate(PAY_HOME)

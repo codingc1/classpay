@@ -19,17 +19,19 @@ import { useNavigate } from "react-router-dom"
 import { TitleAndLine } from "../../../../components/title/title-line"
 import { checkMoney } from "../../../../utils/institution/chk-sendmoney"
 import { cls } from "../../../../func/basic/string/cls"
+import { InlineInputLable } from "../../../../components/input/inline-input-lable"
 
 
 
 
-
+//개인이 개인에게 송금하기
 export default function BankBookSendMoney() {
     let navigate = useNavigate();
     const {data:meData} =useMe()
     const student = useReactiveVar(cpStudentsVar).student;
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
     const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
+    const [note, setNote] = useState('') //비고
 
     useEffect(()=>{
         editStudentsVar.setStudent(cpStudentFn.store.student)
@@ -45,7 +47,9 @@ export default function BankBookSendMoney() {
         setMoney(num)
     }
 
-    
+    const onChange =(e: React.ChangeEvent<HTMLInputElement>)=>{
+        setNote(e.target.value)      
+    }
     
     const [handleError] = useErrorShow()
     const { billMutation,loading:bankbookloading } = useBankBookMu({})//setData:setNowBook,setIsLoading:setIsLoading
@@ -83,7 +87,7 @@ export default function BankBookSendMoney() {
         if(!isConfirm)return;
         individual_sendMoneyhMutation({
             variables: { //year:newYear, month:newMonth
-                cp_sendMoneyIndivisualInput: { receiver_id:student.id, money, desciption:'송금' }, //cppay_id:Number(payid),
+                cp_sendMoneyIndivisualInput: { receiver_id:student.id, money, desciption:note?note:'송금' }, //cppay_id:Number(payid),
             },
             });
     }
@@ -111,6 +115,9 @@ export default function BankBookSendMoney() {
             </div>
             <div className="mt-2"></div>
             <NomadInputPrice value={money}  onChange={moneychange} label="보낼 금액" name="price" isHideZeoro={true} options={{focusColor:'c_input_blue'}} moneyUnit={moneyUnit}/>
+
+            <InlineInputLable label={'비고'} name={'note'} placeholder={'내용(선택)'} value={note} onChangeValue={onChange} />
+            
             <div className="  flex mt-3" >
                     <NomadCssButton text={"보내기"} onClick={submit} large={true} option={{cls:'c_btn_red'}} />
             </div>

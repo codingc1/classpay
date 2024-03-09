@@ -29,19 +29,19 @@ interface ITradeTmpProduct{
 }
 // export type IProduct = Pick<CP_Product, "id"|"name"|"qty"|"desciption"|"seller_id"|"price"|"imgurl" >
 
-export interface IBill{
-    id:number;
-    cppay_id:number;   
-    seller_id:number;
-    seller_name:string;
-    consumer_id:number;  
-    consumer_name:string;
-    name:string; //product name
-    qty:number;
-    price:number;
-    sumPrice:number;
-    createdAt:string;
-}
+// export interface IBill{
+//     id:number;
+//     cppay_id:number;   
+//     seller_id:number;
+//     seller_name:string;
+//     consumer_id:number;  
+//     consumer_name:string;
+//     name:string; //product name
+//     qty:number;
+//     price:number;
+//     sumPrice:number;
+//     createdAt:string;
+// }
 // interface IBillObj{ [key: string]: IBill[];}
 interface IRoute { 
     institution:IInstitution; //selectd institution

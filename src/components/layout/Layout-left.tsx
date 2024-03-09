@@ -15,13 +15,14 @@ import { authVar } from '../../stores/authstore';
 import { editRouteVar, routeVar } from '../../stores/route-info-store';
 import { HamburgerIcon } from '../../page/Home/header/left-menu/hambuger-icon';
 import { useLogout } from '../../func/sys/auth/useLogout';
-import { CP_PAY_MEMBER_ROUTE_NAME, PAY_HOME, USER_PROFILE_ROUTE_NAME, cp_pay_app_route_fn, cp_pay_member_route_fn, cp_pay_setting_route_fn,  } from '../../routers/route-name-constants';
+import { CP_PAY_MEMBER_ROUTE_NAME, PAY_HOME, USER_PROFILE_ROUTE_NAME, cp_pay_app_route_fn, cp_pay_member_route_fn, CP_SETTING_HOME_ROUTE_NAME,  } from '../../routers/route-name-constants';
 import { cpPayVar } from '../../stores/cp-pay-store';
 import { InstitutionChild } from './institution/institution-child';
 import { useInstitutionshMutation } from './institution/useInstitutionshMutation';
 import { GoTriangleDown } from "react-icons/go";
 import { useInstitutionshQuery } from './institution/useInstitutionshQuery';
 import { editCpInstitutionVar } from '../../stores/cp-institution';
+import { LayOutSettingBtn } from './layout-left/layout-setting-btn';
 
   
   function classNames(...classes:any) {
@@ -61,11 +62,11 @@ function LayoutLeft() {
   }
   const navigation = [
     { name: '기본화면', href: PAY_HOME, icon: HomeIcon, current: true, child:null },
-    { name: '멤버', href: CP_PAY_MEMBER_ROUTE_NAME, current: false, child:null },
+    { name: '구성원', href: CP_PAY_MEMBER_ROUTE_NAME, current: false, child:null },
     { name: '기관', href: '#', icon: UserGroupIcon, current: false, child:true, onClick: instiClick},
     { name: 'Directory', href: '#', icon: MagnifyingGlassCircleIcon, current: false, child:null },
     { name: 'Announcements', href: '#', icon: MegaphoneIcon, current: false, child:null },
-    { name: '설정', href: cp_pay_setting_route_fn(Number(payid)), icon: MapIcon, current: false, child:null },
+    // { name: '설정', href: cp_pay_setting_route_fn(Number(payid)), icon: MapIcon, current: false, child:null },
   ]
 
   const [logout] = useLogout()
@@ -74,7 +75,7 @@ function LayoutLeft() {
     setSidebarOpen(false);navigate(PAY_HOME)}}>Home</div>
   const Logoutcomponent=(
     <div className='w-full flex justify-between items-center flex-shrink-0 border-t border-gray-200 p-4'>
-      <div className='cursor-pointer' onClick={()=>logout()}>로그아웃</div>
+      <div className='cursor-pointer' onClick={()=>{logout();window.location.reload();}}>로그아웃</div>
       <div className='cursor-pointer' onClick={()=>{navigate(USER_PROFILE_ROUTE_NAME);setSidebarOpen(false);}}>내 정보</div>
     </div>
   )
@@ -186,6 +187,7 @@ function LayoutLeft() {
                           </div>
                         )}
                         )}
+                        <LayOutSettingBtn setSidebarOpen={setSidebarOpen} />
                       </div>
                     </nav>
                   </div>
@@ -221,7 +223,7 @@ function LayoutLeft() {
 
         {/* Static sidebar for desktop w-64*/}
         { <div className={`${isShow?'hidden md:flex md:flex-shrink-0':'hidden '}`}>
-          <div className="flex w-64 flex-col">
+          <div className=" h-screen flex w-64 flex-col">
             {/* Sidebar component, swap this element with another sidebar if you like */}
             <div className="flex min-h-0 flex-1 flex-col border-r border-gray-200 bg-gray-100">
               <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
@@ -275,9 +277,14 @@ function LayoutLeft() {
                     )}
                     )}
                   </div>
+                  <LayOutSettingBtn setSidebarOpen={setSidebarOpen}/>
+        
                 </nav>
+                <div className='flex'>
+                    {Logoutcomponent}
+                  </div>
               </div>
-              {Logoutcomponent}
+             
               {/* <div className="flex flex-shrink-0 border-t border-gray-200 p-4">
                 <a href="#" className="group block w-full flex-shrink-0">
                   <div className="flex items-center">

@@ -15,7 +15,7 @@ export const StudentListTableMoney = ({index,student, onClickStudent}:{index:num
         return ''
     }
 return(
-    <li className={cls(`flex items-center justify-between py-2 pl-4 pr-5 text-sm leading-6 hover:bg-lime-400 cursor-pointer`,bgClass(index))}
+    <li className={cls(`flex items-center justify-between py-1 pl-4 pr-5 text-sm leading-6 hover:bg-lime-400 cursor-pointer`,bgClass(index))}
         onClick={()=>onClickStudent(student)}>
         <div className="flex w-0 flex-1 items-center">
             <IoAccessibilityOutline className=" w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
