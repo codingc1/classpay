@@ -5,10 +5,8 @@ import { cpPayVar } from "../../../../../stores/cp-pay-store";
 import { cpPayFn } from "../../../../../stores/sub-store-fn/cp-pay-fn";
 import { useDebounceFunction } from "../../../../../func/basic/useDebounce";
 import { BankBookHistoryMonth } from "../../../../class-pay/economy/bankbook/book-history/book-th-month";
-import { useBankBookTeacherAllMu } from "../../../../../hooks/cp-pay/institution/bankbook/useBankBookInstiTeacherAllMu";
 import { useBankBookTeacherMu } from "../../../../../hooks/cp-pay/institution/bankbook/useBankBookInstiTeacherMu";
 import { ICpStudent } from "../../../../../stores/cp-students-store";
-
 
 
 
@@ -25,8 +23,11 @@ export const OTMBookBankContainer = ({student, currentDate, setCurrentDate,setNo
         const bookRedux = useReactiveVar(cpPayVar).bankBooks;
 
 
+//컨테이서 파일 삭제하고 위로 올려도 될듯..
 
         const { billMutation,loading } = useBankBookTeacherMu({setData:setNowBook,setIsLoading:setIsLoading, })
+        // const {updateBills} =useBankBookMonth({currentDate, setNowBook,isLoading,setIsLoading,bookRedux, keyFn:cpPayFn.bill.makeOneStudentKey
+        //     ,billMutation,loading})
         useEffect(()=>{
             //makeAllStudentsKey 가 달라서 다른 학생 data와 겹치지 않음
             const key =cpPayFn.bill.makeOneStudentKey({year:currentDate.year, month:currentDate.month,student_id:student.id})

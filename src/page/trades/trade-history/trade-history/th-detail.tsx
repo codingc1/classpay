@@ -7,7 +7,7 @@ import { useMe } from "../../../../hooks/user/useMe";
 import { addCommaMan } from "../../../../func/basic/number/addComma";
 import { useReactiveVar } from "@apollo/client";
 
-export const TradeHistoryDetail = ({bill}:{bill:IBill}) => {
+export const TradeHistoryDetail = ({bill, student_id}:{bill:IBill,student_id?:number}) => {
     const {data:meData, loading} = useMe()
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
     const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
@@ -25,6 +25,10 @@ export const TradeHistoryDetail = ({bill}:{bill:IBill}) => {
 
     //판매자와 user가 같으면 isIncome = true
     const isIncome =()=>{
+        if(student_id !== undefined){
+            if(student_id === bill.seller_id )return true
+            return false
+        }
         if(!meData)return false
         if(meData.cp_me.id === bill.seller_id)return true
         return false

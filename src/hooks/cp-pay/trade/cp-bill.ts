@@ -43,9 +43,20 @@ mutation cp_MyBillsMonthMutation($yearMonthInput:YearMonthInput!) {
 ${CP_BILL_FRAGMENT}
 `;
 
+//교사의 반 전체 거래내역 조회
 export const CP_TEACHER_GETSTUDENTS_ALL_BILLS_MONTH_MUTATION = gql`
 mutation cp_teacherGetMarketTradeAllMutation($yearMonthInput:YearMonthInput!) {
   cp_teacherGetMarketTradeAll(input: $yearMonthInput) {
+        ...CP_BillParts
+  }
+}
+${CP_BILL_FRAGMENT}
+`;
+
+//교사의 학생 한명 거래내역 조회
+export const CP_TEACHER_GET_ONESTUDENT_BILL_MUTATION = gql`
+mutation cp_teacherGetOneStudentBillMutation($teacherGetMonth:TeacherGetMonth!) {
+  cp_teacherGetOneStudentBill(input: $teacherGetMonth) {
         ...CP_BillParts
   }
 }

@@ -13,7 +13,7 @@ export const AgreeInfo = ({setIsTeacher, setAgreeAll}:{
 }) => { 
     const [ indivisualContent, indivisualChecked,] = useCheckboxAndText({text:'개인정보 수집 동의',size:' text-md'}) //PRIVACY_POLICY_ROUTE_NAME
     const [ mulgogiAgreeContent, mulgogiAgreeChecked,] = useCheckboxAndText({text:'물고기경제 이용약관',size:' text-md'})
-    const [ isTeacherContent, isTeacherChecked,] = useCheckboxAndText({text:'선생님입니다',size:' text-md'})
+    const [ isTeacherContent, isTeacherChecked,] = useCheckboxAndText({text:'14세 이상이고 선생님입니다',size:' text-md'})
     useEffect(()=>{ 
         if(indivisualChecked && mulgogiAgreeChecked ){
             setAgreeAll(true)

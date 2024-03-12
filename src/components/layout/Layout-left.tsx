@@ -12,13 +12,13 @@ import {
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import { useReactiveVar } from '@apollo/client';
 import { authVar } from '../../stores/authstore';
-import { editRouteVar, routeVar } from '../../stores/route-info-store';
+import { routeVar } from '../../stores/route-info-store';
 import { HamburgerIcon } from '../../page/Home/header/left-menu/hambuger-icon';
 import { useLogout } from '../../func/sys/auth/useLogout';
-import { CP_PAY_MEMBER_ROUTE_NAME, PAY_HOME, USER_PROFILE_ROUTE_NAME, cp_pay_app_route_fn, cp_pay_member_route_fn, CP_SETTING_HOME_ROUTE_NAME,  } from '../../routers/route-name-constants';
+import { CP_PAY_MEMBER_ROUTE_NAME, PAY_HOME, USER_PROFILE_ROUTE_NAME,  } from '../../routers/route-name-constants';
 import { cpPayVar } from '../../stores/cp-pay-store';
 import { InstitutionChild } from './institution/institution-child';
-import { useInstitutionshMutation } from './institution/useInstitutionshMutation';
+// import { useInstitutionshMutation } from './institution/useInstitutionshMutation';
 import { GoTriangleDown } from "react-icons/go";
 import { useInstitutionshQuery } from './institution/useInstitutionshQuery';
 import { editCpInstitutionVar } from '../../stores/cp-institution';
@@ -64,8 +64,8 @@ function LayoutLeft() {
     { name: '기본화면', href: PAY_HOME, icon: HomeIcon, current: true, child:null },
     { name: '구성원', href: CP_PAY_MEMBER_ROUTE_NAME, current: false, child:null },
     { name: '기관', href: '#', icon: UserGroupIcon, current: false, child:true, onClick: instiClick},
-    { name: 'Directory', href: '#', icon: MagnifyingGlassCircleIcon, current: false, child:null },
-    { name: 'Announcements', href: '#', icon: MegaphoneIcon, current: false, child:null },
+    // { name: 'Directory', href: '#', icon: MagnifyingGlassCircleIcon, current: false, child:null },
+    // { name: 'Announcements', href: '#', icon: MegaphoneIcon, current: false, child:null },
     // { name: '설정', href: cp_pay_setting_route_fn(Number(payid)), icon: MapIcon, current: false, child:null },
   ]
 

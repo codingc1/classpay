@@ -45,8 +45,8 @@ export interface IBill{
     desciption:string;
     createdAt:string;
 }
-interface IBillObj{ [key: string]: IBill[];}
-interface IBankBookObj{ [key: string]: IBankBook[];}
+export interface IBillObj{ [key: string]: IBill[];}
+export interface IBankBookObj{ [key: string]: IBankBook[];}
 interface IRoute { 
     payid: number;
     cppay: ICpPay;

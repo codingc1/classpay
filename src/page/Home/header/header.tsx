@@ -5,6 +5,7 @@ import { AddMenu } from "./add-menu/add-menu";
 import { useLogout } from "../../../func/sys/auth/useLogout";
 
 
+//Deprecated
   //ui 라이브러리 https://headlessui.com/react/popover
   //가져옴 https://salient.tailwindui.com/
 export function Header() { 
@@ -27,7 +28,7 @@ export function Header() {
             <div className="flex items-center md:gap-x-12">
               {/* <div className="hidden md:flex md:gap-x-6"> */}
               <div className="hidden md:grid grid-cols-4 " style={{width:'400px'}}>
-                <NavLink isMouseOver={isMouseOver} setIsMouseOver={setIsMouseOver} goto="/login">학급페이관리</NavLink>
+                <NavLink isMouseOver={isMouseOver} setIsMouseOver={setIsMouseOver} goto="/login">물고기경제관리</NavLink>
                 <NavLink isMouseOver={isMouseOver} setIsMouseOver={setIsMouseOver} goto={'/login'}><div>qr-scan</div></NavLink>
                 <NavLink isMouseOver={isMouseOver} setIsMouseOver={setIsMouseOver} goto="/login">Pricing</NavLink>
                 <NavLink isMouseOver={isMouseOver} setIsMouseOver={setIsMouseOver} goto="/login">Pricing</NavLink>

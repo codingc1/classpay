@@ -107,7 +107,7 @@ export const AddMenu= ({isMouseOver, setIsMouseOver}:{
                   onClick={()=>{
                     setIsMouseOver(false);
                     // navigate(HANGBAL_ROUTE_NAME)
-                    }}>학급페이 리스트</div>
+                    }}>물고기경제 리스트</div>
                 <div className="text-center py-1 cursor-pointer hover:text-blue-700"
                     onClick={()=>{
                       setIsMouseOver(false);

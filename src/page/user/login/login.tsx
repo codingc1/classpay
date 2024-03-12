@@ -14,6 +14,7 @@ import { editRouteVar } from "../../../stores/route-info-store";
 import { CP_ME_QUERY } from "../../../hooks/user/useMe";
 import { editCpPayVar } from "../../../stores/cp-pay-store";
 import { SIGNUP_ROUTE_NAME } from "../../../routers/route-name-constants";
+import { isProduction } from "../../../api/app-setting";
 export const CP_LOGIN_MUTATION = gql`
   mutation cp_loginMutation($cp_LoginInput: CP_LoginInput!) {
     cp_login(input: $cp_LoginInput) {
@@ -27,8 +28,9 @@ export const CP_LOGIN_MUTATION = gql`
 
 export const Login = () => {
   const navigate = useNavigate();
-  const [mainId, setMainId] = useState('test113') //aaa1
-  const [password, setPassword] = useState('qqqqqqq1') //aaaaa1
+
+  const [mainId, setMainId] = useState(isProduction()?'':'test113') //aaa1
+  const [password, setPassword] = useState(isProduction()?'':'qqqqqqq1') //aaaaa1
 
   // const {setRouteGotoFunc} = useRouteGoTo() 
   useEffect(()=>{
@@ -139,7 +141,7 @@ const [handleError] = useError()
         </div>
       </div>
     {/* <div className=" w-full flex justify-start items-center">
-      <div>학급페이가 처음이세요?{" "}</div>
+      <div>물고기경제가 처음이세요?{" "}</div>
       <div className="px-2 py-2">
         <a href="/create-account" className="text-lime-600 hover:underline">회원 가입하기</a>
       </div>

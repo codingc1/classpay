@@ -39,7 +39,7 @@ export const CP_PAY_TRADE_HISTORY_ROUTE_NAME = '/classpay/tradehistory'//거래�
 export const CP_SETTING_HOME_ROUTE_NAME = '/classpay/setting'//설정
 
 //!--Deprecated--!
-export const cp_pay_app_route_fn =(num:number):string=>PAY_HOME+'/'+num;
+// export const cp_pay_app_route_fn =(num:number):string=>PAY_HOME+'/'+num;
 // export const CP_PAY_SETTING_ROUTE_NAME = PAY_HOME+'/:payid'+'/setting';
 export const cp_pay_member_route_fn =(num:number|string):string=>PAY_HOME+'/'+num +'/member' 
 export const cp_pay_products_route_fn =(num:number|string):string=>PAY_HOME+'/'+num +'/products' //판매상품

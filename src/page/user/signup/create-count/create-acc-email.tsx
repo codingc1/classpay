@@ -20,7 +20,7 @@ export const CreateAccEmail: React.FC<ITdProps>=({email, setEmail,emailMsg, setE
         setEmail(e.target.value)
         const emailRegex =/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (!emailRegex.test(e.target.value)) { 
-            setEmailMsg('메일주소를 입력해 주세요(비밀번호찾기로 쓰입니다)')
+            setEmailMsg('메일주소를 입력해 주세요(추후 비밀번호찾기로 쓰일예정입니다)')
         } else {
             setEmailMsg('')
         }

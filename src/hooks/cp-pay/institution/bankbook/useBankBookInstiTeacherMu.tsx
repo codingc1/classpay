@@ -4,29 +4,34 @@ import { cp_teacherGetStudentBankBookMutationMutation, cp_teacherGetStudentBankB
 import { CP_BANKBOOKS_MONTH_MUTATION, CP_TEACHER_GETSTUDENTS_BANKBOOKS_MONTH_MUTATION } from "../../trade/cp-bill";
 import { editCpPayVar } from "../../../../stores/cp-pay-store";
 import { useRef } from "react";
+import { useBankBookRessetdata } from "./useBankBookRessetdata";
 
 
 
 
 //insti 공정거래위원회 학생별 조회
-export const useBankBookTeacherMu = ({setData,setIsLoading}:{ setData?:any,setIsLoading?:any}) => {
+export const useBankBookTeacherMu = ({setData,setIsLoading}:{ setData?:any,setIsLoading?:any,}) => {
+    // const {resultSetData, date, setDate, errFn} = useBankBookRessetdata({setData,setIsLoading, })
     const date = useRef({year:0,month:0, student_id:0});
 
     const [handleError] = useErrorShow()
     const [cp_MyBanksMonthMutation, { loading,  }] = useMutation<cp_teacherGetStudentBankBookMutationMutation, cp_teacherGetStudentBankBookMutationMutationVariables>(CP_TEACHER_GETSTUDENTS_BANKBOOKS_MONTH_MUTATION, {async onCompleted (data){
         
         const resultData = data.cp_teacherGetStudentBankBook
+        // resultSetData(resultData)
         //add => 
+        // console.log(date.current.student_id, 'date.current.student_id')
         editCpPayVar.bankBook.teacherOneStudentAdd({year:date.current.year, month:date.current.month,student_id:date.current.student_id, data:resultData})
         if(setData)setData(resultData); //이번 달 state에 저장
         if(setIsLoading)setIsLoading(false)
         }, onError: (err) => {
-            // setIsLoading(false)
+            // errFn(err)
             if(setIsLoading)setIsLoading(false)
             handleError(err, '조회에 실패하였습니다.')
         } });
     const billMutation=({year, month, user_id}:{year:number, month:number,user_id:number})=>{
         if(loading){return}
+        // setDate(year, month, user_id)
         date.current.year = year
         date.current.month = month
         date.current.student_id = user_id

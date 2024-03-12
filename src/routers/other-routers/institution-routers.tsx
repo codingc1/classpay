@@ -3,10 +3,11 @@ import { InstiCenterBankOuter } from "../../page/institution/bank/insti-center-b
 import { CbbRecentBookList } from "../../page/institution/fair-trade/book-bank/cbb-resent/cbb-recent-book-list";
 import { OneStudnetBookBank } from "../../page/institution/fair-trade/book-bank/students-book-bank/one-student-bookbank";
 import { StudentBookBankSubHome } from "../../page/institution/fair-trade/book-bank/students-book-bank/students-book-bank-subhome";
-import { FairTradeOuter } from "../../page/institution/fair-trade/fair-trade-check-home";
-import { FairtradeMarkettradeRecenHome } from "../../page/institution/fair-trade/trade/ftt-recent-home";
+import { FairtradeMarkettradeRecenHome } from "../../page/institution/fair-trade/market/ftt-recent-home";
+import { OneStudnetMaketBook } from "../../page/institution/fair-trade/market/market-stu-list-view.tsx/one-student-market";
+import { StudentListMarket } from "../../page/institution/fair-trade/market/market-stu-list-view.tsx/students-list-market";
 import { InstitutionHome } from "../../page/institution/institution-home";
-import { CP_FAIRTRADE_BANKBOOK_RESENT_ROUTE_NAME, CP_FAIRTRADE_BANKBOOK_STUDENTS_ROUTE_NAME, CP_FAIR_TRADE_ROUTE_NAME, CP_FAIR_TRADE_MARKETTRADE_RESENT_ROUTE_NAME, CP_INSTITUTION_BANK_ROUTE_NAME, CP_INSTITUTION_CENTERBANK_ROUTE_NAME, CP_INSTITUTION_HOME_ROUTE_NAME } from "../contains/ecomomy";
+import { CP_FAIRTRADE_BANKBOOK_RESENT_ROUTE_NAME, CP_FAIRTRADE_BANKBOOK_STUDENTS_ROUTE_NAME, CP_FAIR_TRADE_ROUTE_NAME, CP_FAIR_TRADE_MARKETTRADE_RESENT_ROUTE_NAME, CP_INSTITUTION_BANK_ROUTE_NAME, CP_INSTITUTION_CENTERBANK_ROUTE_NAME, CP_INSTITUTION_HOME_ROUTE_NAME, CP_FAIR_TRADE_MARKETTRADE_STUDENTS_ROUTE_NAME } from "../contains/ecomomy";
 
 
  
@@ -24,4 +25,7 @@ export const otherInstitutionRouters =[ //은행
   // { path: CP_FAIR_TRADE_ROUTE_NAME+'/bankbook'+'/:number',element: <OneStudnetBookBank />, }, //공정거래위원회-학생 조회-안씀;;
 //CP_FAIR_TRADE_MARKETTRADE_RESENT_ROUTE_NAME, CP_FAIR_TRADE_TRADE_STUDENTS_ROUTE_NAME
   { path: CP_FAIR_TRADE_MARKETTRADE_RESENT_ROUTE_NAME,element: <FairtradeMarkettradeRecenHome />, }, //공정거래위원회
+  { path: CP_FAIR_TRADE_MARKETTRADE_STUDENTS_ROUTE_NAME,element: <StudentListMarket />, }, //공정거래위원회 
+  { path: CP_FAIR_TRADE_MARKETTRADE_STUDENTS_ROUTE_NAME+'/:number',element: <OneStudnetMaketBook />, }, //공정거래위원회-학생 조회
+
 ]

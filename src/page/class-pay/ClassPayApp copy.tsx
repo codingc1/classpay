@@ -77,10 +77,10 @@ export const ClassPayApp = () => {
   return(
   // <div className=" max-w-screen-lg h-screen flex flex-col items-center">
   <div className="w-full h-screen flex flex-col items-center bg-white">
-        <Helmet><title>학급페이홈</title>
-          <meta name="title" content="학급페이홈" />
-          <meta property="og:title" content="학급페이홈" />
-          <meta property="og:description" content="학학급페이홈입니다" />
+        <Helmet><title>물고기경제 홈</title>
+          <meta name="title" content="물고기경제 홈" />
+          <meta property="og:title" content="물고기경제 홈" />
+          <meta property="og:description" content="학물고기경제 홈입니다" />
           <link rel="apple-touch-icon" href="%PUBLIC_URL%/airship192.png" />
           {/* <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> */}
         </Helmet>

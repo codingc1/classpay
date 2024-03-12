@@ -696,6 +696,7 @@ export type Mutation = {
   cp_studentsPossibleIds: CP_CheckPossibleIsdOutput;
   cp_teacherGetBankBookAll: Array<CP_BankBook>;
   cp_teacherGetMarketTradeAll: Array<CP_Bill>;
+  cp_teacherGetOneStudentBill: Array<CP_Bill>;
   cp_teacherGetStudentBankBook: Array<CP_BankBook>;
   cp_updateProduct: CoreOutput;
   cp_userExit: CoreOutput;
@@ -1053,6 +1054,11 @@ export type Mutationcp_teacherGetBankBookAllArgs = {
 
 export type Mutationcp_teacherGetMarketTradeAllArgs = {
   input: YearMonthInput;
+};
+
+
+export type Mutationcp_teacherGetOneStudentBillArgs = {
+  input: TeacherGetMonth;
 };
 
 

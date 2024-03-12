@@ -46,11 +46,11 @@ export const HomeNew = () => {
     return(
         <div className="w-full min-h-screen  mt-3 flex flex-col items-center">
             <div className="w-full max-w-sm  flex justify-center ">
-                <Helmet><title >학급페이 홈</title></Helmet>
+                <Helmet><title >물고기경제 홈</title></Helmet>
                 <div className="w-full max-w-sm flex flex-col  px-5 ">
                     <div className="w-full ">
                         <HomeProfileHeader />
-                        {/* <div className="text-left text-sm">학급페이 홈</div> */}
+                        {/* <div className="text-left text-sm">물고기경제 홈</div> */}
                         <HomeClassListComponent />
                         {(cppay.id === 0) && <button
                             type="button"

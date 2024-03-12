@@ -30,7 +30,7 @@ export const useSettingSubmit = () => {
     
       const inputObj = {schoolName:cppay.className, classTh:cppay.classTh, classNum:cppay.classNum, moneyUnit:inMoneyUnit, 
         numberOfDigits:inNumberOfDigits, isTrade:inIsTrade, code:'',}
-      // const isConfirm = window.confirm(' 학급페이를 삭제하시겠습니까? ')
+      // const isConfirm = window.confirm(' 물고기경제를 삭제하시겠습니까? ')
       // if(!isConfirm)return
       client.mutate({ //https://www.youtube.com/watch?v=cYIhx8dusa4
           mutation:cp_payUpdateInfoMutationDocument,

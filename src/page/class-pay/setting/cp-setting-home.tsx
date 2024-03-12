@@ -115,7 +115,11 @@ export const CpSettingHome=()=>{
     <div className="flex flex-wrap">사용 가능 기능 : 
      <div className="flex-1">송금, 시장놀이(물품등록, 판매-qr코드)</div>
     </div>
-    <div>사용 불가능 기능 : 투자, 세금, 직업</div>
+    <div>사용 불가능 기능 : 권한부여, 투자, 세금, 직업</div>
+  </div>
+  <div className="mt-3 px-3">
+      {/* 이미 회원가입 하셨나요?{" "} */}
+      <a href={'https://cafe.naver.com/mgge'} className="text-lime-600 hover:underline">카페</a>
   </div>
   {/* <div className="px-3 mt-3">
     <button onClick={handlesubmit}>송금, 거래 금지</button>

@@ -24,7 +24,7 @@ export const BankBookHistoryMonth = ({currentDate, setCurrentDate,isLoading,upda
     // setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
     // }
     ) => {
-        const bookRedux = useReactiveVar(cpPayVar).bankBooks;
+        // const bookRedux = useReactiveVar(cpPayVar).bankBooks;
         // const [isLoading, setIsLoading] = useState(false); 
 
         // const [handleError] = useErrorShow()

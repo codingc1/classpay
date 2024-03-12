@@ -137,10 +137,10 @@ export const CreateCpPay = () => {
     <div className="w-full h-screen px-5 mt-7 max-w-screen-lg mx-auto flex flex-col  items-center">
       <Helmet><title>학급 페이 추가</title></Helmet>
       <section className="w-full max-w-sm flex flex-col justify-center items-center text-sm">
-        <div className="py-2 text-lg">학급페이 학급 추가</div>
+        <div className="py-2 text-lg">물고기경제 학급 추가</div>
         <div className="w-full mt-3 ">학급에서 사용할 학급 페이를 만듭니다.</div>
         <div className="mt-3 mb-2 w-full flex ">
-          <label className=" w-1/3 flex justify-center items-center text-center">학급페이 이름</label >
+          <label className=" w-1/3 flex justify-center items-center text-center">물고기경제 이름</label >
           <input className="w-full input-lime " name={'className'} placeholder="이름" value={classPay.className} onChange={onChange}/>
         </div>
 
@@ -157,7 +157,7 @@ export const CreateCpPay = () => {
         {isClassName
         &&<div className="w-full px-1 py-3 rounded-md border border-blue-400">
           <div className="w-full text-xs"># 선택(학생이 학교,학반 정보로 아이디 찾기 가능)</div>
-          <div className="px-3 text-xs">없어도 학급페이 개설이 가능합니다.</div>
+          <div className="px-3 text-xs">없어도 물고기경제 개설이 가능합니다.</div>
           <InlineInputLable label="학교이름" name={'schoolName'} value={classPay.schoolName} onChangeValue={onChange} />
           <InlineInputLableNum label="학년"  name={'classTh'} value={classPay.classTh} onChangeValue={onChange} />
           <InlineInputLableNum label="반"  name={'classNum'} value={classPay.classNum} onChangeValue={onChange} />
@@ -165,7 +165,7 @@ export const CreateCpPay = () => {
         {/* <div className="mt-3 w-full flex ">
           <div className=" w-1/3 flex justify-center items-center text-center">비밀번호</div>
           <div className="w-full flex flex-col" >
-            <input className={`w-full input-lime `} placeholder={"학급페이 로그인 비밀번호"} type="password"
+            <input className={`w-full input-lime `} placeholder={"물고기경제 로그인 비밀번호"} type="password"
               value={password} onChange={onChangePassword}/>       
             <input className={`w-full input-lime  `} placeholder={"비밀번호 확인"} type="password"
               value={passwordTwo} onChange={onChangePassTwo}/>
