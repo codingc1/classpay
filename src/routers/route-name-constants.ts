@@ -8,7 +8,7 @@ export const USER_PROFILE_ROUTE_NAME = "/user/profile"
 export const TERMS_CONDITIONS = "/explanation/terms-conditions";
 // export const PRIVACY_POLICY_ROUTE_NAME= "/explanation/privacy-policy";
 export const AGREE_PRIVACY_ROUTE_NAME="/explanation/agree-privacy";
-export const EXPLANATION_HEADER_MENU_ROUTE_NAME="/explanation/howtouse"; //헤더 메뉴 사용방법
+// export const EXPLANATION_HEADER_MENU_ROUTE_NAME="/explanation/howtouse"; //헤더 메뉴 사용방법 //??
 
 export const FIND_USER_ROUTE_NAME="/user/find-user";
 export const FIND_USER_ID_ROUTE_NAME="/user/find-user/find-id";

@@ -5,7 +5,7 @@ import {Helmet} from "react-helmet-async";
 export const TermsConditions = () => {
 //h-screen 
 return(
-  <div className="flex flex-col items-center ">
+  <main className="flex flex-col items-center ">
     <Helmet>
       <title>물고기경제 이용약관</title>
     </Helmet>
@@ -119,6 +119,6 @@ return(
   
     <a href="/" className="hover:underline text-lime-600">Go home &rarr;</a>
 
-  </div>
+  </main>
   )
 }

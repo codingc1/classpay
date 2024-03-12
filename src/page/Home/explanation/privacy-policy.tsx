@@ -8,7 +8,7 @@ import { GoBackLogin } from "../../../components/home/go-back-login";
 export const PrivacyPolicy = () => { 
 //h-screen 
 return(
-  <div className="flex flex-col items-center ">
+  <main className="flex flex-col items-center ">
     <Helmet>
       <title>물고기경제 개인정보 처리방침</title>
     </Helmet>
@@ -151,6 +151,6 @@ return(
     {/* <Link className="hover:underline text-lime-600" to="/">
       Go back home &rarr;
     </Link> */}
-  </div>
+  </main>
   )
 }

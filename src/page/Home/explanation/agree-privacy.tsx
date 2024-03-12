@@ -5,12 +5,12 @@ import { GoBackLogin } from "../../../components/home/go-back-login";
 export const AgreePrivacy = () => { //사용
 //h-screen 
 return(
-  <div className="flex flex-col items-center ">
+  <main className="flex flex-col items-center ">
     <Helmet>
-      <title>행발도우미 개인정보동의</title>
+      <title>물고기경제 개인정보동의</title>
     </Helmet>
     <div className="w-full max-w-2xl flex flex-col justify-center lg:mt-10">
-    <p className=" text-lg">행발도우미</p>
+    <p className=" text-lg">물고기경제</p>
     <p className=" text-lg">개인 정보 제공 동의</p>
     {/* <p className="ls2">이 개인정보처리방침은 <em className="emphasis">2021</em>년 <em className="emphasis">1</em>월 <em className="emphasis">1</em>부터 적용됩니다.</p> */}
     <br></br>
@@ -46,6 +46,6 @@ return(
     {/* <Link className="hover:underline text-lime-600" to="/">
       Go back home &rarr;
     </Link> */}
-  </div>
+  </main>
   )
 }
