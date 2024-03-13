@@ -59,10 +59,10 @@ export const CPMemberHome=()=>{ //변경 : delete, create, modify
             <div className="py-5 flex text-lg items-center"><HomeIconTitle />구성원</div>
             {isTeacher && checkboxContent} 
             {isChecked && <StudentListTable />}
-            <div className="flex py-5">
+            <div className="flex flex-wrap py-5">
                 {!isChecked && data && data.cp_PayUserLists.map((el)=>{
                     return(
-                        <div className="px-2"  key={el.id}>
+                        <div className="px-2 py-1"  key={el.id}>
                             <div className=" w-12 h-12 p-1 bg-indigo-300 rounded-full "  onClick={()=>{}}>
                                 {/* <div className="font-thin">QR코드</div>
                                 <div className=" font-bold text-lg">스캔하기</div>

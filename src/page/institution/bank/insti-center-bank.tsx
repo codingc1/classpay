@@ -14,6 +14,7 @@ import { chkCpInstitutuion } from "../../../utils/check-create/cp-insti-check";
 import "../../../styles/button/button-color.css";
 import BaseMax400 from "../../../components/layout/basic-component/base-max400";
 import { InstiHeader } from "../insti-home/insti-header";
+import { CP_PAY_USERLIST_QUERY } from "../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 
  
 
@@ -53,7 +54,7 @@ export const InstiCenterBank=()=>{
         if(data.cp_insti_issueMoney.ok  ){ //
         alert('화폐를 발행하였습니다.')
         await client.refetchQueries({
-            include: [CP_ME_QUERY],//cppay list refech
+            include: [CP_ME_QUERY, CP_PAY_USERLIST_QUERY],//cppay list refech
             });
         setMoney(0)
         }else if(data.cp_insti_issueMoney.error){

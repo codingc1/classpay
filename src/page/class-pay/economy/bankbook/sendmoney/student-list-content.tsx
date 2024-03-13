@@ -10,7 +10,7 @@ export const StudentListContent=({setIsModal}:{setIsModal:React.Dispatch<React.S
     const{data} = useCpPayUserList() 
     const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
     //studentList를 3번 반복
-    const dummy = studentList.concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList)
+    // const dummy = studentList.concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList)
     
     const popupClose=()=>{ //닫기 - 그 데이터 삭제
         setIsModal(false)
@@ -31,7 +31,7 @@ export const StudentListContent=({setIsModal}:{setIsModal:React.Dispatch<React.S
     const popupHeight=()=>{
         
         //3개 한줄 3rem(48px)
-        const lineNumber = Math.ceil(dummy.length/4) //올림 5명->2줄 50명->13줄
+        const lineNumber = Math.ceil(studentList.length/4) //올림 5명->2줄 50명->13줄
         const lineHeigth = lineNumber*50+60 //48 //13줄*48px+50px=674px
         // if(lineHeigth<200)return 200
         if(windowSize.height>650 && lineHeigth > 650){ //화면이 650보다 크고, lineHeigth가 650보다 크면 650
@@ -51,7 +51,7 @@ export const StudentListContent=({setIsModal}:{setIsModal:React.Dispatch<React.S
         {/* width:(transW400(CSS_LEN.popup.wide-20))+'px',  */}
         <div className="px-2 grid box-border grid-cols-4 gap-x-1 " style={{height:`${(popupHeight()-40)+'px'}`, //overflowY: 'scroll',
             }}>
-            {dummy.map((v,i)=>{
+            {studentList.map((v,i)=>{
                 return(
                     //style={{height:'3rem'}}
                 <div key={'popupstu'+i} className="  border-2 shadow-md rounded-md cursor-pointer flex justify-center items-center hover:bg-indigo-300" 

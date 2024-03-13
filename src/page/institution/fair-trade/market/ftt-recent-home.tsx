@@ -25,8 +25,10 @@ export const FairtradeMarkettradeRecenHome = () => {
             <section className="w-full px-1 bg-white">
                 {/* <BankBookHistoryMonth currentDate={currentDate} setCurrentDate={setCurrentDate} setNowBook={setNowBook} isLoading={isLoading} setIsLoading={setIsLoading} /> */}
                 <FTTMarketHistoryMonthContainer currentDate={currentDate} setCurrentDate={setCurrentDate} setBill={setBill} isLoading={isLoading} setIsLoading={setIsLoading} />
-                {!isLoading && nowBill.map((bill, index) => <FairTradeMarketResentDetail key={'bill'+index} bill={bill} />)}
-
+                <ul style={{maxHeight:'80vh',overflowY:'auto'}}>
+                    {!isLoading && nowBill.map((bill, index) => <FairTradeMarketResentDetail key={'bill'+index} bill={bill} />)}
+                </ul>
+                <div className="py-2"></div>
             </section>
         </div>
     </BaseMax400>

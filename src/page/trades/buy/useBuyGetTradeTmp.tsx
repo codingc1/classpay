@@ -6,6 +6,7 @@ import { cpPayFn } from "../../../stores/sub-store-fn/cp-pay-fn";
 import { useNavigate } from "react-router-dom";
 import { PAY_HOME } from "../../../routers/route-name-constants";
 import { CP_ME_QUERY } from "../../../hooks/user/useMe";
+import { CP_PAY_USERLIST_QUERY } from "../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 
 //buy-qr-scan-popup
 //큐알코드 스캔하면 프로덕트 정보 가져오기
@@ -53,7 +54,7 @@ export const useBuyIngTradeSubmit =() => {
                 alert('결제하였습니다.')
               // editCpPayVar.trade.setTmpcode(cpPayFn.store.tradeTmpCode)
               await client.refetchQueries({
-                include: [CP_ME_QUERY], //money refech
+                include: [CP_ME_QUERY, CP_PAY_USERLIST_QUERY], //money refech
               });
 
               navigate(PAY_HOME)

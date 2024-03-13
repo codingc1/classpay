@@ -30,8 +30,10 @@ export const CbbRecentBookList = () => {
             <section className="w-full px-1 bg-white">
                 {/* <BankBookHistoryMonth currentDate={currentDate} setCurrentDate={setCurrentDate} setNowBook={setNowBook} isLoading={isLoading} setIsLoading={setIsLoading} /> */}
                 <CBBHistoryMonthContainer currentDate={currentDate} setCurrentDate={setCurrentDate} setNowBook={setNowBook} isLoading={isLoading} setIsLoading={setIsLoading} />
-                {!isLoading && nowBook.map((book, index) => <CBBankBookHistoryDetail key={'book'+index}bankbook={book} />)}
-
+                <ul style={{maxHeight:'80vh',overflowY:'auto'}}>
+                    {!isLoading && nowBook.map((book, index) => <CBBankBookHistoryDetail key={'book'+index}bankbook={book} />)}
+                </ul>
+                <div className="py-2"></div>
             </section>
         </div>
     </BaseMax400>

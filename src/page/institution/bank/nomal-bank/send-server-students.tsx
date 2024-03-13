@@ -14,10 +14,16 @@ import { useSendmoneyInput } from "../../../../components/bundle/institution/use
 import { useInstiSendMoneyOneToMany } from "../../../../hooks/cp-pay/institution/bankbook/useInstiSendMoneyOneToMany";
 import { cpInstitutionVar } from "../../../../stores/cp-institution";
 import { checkMoney } from "../../../../utils/institution/chk-sendmoney";
+import { addCommaMan } from "../../../../func/basic/number/addComma";
+import { cpPayVar } from "../../../../stores/cp-pay-store";
 
 export const ServerStudents=()=>{
     const{data} = useCpPayUserList() 
+    const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
     const institution = useReactiveVar(cpInstitutionVar).institution;
+    //배열이 3배로 늘어남
+    // const basicstudentList = data && data.cp_PayUserLists?data.cp_PayUserLists :[] 
+    // const studentList = basicstudentList.concat(basicstudentList).concat(basicstudentList)
     const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
     const selectStudent = useReactiveVar(cpStudentsVar).student; 
     const [isStudentModal, setIsStudentModal] = useState(true)//한명
@@ -38,7 +44,9 @@ export const ServerStudents=()=>{
     }
 
     const allSelectStudents=()=>{
-      setReceiveStudents([...studentList])
+      //자기 자신은 선택 불가
+      const filterdStudent = studentList.filter((student)=>student.id!==selectStudent.id)
+      setReceiveStudents([...filterdStudent])
     }
     const allUnSelectStudents=()=>{
       setReceiveStudents([])
@@ -47,6 +55,8 @@ export const ServerStudents=()=>{
       //receiveStudents에서 id가 같은 학생이 있으면 삭제, 없으면 추가
       const index = receiveStudents.findIndex((student)=>student.id===stu.id)
       if(index===-1){
+        //자기 자신은 선택 불가
+        if(stu.id===selectStudent.id)return
         const pushStudent = [...receiveStudents,stu]
         //pushStudent를 number 순으로 정렬하기
         const res= pushStudent.sort((a,b)=>a.number-b.number)
@@ -93,7 +103,7 @@ export const ServerStudents=()=>{
     }
     const {sendmoneyInputComponent,money,moneyUnit} = useSendmoneyInput({submit:submit, label:'보낼 금액(1인당)'})
 
-    return(
+    return( 
         <div className="w-full mt-3 px-3">
             {!isServeralStudentModal && <div className="mt-2 flex h-10 items-center ">
                 <div className="text-md ">보내는 사람 :</div>
@@ -105,9 +115,9 @@ export const ServerStudents=()=>{
 
         {isStudentModal && <div className="mt-2 border-t border-gray-100 py-2 sm:col-span-2 sm:px-0">
             {/* <dt className="text-sm font-medium leading-6 text-gray-900">Attachments</dt> */}
-            <dd className="mt-2 text-sm text-gray-900">
-              <ul role="list" className="divide-y divide-gray-100 rounded-md border border-gray-200">
-              {studentList.map((student,i)=><StudentListTableMoney index={i} student={student} onClickStudent={onClickStudent} />)}
+            <dd className="mt-2 text-sm text-gray-900 " >
+              <ul role="list" className="divide-y divide-gray-100 rounded-md border border-gray-200" style={{maxHeight:'50vh',overflowY:'auto'}}>
+              {studentList.map((student,i)=><StudentListTableMoney key={'oneselstudent'+student.id} index={i} student={student} onClickStudent={onClickStudent} />)}
                 {/* <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                   <div className="flex w-0 flex-1 items-center">
                     <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
@@ -131,7 +141,8 @@ export const ServerStudents=()=>{
                   <div className="text-md ">받는 사람 :</div>
                   <div>{receiveStudents.length}명</div>
               </div>
-              <div className="py-1 flex flex-wrap rounded-md shadow-xl font-semibold border-2 cursor-pointer  " onClick={()=>{setIsServeralStudentModal(!isServeralStudentModal)}}>
+              <div className={cls("py-1 flex flex-wrap rounded-md shadow-xl border-2 cursor-pointer  ",receiveStudents.length>12?' text-xs':'font-semibold'  )}
+                onClick={()=>{setIsServeralStudentModal(!isServeralStudentModal)}}>
                   {receiveStudents.length===0?'받는 사람 선택':''}
                   {receiveStudents.map((selstudent,i)=>(<div key={'selstudentsname'+i}>{i!==0?' ,':''}{selstudent.name}</div>))}
               </div>
@@ -139,7 +150,7 @@ export const ServerStudents=()=>{
 
             {isServeralStudentModal && <div className="border-t border-gray-100 py-2 sm:col-span-2 sm:px-0">
             <dd className="mt-2 text-sm text-gray-900 ">
-              <ul role="list" className="divide-y divide-gray-100 rounded-md border border-gray-200">
+              <ul role="list" className="divide-y divide-gray-100 rounded-md border border-gray-200" style={{maxHeight:'50vh',overflowY:'auto'}}>
                 <div className="px-3 py-2 flex justify-between">
                   <div className="flex text-sm">
                     <div className="px-2 cursor-pointer" onClick={allSelectStudents}>모두 선택</div>
@@ -147,8 +158,12 @@ export const ServerStudents=()=>{
                   </div>
                   <div className=" text-right font-semibold text-lg cursor-pointer hover:bg-gray-200" onClick={()=>setIsServeralStudentModal(false)}>X</div>
                 </div>
-                {studentList.map((student,i)=><StudentListTableMoneyServeral index={i} student={student} onClickStudent={onClickStudentServeral} 
-                receiveStudents={receiveStudents} setReceiveStudents={setReceiveStudents} />)}
+                {studentList.map((student,i)=>{
+                  if(student.id===selectStudent.id)return
+                  return(<StudentListTableMoneyServeral key={'selstudent'+student.id} index={i} student={student} onClickStudent={onClickStudentServeral} 
+                    receiveStudents={receiveStudents} setReceiveStudents={setReceiveStudents} />)
+                })}
+
               </ul>
             </dd>
             </div>}
@@ -159,8 +174,9 @@ export const ServerStudents=()=>{
             {selectStudent.name && receiveStudents.length>0 && money>0 && 
             <div className="mt-2 flex justify-between">
               <div>{money}{moneyUnit} x {receiveStudents.length}명</div>
-              <div>총 : {money * receiveStudents.length}{moneyUnit}</div>
+              <div>총 : {addCommaMan(money * receiveStudents.length, numberOfDigits)}{moneyUnit}</div>
             </div>}
+            <div className="py-2"></div>
         </div> 
     )
 }

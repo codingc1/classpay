@@ -93,7 +93,7 @@ export const SendOneStudent=()=>{
             {/* <dt className="text-sm font-medium leading-6 text-gray-900">Attachments</dt> */}
             <dd className="mt-2 text-sm text-gray-900">
             {/* divide-y divide-gray-100 rounded-md border border-gray-200 */}
-              <ul role="list" className=" divide-y divide-gray-100 rounded-md border border-gray-200">
+              <ul role="list" className=" divide-y divide-gray-100 rounded-md border border-gray-200" style={{maxHeight:'50vh',overflowY:'auto'}}>
               {studentList.map((student,i)=><StudentListTableMoney key={'sender'+i} index={i} student={student} onClickStudent={onClickStudent} />)}
               </ul>
             </dd>
@@ -109,7 +109,7 @@ export const SendOneStudent=()=>{
 
             {isReceiverStudentModal && <div className="mt-2 border-t border-gray-100 py-2 sm:col-span-2 sm:px-0">
             <dd className="mt-2 text-sm text-gray-900">
-              <ul role="list" className=" divide-y divide-gray-100 rounded-md border border-gray-200">
+              <ul role="list" className=" divide-y divide-gray-100 rounded-md border border-gray-200" style={{maxHeight:'50vh',overflowY:'auto'}}>
               {studentList.map((recivestudent,i)=><StudentListTableMoney key={'receive'+i} index={i} student={recivestudent} onClickStudent={onClickReciveStudent} />)}
               </ul>
             </dd>

@@ -7,6 +7,7 @@ import { PAY_HOME } from "../../../../routers/route-name-constants";
 import { CP_INSTI_SENDMONEY_ONETOMANY_MUTATION } from "./cp-bankbook";
 import { cp_insti_sendMoney_oneToManyMutationMutation, cp_insti_sendMoney_oneToManyMutationMutationVariables } from "./cp-bankbook.generated";
 import { useBankBookMu } from "./useBankBookMu";
+import { CP_PAY_USERLIST_QUERY } from "../../cp-pay-user/useCpPayUserList";
 
 //은행에서 여러명에게 송금하기 - 같은 금액
 export const useInstiSendMoneyOneToMany =()=>{
@@ -18,7 +19,7 @@ export const useInstiSendMoneyOneToMany =()=>{
         if(data.cp_insti_sendMoney_oneToMany.ok  ){ //
         alert('송금 하였습니다.')
         await client.refetchQueries({
-            include: [CP_ME_QUERY,  ],//cppay list refech - bookbank list refetch
+            include: [CP_ME_QUERY,CP_PAY_USERLIST_QUERY  ],//cppay list refech - bookbank list refetch
             });
             billMutation(new Date().getFullYear(), new Date().getMonth() + 1) //이번달 거래내역 refetch
         navigate(PAY_HOME)

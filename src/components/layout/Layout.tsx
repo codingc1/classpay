@@ -8,8 +8,8 @@ import { routeVar } from '../../stores/route-info-store';
 function Layout() {
   const isLoggedIn = useReactiveVar(authVar).isLogin;
   const routeInfo = useReactiveVar(routeVar);
-  return (
-    <div className='scroll_container h-full'>
+  return ( //scroll_container 스크롤 보이게..
+    <div className='h-full'>
       {/* {isLoggedIn && routeInfo.header.isVisible && <Header />} */}
       <main className='h-full'>
         <Outlet />
