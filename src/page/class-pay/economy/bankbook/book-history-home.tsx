@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useReactiveVar } from "@apollo/client";
-import { cpPayVar, editCpPayVar } from "../../../../stores/cp-pay-store";
+import {  useReactiveVar } from "@apollo/client";
+import { cpPayVar,} from "../../../../stores/cp-pay-store";
 import { useMe } from "../../../../hooks/user/useMe";
 import { IBankBook } from "../../../../stores/type/cppay-type";
-import useErrorShow from "../../../../func/sys/err/useErrShow";
-import { CP_BANKBOOKS_MONTH_MUTATION } from "../../../../hooks/cp-pay/trade/cp-bill";
-import { cp_MyBankBooksMonthMutationMutation, cp_MyBankBooksMonthMutationMutationVariables } from "../../../../hooks/cp-pay/trade/cp-bill.generated";
-import { cpPayFn } from "../../../../stores/sub-store-fn/cp-pay-fn";
 import { addCommaMan } from "../../../../func/basic/number/addComma";
-import { BankBookHistoryMonth } from "./book-history/book-th-month";
 import { BankBookHistoryDetail } from "./book-history/th-detail";
 import { useWindowSizeTrans } from "../../../../func/html/useWidthTrans";
 import { CSS_LEN } from "../../../../func/html/width-contain/css-contain";
 import { BankBookHistoryMonthContainer } from "./book-history/book-th-month-container";
+import { DateObj } from "../../../../utils/date/dateObj";
 
 
 //거래내역 
@@ -24,7 +20,7 @@ export default function BankBookHistoryHome() {
     const {data:meData, } = useMe()
     const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
-    const [currentDate, setCurrentDate] = useState({ year: new Date().getFullYear(), month: new Date().getMonth() + 1,  });
+    const [currentDate, setCurrentDate] = useState(DateObj.today);
     const [nowBook, setNowBook] = useState<IBankBook[]>([]);
     const [isLoading, setIsLoading] = useState(false); 
     //bill 다른 파일로 분리하기 - bill-detail.tsx
@@ -49,7 +45,7 @@ export default function BankBookHistoryHome() {
     //         newMonth = 12; newYear -= 1;
     //     }
     //     return { year: newYear, month: newMonth };
-    //     });
+    //     }); 
     // };
     //월별 배열[] - useeffect로 아무 데이터도 없으면 mutation
 
@@ -68,8 +64,8 @@ export default function BankBookHistoryHome() {
             </section>
             <section style={{height:'5rem'}} className="w-full flex justify-center items-center border-b-2 border-t-2 border-blue-400 bg-white">
                 <div className=" font-bold" style={{fontSize:'1.5rem'}}>{addCommaMan(meData?.cp_me.money||0,numberOfDigits)}{moneyUnit}</div>
-            </section>
-            <section className="w-full px-1 bg-white">
+            </section> 
+            <section className="w-full px-1 bg-white bankbookDetailHeight" >
                 {/* useEffect로 bill데이터 가져옴 */} 
                 <BankBookHistoryMonthContainer currentDate={currentDate} setCurrentDate={setCurrentDate} setNowBook={setNowBook} isLoading={isLoading} setIsLoading={setIsLoading} />
                 {/* <BankBookHistoryMonth currentDate={currentDate} setCurrentDate={setCurrentDate} setNowBook={setNowBook} isLoading={isLoading} setIsLoading={setIsLoading} /> */}

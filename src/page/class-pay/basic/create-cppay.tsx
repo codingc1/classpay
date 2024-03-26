@@ -135,7 +135,7 @@ export const CreateCpPay = () => {
 
   return(
     <div className="w-full h-screen px-5 mt-7 max-w-screen-lg mx-auto flex flex-col  items-center">
-      <Helmet><title>학급 페이 추가</title></Helmet>
+      <Helmet><title>물고기 교실경제</title></Helmet>
       <section className="w-full max-w-sm flex flex-col justify-center items-center text-sm">
         <div className="py-2 text-lg">물고기경제 학급 추가</div>
         <div className="w-full mt-3 ">학급에서 사용할 학급 페이를 만듭니다.</div>

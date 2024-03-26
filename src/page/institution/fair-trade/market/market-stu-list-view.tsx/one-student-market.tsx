@@ -24,13 +24,13 @@ export const OneStudnetMaketBook = () => {
     let navigate = useNavigate();
     const{data} = useCpPayUserList() 
     const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
-    const {number} = useParams(); 
-    const findStudent = number? studentList.find((stu)=>stu.number === Number(number)): cpStudentFn.store.student;
+    const {number} = useParams();  
+    const findStudent = number!==undefined? studentList.find((stu)=>stu.number === Number(number)): cpStudentFn.store.student;
     const student = findStudent?findStudent:cpStudentFn.store.student;
 
     const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
-    const [currentDate, setCurrentDate] = useState({ year: new Date().getFullYear(), month: new Date().getMonth() + 1,  });
+    const [currentDate, setCurrentDate] = useState({ year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate()});
     const [nowBill, setNowBill] = useState<IBill[]>([]);
     const [isLoading, setIsLoading] = useState(false); 
     
@@ -38,23 +38,23 @@ export const OneStudnetMaketBook = () => {
     const { billMutation,loading } = useBillTeacherOneStudentMu({setData:setNowBill,setIsLoading:setIsLoading, })
     useEffect(()=>{
         //makeAllStudentsKey 가 달라서 다른 학생 data와 겹치지 않음
-        const key =cpPayFn.bill.makeOneStudentKey({year:currentDate.year, month:currentDate.month,student_id:student.id})
+        const key =cpPayFn.bill.makeOneStudentKey({year:currentDate.year, month:currentDate.month,day:currentDate.day, student_id:student.id})
         if(billRedux[key]){
             setNowBill(billRedux[key]);return;
         }else{
-            billMutation({year:currentDate.year, month:currentDate.month,user_id:student.id} )
+            billMutation({year:currentDate.year, month:currentDate.month,day:currentDate.day,user_id:student.id} )
         }
     },[]) //currentDate.year, currentDate.month
 
 const [debounceFn]=useDebounceFunction()
-const updateBills=(newYear:number, newMonth:number)=>{ //year, month가 바뀌면 year+momth로 검색하여 없으면 mutation => {year+month: data}로 redux에 저장
-    if(loading || isLoading){return}
-    const key =cpPayFn.bill.makeOneStudentKey({year:newYear, month:newMonth,student_id:student.id})
+const updateBills=(newYear:number, newMonth:number, newDay:number)=>{ //year, month가 바뀌면 year+momth로 검색하여 없으면 mutation => {year+month: data}로 redux에 저장
+    if(loading || isLoading){return} 
+    const key =cpPayFn.bill.makeOneStudentKey({year:newYear, month:newMonth,day:newDay,student_id:student.id})
     if(billRedux[key]){
         setNowBill(billRedux[key]);return;
     }else{
         setIsLoading(true) 
-        debounceFn(()=>billMutation({year:newYear,month:newMonth, user_id:student.id}), 800)
+        debounceFn(()=>billMutation({year:newYear,month:newMonth, day:newDay,user_id:student.id}), 800)
     }
 }
     return( //checkbox생략 뒤로가기로 찾아가기

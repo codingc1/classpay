@@ -7,11 +7,11 @@
     "tailwind:build": "tailwind build -i ./src/styles/tailwind.css -o ./src/styles/styles.css",
     "tail:watch": "npx tailwindcss -i ./src/styles/tailwind.css -o ./src/styles/styles.css --watch",
     "codegen": "graphql-codegen --verbose",
-    "build": "webpack --progress",
+    "build": "webpack --progress --mode production",
     "start:ori": "webpack-dev-server",
     "start": "webpack-dev-server",
     "start:dev-be": "set HTTPS=true&&set SSL_CRT_FILE=cert.pem&&set SSL_KEY_FILE=key.pem&&set NODE_ENV=development&&webpack-dev-server",
-    "start:dev": "set HTTPS=true&&set SSL_CRT_FILE=cert.pem&&set SSL_KEY_FILE=key.pem&&webpack-dev-server",
+    "start:dev": "set HTTPS=true&&set SSL_CRT_FILE=cert.pem&&set SSL_KEY_FILE=key.pem&&webpack-dev-server --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

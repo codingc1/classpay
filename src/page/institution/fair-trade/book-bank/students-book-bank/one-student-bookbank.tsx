@@ -10,6 +10,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useCpPayUserList } from "../../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 import { cpStudentFn } from "../../../../../stores/sub-store-fn/cp-student-fn";
 import BaseMax400 from "../../../../../components/layout/basic-component/base-max400";
+import { DateObj } from "../../../../../utils/date/dateObj";
 
 
 // {student, setIsStudentListView}:{
@@ -27,11 +28,11 @@ export const OneStudnetBookBank = () => {
 
     const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
-    const [currentDate, setCurrentDate] = useState({ year: new Date().getFullYear(), month: new Date().getMonth() + 1,  });
+    const [currentDate, setCurrentDate] = useState(DateObj.today);
     const [nowBook, setNowBook] = useState<IBankBook[]>([]);
     const [isLoading, setIsLoading] = useState(false); 
     
-    
+     
 
     return( //checkbox생략 뒤로가기로 찾아가기
         <BaseMax400>
@@ -48,7 +49,7 @@ export const OneStudnetBookBank = () => {
                 <div className="ml-2 " style={{fontSize:'1.3rem'}}>{addCommaMan(student.money||0,numberOfDigits)}{moneyUnit}</div>
                 <div className="px-2"></div>
             </section>
-            <section className="w-full px-1 bg-white">
+            <section className="w-full px-1 bg-white bankbookDetailHeight">
                 <OTMBookBankContainer currentDate={currentDate} setCurrentDate={setCurrentDate} setNowBook={setNowBook} isLoading={isLoading} setIsLoading={setIsLoading} 
                     student={student}  />
 

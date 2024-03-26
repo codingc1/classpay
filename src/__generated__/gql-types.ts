@@ -269,6 +269,7 @@ export type User = {
   canNickEdit: Scalars['Boolean'];
   changChe: Array<ChangChe>;
   countCombi: Scalars['Float'];
+  countGpt: Scalars['Float'];
   countHang: Scalars['Float'];
   createdAt: Scalars['DateTime'];
   dailyQueryHit: Scalars['Int'];
@@ -669,6 +670,7 @@ export type Mutation = {
   checkPossibleId: CheckPossibleIdOutput;
   checkPossibleNickname: CheckPossibleIdOutput;
   confirmPassword: VerifyEmailOutput;
+  countGpt: BasicOutput;
   cp_buyingTrade: CoreOutput;
   cp_checkExistId: CoreOutput;
   cp_cp_getMoneySupply: CP_MoneyOutput;
@@ -750,6 +752,7 @@ export type Mutation = {
   findStcrawlById: Array<StudentRecord>;
   findUserId: UserIdHintOutput;
   getAdditionalUserProfile: AdditionalUserProfileOutput;
+  getAiSentence: HangAiSentenceOutput;
   getChangChes: FullChangsOutput;
   getFullHangs: FullHangsOutput;
   hangById: HangOneOutput;
@@ -927,6 +930,11 @@ export type MutationconfirmPasswordArgs = {
 };
 
 
+export type MutationcountGptArgs = {
+  input: HangCountGptInput;
+};
+
+
 export type Mutationcp_buyingTradeArgs = {
   input: CP_GetTradeTmpCodeInput;
 };
@@ -1048,12 +1056,12 @@ export type Mutationcp_studentsPossibleIdsArgs = {
 
 
 export type Mutationcp_teacherGetBankBookAllArgs = {
-  input: YearMonthInput;
+  input: YearMonthDayInput;
 };
 
 
 export type Mutationcp_teacherGetMarketTradeAllArgs = {
-  input: YearMonthInput;
+  input: YearMonthDayInput;
 };
 
 
@@ -1314,6 +1322,11 @@ export type MutationfindStcrawlByIdArgs = {
 
 export type MutationfindUserIdArgs = {
   input: FindUserIdInput;
+};
+
+
+export type MutationgetAiSentenceArgs = {
+  input: HangAiSentenceInput;
 };
 
 
@@ -1915,6 +1928,11 @@ export type VerifyEmailOutput = {
   ok: Scalars['Boolean'];
 };
 
+export type HangCountGptInput = {
+  gptId: Scalars['Int'];
+  sentence: Scalars['String'];
+};
+
 export type CP_GetTradeTmpCodeInput = {
   code: Scalars['String'];
 };
@@ -2117,6 +2135,12 @@ export type CP_BuyProductIdInput = {
 
 export type CheckPossibleIdsInput = {
   mainIds: Array<Scalars['String']>;
+};
+
+export type YearMonthDayInput = {
+  day: Scalars['Int'];
+  month: Scalars['Int'];
+  year: Scalars['Int'];
 };
 
 export type TeacherGetMonth = {
@@ -3041,6 +3065,32 @@ export type AdditionalUserProfileOutput = {
   countHang?: Maybe<Scalars['Float']>;
   error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
+};
+
+export type HangAiSentenceInput = {
+  sentence: Scalars['String'];
+};
+
+export type HangAiSentenceOutput = {
+  __typename?: 'HangAiSentenceOutput';
+  error?: Maybe<Scalars['String']>;
+  ok: Scalars['Boolean'];
+  result?: Maybe<HangGptContent>;
+};
+
+export type HangGptContent = {
+  __typename?: 'HangGptContent';
+  count: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  fullSen: Scalars['String'];
+  id: Scalars['Float'];
+  isUserMade: Scalars['Boolean'];
+  keywork: Scalars['String'];
+  nouns: Scalars['String'];
+  originId: Scalars['Int'];
+  phrase: Scalars['String'];
+  semester: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type FullChangChesInput = {

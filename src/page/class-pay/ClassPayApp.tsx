@@ -96,10 +96,10 @@ const moneyHeight = 'h-14'
   return(
   // <div className=" max-w-screen-lg h-screen flex flex-col items-center">
   <div className="w-full h-screen flex flex-col items-center bg-white md:mt-10 lg:mt-20">
-        <Helmet><title>물고기경제홈</title>
-          <meta name="title" content="물고기경제홈" />
-          <meta property="og:title" content="물고기경제홈" />
-          <meta property="og:description" content="물고기경제홈입니다" />
+        <Helmet><title>물고기 교실경제홈</title>
+          <meta name="title" content="물고기 교실경제 홈" />
+          <meta property="og:title" content="물고기 교실경제 홈" />
+          <meta property="og:description" content="물고기 교실경제 홈입니다" />
           <link rel="apple-touch-icon" href="%PUBLIC_URL%/airship192.png" />
           {/* <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> */}
         </Helmet>

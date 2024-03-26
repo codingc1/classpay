@@ -14,6 +14,7 @@ export const TradeHistoryDetail = ({bill, student_id}:{bill:IBill,student_id?:nu
 
     //Date => 2023/12/31 14:00 
     const date = new Date(bill.createdAt)
+
     const year = date.getFullYear()
     const month = date.getMonth()+1
     const day = date.getDate()

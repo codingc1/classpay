@@ -8,8 +8,8 @@ import { useMarketBookMonth } from "./useMarketMonth";
 
 //월별로 all bankbook 보여줌
 export const FTTMarketHistoryMonthContainer = ({currentDate, setCurrentDate,setBill,isLoading,setIsLoading}:{
-    currentDate: { year: number, month: number,  },
-    setCurrentDate: React.Dispatch<React.SetStateAction<{ year: number; month: number; }>>
+    currentDate: { year: number, month: number, day:number  },
+    setCurrentDate: React.Dispatch<React.SetStateAction<{ year: number; month: number; day:number}>>
     setBill: React.Dispatch<React.SetStateAction<IBill[]>>,
     isLoading:boolean,
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>

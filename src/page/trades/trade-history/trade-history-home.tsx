@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useErrorShow from "../../../func/sys/err/useErrShow";
 import { useMutation, useReactiveVar } from "@apollo/client";
-import { CP_MYBILLS_MONTH_MUTATION } from "../../../hooks/cp-pay/trade/cp-bill";
-import { cp_MyBillsMonthMutationMutation, cp_MyBillsMonthMutationMutationVariables } from "../../../hooks/cp-pay/trade/cp-bill.generated";
 
 
 import { IBill, cpPayVar, editCpPayVar } from "../../../stores/cp-pay-store";
@@ -21,7 +19,7 @@ export default function TradeHistoryHome() {
     const {data:meData, } = useMe()
     const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
-    const [currentDate, setCurrentDate] = useState({ year: new Date().getFullYear(), month: new Date().getMonth() + 1,  });
+    const [currentDate, setCurrentDate] = useState({ year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate()});
     const [nowBill, setNowBill] = useState<IBill[]>([]);
     const [isLoading, setIsLoading] = useState(false); 
     //bill 다른 파일로 분리하기 - bill-detail.tsx

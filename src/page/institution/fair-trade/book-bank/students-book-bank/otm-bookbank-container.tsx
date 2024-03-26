@@ -14,8 +14,8 @@ import { ICpStudent } from "../../../../../stores/cp-students-store";
 export const OTMBookBankContainer = ({student, currentDate, setCurrentDate,setNowBook,isLoading,setIsLoading, }:{
     //{ year: new Date().getFullYear(), month: new Date().getMonth() + 1,  }
     student:ICpStudent,
-    currentDate: { year: number, month: number,  },
-    setCurrentDate: React.Dispatch<React.SetStateAction<{ year: number; month: number; }>>
+    currentDate: { year: number, month: number, day:number },
+    setCurrentDate: React.Dispatch<React.SetStateAction<{ year: number; month: number; day:number}>>
     setNowBook: React.Dispatch<React.SetStateAction<IBankBook[]>>,
     isLoading:boolean,
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
@@ -30,25 +30,25 @@ export const OTMBookBankContainer = ({student, currentDate, setCurrentDate,setNo
         //     ,billMutation,loading})
         useEffect(()=>{
             //makeAllStudentsKey 가 달라서 다른 학생 data와 겹치지 않음
-            const key =cpPayFn.bill.makeOneStudentKey({year:currentDate.year, month:currentDate.month,student_id:student.id})
+            const key =cpPayFn.bill.makeOneStudentKey({year:currentDate.year, month:currentDate.month, day:currentDate.day,student_id:student.id})
             if(bookRedux[key]){
                 setNowBook(bookRedux[key]);return;
             }else{
-                billMutation({year:currentDate.year, month:currentDate.month,user_id:student.id} )
+                billMutation({year:currentDate.year, month:currentDate.month, day:currentDate.day,user_id:student.id} )
             }
         },[]) //currentDate.year, currentDate.month
         
 
     const [debounceFn]=useDebounceFunction()
-    const updateBills=(newYear:number, newMonth:number)=>{ //year, month가 바뀌면 year+momth로 검색하여 없으면 mutation => {year+month: data}로 redux에 저장
+    const updateBills=(newYear:number, newMonth:number, newDay:number)=>{ //year, month가 바뀌면 year+momth로 검색하여 없으면 mutation => {year+month: data}로 redux에 저장
         if(loading || isLoading){return}
-        const key =cpPayFn.bill.makeOneStudentKey({year:newYear, month:newMonth,student_id:student.id})
-        if(bookRedux[key]){
+        const key =cpPayFn.bill.makeOneStudentKey({year:newYear, month:newMonth, day:newDay,student_id:student.id})
+        if(bookRedux[key]){ 
             setNowBook(bookRedux[key]);return;
         }else{
             setIsLoading(true) 
             // setTimeout(runMutaiotn, 800, newYear,newMonth) //매계변수를 직접 넣으면안됨 https://sisiblog.tistory.com/229 
-            debounceFn(()=>billMutation({year:newYear,month:newMonth, user_id:student.id}), 800)
+            debounceFn(()=>billMutation({year:newYear,month:newMonth, day:newDay, user_id:student.id}), 800)
             // debounceFn(()=>runMutaiotn(newYear,newMonth), 800)
         }
     }

@@ -7,7 +7,7 @@ export const TermsConditions = () => {
 return(
   <main className="flex flex-col items-center ">
     <Helmet>
-      <title>물고기경제 이용약관</title>
+      <title>물고기 교실경제 이용약관</title>
     </Helmet>
     <div className="w-full max-w-2xl flex flex-col justify-center lg:mt-10">
       <div className="w-52 mb-3 text-2xl font-mono">이용약관</div>  

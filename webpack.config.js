@@ -4,14 +4,16 @@ const FaviconsWebpackPlugin =require('favicons-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const port = process.env.PORT || 3300;
- 
-//https://snupi.tistory.com/197
-module.exports = {
-  
 
+
+
+//https://snupi.tistory.com/197
+// module.exports = {
+module.exports = (env, argv) => {  //argv.mode 프로덕션 https://stackoverflow.com/questions/49274713/get-current-mode-in-webpack-config-js
+  return {
   // development 모드는 개발자 경험에 초점이 맞춰진 모드
   // production모드는 배포에 초점이 맞춰진 모드
-  mode: "development",
+  mode: argv.mode==='production'?"production":"development", 
   entry: {
     app: './src/index.tsx',
 },
@@ -137,4 +139,5 @@ module.exports = {
   // stats: { //에러 구체적으로 보여줌
   //   children:true,
   // }
+}
 };

@@ -1,21 +1,12 @@
-import { useMutation, useReactiveVar } from "@apollo/client";
-import { useEffect, useState } from "react";
-import { IBankBook } from "../../../../../stores/type/cppay-type";
-import { cpPayVar, editCpPayVar } from "../../../../../stores/cp-pay-store";
-import useErrorShow from "../../../../../func/sys/err/useErrShow";
-import { cp_MyBankBooksMonthMutationMutation, cp_MyBankBooksMonthMutationMutationVariables } from "../../../../../hooks/cp-pay/trade/cp-bill.generated";
-import { CP_BANKBOOKS_MONTH_MUTATION } from "../../../../../hooks/cp-pay/trade/cp-bill";
-import { useDebounceFunction } from "../../../../../func/basic/useDebounce";
-import { cpPayFn } from "../../../../../stores/sub-store-fn/cp-pay-fn";
-import { monthCal } from "../../../../../utils/date/month-cal";
-import { useBankBookMu } from "../../../../../hooks/cp-pay/institution/bankbook/useBankBookMu";
 import { TypeBankbookhistorymonth } from "./type-bankbookhistorymonth";
+import { calDay } from "../../../../../utils/date/day-cal";
+import { ThDayHead } from "../../../../../components/bundle/calendar/th-day-head";
 
 
 
 //월별로 bankbook 보여줌
 export const BankBookHistoryMonth = ({currentDate, setCurrentDate,isLoading,updateBills, loading}:TypeBankbookhistorymonth
-    // {
+    // { 
     // //{ year: new Date().getFullYear(), month: new Date().getMonth() + 1,  }
     // currentDate: { year: number, month: number,  },
     // setCurrentDate: React.Dispatch<React.SetStateAction<{ year: number; month: number; }>>
@@ -76,19 +67,29 @@ export const BankBookHistoryMonth = ({currentDate, setCurrentDate,isLoading,upda
     // }
 
     const calMonth =(num:number)=>{
-        const {year, month} = monthCal.calMonths({year:currentDate.year, month:currentDate.month,}, num )
-        setCurrentDate({ year, month });
-        updateBills(year, month)
+        const {year, month, day} = calDay.calDays({year:currentDate.year, month:currentDate.month,day:currentDate.day}, num )
+        setCurrentDate({ year, month,day });
+        updateBills(year, month,day)
     }
-
+    const handlePlusButtonClick = () => {
+        const {year, month, day} = calDay.calDays({year:currentDate.year, month:currentDate.month,day:currentDate.day}, 1 )
+        setCurrentDate({ year, month, day });
+        updateBills(year, month,day)
+      };
+    const handleMinusButtonClick = () => {
+        const {year, month,day} = calDay.calDays({year:currentDate.year, month:currentDate.month,day:currentDate.day}, -1 )
+        setCurrentDate({ year, month, day });
+        updateBills(year, month, day)
+    };
 
     return(
-        <div className="flex justify-between items-center  " style={{height:'3.5rem',borderTop:'1px solid #C0C0C0', borderBottom:'1px solid #C0C0C0'}}>
-            {(loading||isLoading) ?<div className="text-center"style={{width:'3rem'}}>..</div>:
-                <div className="cursor-pointer text-center" style={{width:'3rem'}} onClick={()=>calMonth(-1)}>&#9001;</div>}
-            <div className="text-lg">{currentDate.year}.{currentDate.month}</div>
-            {(loading||isLoading) ?<div className="text-center"style={{width:'3rem'}}>..</div>:
-                <div className=" text-center cursor-pointer" style={{width:'3rem'}} onClick={()=>calMonth(1)}>&#9002;</div>}
-        </div>
+        <ThDayHead currentDate={currentDate} isLoading={isLoading} handleMinusButtonClick={handleMinusButtonClick} handlePlusButtonClick={handlePlusButtonClick} loading={loading}/>
+        // <div className="flex justify-between items-center  " style={{height:'3.5rem',borderTop:'1px solid #C0C0C0', borderBottom:'1px solid #C0C0C0'}}>
+        //     {(loading||isLoading) ?<div className="text-center"style={{width:'3rem'}}>..</div>:
+        //         <div className="cursor-pointer text-center" style={{width:'3rem'}} onClick={()=>calMonth(-1)}>&#9001;</div>}
+        //     <div className="text-lg">{currentDate.year}.{currentDate.month}.{currentDate.day}</div>
+        //     {(loading||isLoading) ?<div className="text-center"style={{width:'3rem'}}>..</div>:
+        //         <div className=" text-center cursor-pointer" style={{width:'3rem'}} onClick={()=>calMonth(1)}>&#9002;</div>}
+        // </div>
     )
 }

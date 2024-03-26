@@ -86,11 +86,11 @@ export const SignUp = () => {
     return(
         <div className="w-full h-screen flex flex-col items-center">
         <div className="w-full h-screen flex items-center flex-col ">
-            <Helmet><title>물고기경제 로그인</title>
-              <meta name="title" content="물고기경제" />
-              <meta name="description" content="물고기경제입니다, 구글크롬에서 작동합니다." />
-              <meta property="og:title" content="물고기경제 로그인" />
-              <meta property="og:description" content="물고기경제 로그인입니다" />
+            <Helmet><title>물고기 교실경제 회원가입</title>
+              <meta name="title" content="물고기 교실경제" />
+              <meta name="description" content="물고기 교실경제입니다, 구글크롬에서 작동합니다." />
+              <meta property="og:title" content="물고기 교실경제 회원가입" />
+              <meta property="og:description" content="물고기 교실경제 회원가입입니다" />
               <link rel="apple-touch-icon" href="%PUBLIC_URL%/airship192.png" />
               {/* <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> */}
             </Helmet>

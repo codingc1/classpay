@@ -14,8 +14,8 @@ import { useBankBookMonth } from "./useBankBookMonth";
 //월별로 all bankbook 보여줌
 export const CBBHistoryMonthContainer = ({currentDate, setCurrentDate,setNowBook,isLoading,setIsLoading}:{
     //{ year: new Date().getFullYear(), month: new Date().getMonth() + 1,  }
-    currentDate: { year: number, month: number,  },
-    setCurrentDate: React.Dispatch<React.SetStateAction<{ year: number; month: number; }>>
+    currentDate: { year: number, month: number,  day:number},
+    setCurrentDate: React.Dispatch<React.SetStateAction<{ year: number; month: number; day:number}>>
     setNowBook: React.Dispatch<React.SetStateAction<IBankBook[]>>,
     isLoading:boolean,
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>

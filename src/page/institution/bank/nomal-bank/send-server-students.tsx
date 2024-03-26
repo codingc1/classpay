@@ -8,8 +8,6 @@ import { cpStudentFn } from "../../../../stores/sub-store-fn/cp-student-fn";
 import { useReactiveVar } from "@apollo/client";
 import { StudentListTableMoney } from "../../../../components/students/stulist-height-money";
 import { StudentListTableMoneyServeral } from "../../../../components/students/stulist-height-money-several";
-import NomadInputPrice from "../../../../components/input/nomad-input/nomad-input-price";
-import NomadCssButton from "../../../../components/button/nomad-css-btn";
 import { useSendmoneyInput } from "../../../../components/bundle/institution/useSendmoneyInput";
 import { useInstiSendMoneyOneToMany } from "../../../../hooks/cp-pay/institution/bankbook/useInstiSendMoneyOneToMany";
 import { cpInstitutionVar } from "../../../../stores/cp-institution";

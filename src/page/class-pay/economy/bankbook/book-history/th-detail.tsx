@@ -40,7 +40,7 @@ export const BankBookHistoryDetail = ({bankbook}:{bankbook:IBankBook}) => {
     //가운데: price, result
     //오: description, 보낸이(받는이), 날짜
     return(
-        <div className="px-1 py-3 w-full flex">
+        <div className="px-1 py-2 w-full flex">
             <div className="flex justify-center items-center" style={{width:'18%'}}>
                 {isIncome()?<div className="text-center " ><FaCirclePlus color="blue" size={'2rem'} /></div>
                 :<div className="text-center " ><FaCircleMinus color="red" size={'2rem'} /></div>}

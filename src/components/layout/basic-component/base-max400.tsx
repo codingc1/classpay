@@ -12,7 +12,7 @@ const BaseMax400: React.FC<ProductBaseProps>= ({ children, backgroundColor = 'bg
 
     return ( //md:mt-10 lg:mt-20
     <div className={`w-full min-h-screen flex flex-col items-center ${backgroundColor}` }>
-        <div className={`rounded-xl shadow-xl  max400width md:mt-5 lg:mt-10 ${bgInner}`} >
+        <div className={`rounded-xl shadow-xl pb-5 max400width md:mt-5 lg:mt-10 ${bgInner}`} >
                 {children}
         </div>
     </div>

@@ -9,6 +9,7 @@ import { CBBankBookHistoryDetail } from "./cbb-book-th-detail";
 import BaseMax400 from "../../../../../components/layout/basic-component/base-max400";
 import { InstiHeader } from "../../../insti-home/insti-header";
 import { FairTradeCheckBankBookGroupBox } from "../ftc-bankbook-group-box";
+import { DateObj } from "../../../../../utils/date/dateObj";
 
 
 
@@ -16,23 +17,23 @@ import { FairTradeCheckBankBookGroupBox } from "../ftc-bankbook-group-box";
 //최근 거래
 export const CbbRecentBookList = () => {
 
-    const [currentDate, setCurrentDate] = useState({ year: new Date().getFullYear(), month: new Date().getMonth() + 1,  });
+    const [currentDate, setCurrentDate] = useState(DateObj.today);
     const [nowBook, setNowBook] = useState<IBankBook[]>([]);
     const [isLoading, setIsLoading] = useState(false); 
 
-    
+     
 
     return(
     <BaseMax400>
         <InstiHeader />
         <div className="w-full mt-3 px-3">
             <FairTradeCheckBankBookGroupBox />
-            <section className="w-full px-1 bg-white">
+            <section className="w-full px-1 bg-white bankbookDetailHeight">
                 {/* <BankBookHistoryMonth currentDate={currentDate} setCurrentDate={setCurrentDate} setNowBook={setNowBook} isLoading={isLoading} setIsLoading={setIsLoading} /> */}
                 <CBBHistoryMonthContainer currentDate={currentDate} setCurrentDate={setCurrentDate} setNowBook={setNowBook} isLoading={isLoading} setIsLoading={setIsLoading} />
-                <ul style={{maxHeight:'80vh',overflowY:'auto'}}>
-                    {!isLoading && nowBook.map((book, index) => <CBBankBookHistoryDetail key={'book'+index}bankbook={book} />)}
-                </ul>
+                {/* <ul style={{maxHeight:'80vh',overflowY:'auto'}}> */}
+                {!isLoading && nowBook.map((book, index) => <CBBankBookHistoryDetail key={'book'+index}bankbook={book} />)}
+                {/* </ul> */}
                 <div className="py-2"></div>
             </section>
         </div>

@@ -10,16 +10,16 @@ export const PrivacyPolicy = () => {
 return(
   <main className="flex flex-col items-center ">
     <Helmet>
-      <title>물고기경제 개인정보 처리방침</title>
+      <title>물고기 교실경제 개인정보 처리방침</title>
     </Helmet>
 
     <div className="w-full max-w-2xl flex flex-col justify-center lg:mt-10">
       <div className=" py-10 flex items-center">
         {/* <a href="/" className="hover:underline text-lime-600">Go back home &rarr;</a> */}
         <a href="/" className="px-3 cursor-pointer hover:text-blue-600"><AiOutlineHome size={24} /></a>
-        <a href="/" className="text-xl font-bold underline  hover:text-blue-600 cursor-pointer">물고기경제 개인정보 처리방침</a>
+        <a href="/" className="text-xl font-bold underline  hover:text-blue-600 cursor-pointer">물고기 교실경제 개인정보 처리방침</a>
       </div>
-    <p className="ls2 lh6 bs5 ts4"><em className="emphasis">물고기경제('물고기경제'이하 '물고기경제')</em>은(는) 「개인정보 보호법」 제30조에 따라 정부주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 
+    <p className="ls2 lh6 bs5 ts4"><em className="emphasis">물고기경제('물고기 교실경제'이하 '물고기경제')</em>은(는) 「개인정보 보호법」 제30조에 따라 정부주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 
     원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.</p>
     <p className="ls2">이 개인정보처리방침은 <em className="emphasis">2024</em>년 <em className="emphasis">3</em>월 <em className="emphasis">4</em>부터 적용됩니다.</p>
     <br></br>
