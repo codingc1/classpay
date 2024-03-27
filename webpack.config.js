@@ -2,8 +2,10 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FaviconsWebpackPlugin =require('favicons-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin');
+const { cleanExten } = require('./webpack-fn/cleanexten.js');
 const path = require('path');
 const port = process.env.PORT || 3300;
+//성능최적화-아직적용안함 https://medium.com/@uk960214/%EC%84%B1%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94-1-%EB%B2%88%EB%93%A4-%ED%81%AC%EA%B8%B0-%EC%A4%84%EC%9D%B4%EA%B8%B0-react-webpack-minify-code-splitting-e2391e7e5f1b
 
 
 
@@ -24,8 +26,24 @@ module.exports = (env, argv) => {  //argv.mode 프로덕션 https://stackoverflo
   // entry:'./src/index.js', 설정 기본값
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: "bundle.[hash].js",
-    publicPath: '/' //새로고침 안되는문제   
+    filename: "bundle.[fullhash].js",
+    publicPath: '/', //새로고침 안되는문제   
+    clean: {
+      keep: filename => {//*.txt, *.html, *.js만 삭제함
+        return cleanExten(filename);
+      //   const splitedArr = filename.split('.')
+      // if( splitedArr.length < 2) return true
+      // const poped = splitedArr.pop()
+      // if(!poped) return true
+      // const extension = poped.toLowerCase();
+      // if (extension === 'txt' || extension === 'html' || extension === 'js') {
+      //   console.log('cleanExten.js: ', filename, ' is not deleted')
+      //     return false; //삭제
+      // } 
+      // return true;
+      //return filename === "삭제되지*말아야할*파일"
+      }
+    }, //https://jeonghwan-kim.github.io/2022/08/21/webpack-output-clean
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
@@ -103,11 +121,11 @@ module.exports = (env, argv) => {  //argv.mode 프로덕션 https://stackoverflo
       //https://github.com/giacomoalonzi/webpack-webapp/blob/v2/webpack.config.js#L70
       template: path.join(__dirname, 'public', 'index.html'),
     }),
-    new FaviconsWebpackPlugin({
-      // logo: 'src/assets/images/logo.png',
-      logo: path.join(__dirname, 'public', 'favicon.ico'), //https://yujo11.github.io/webpack/webpack%20favicon,%20manifest.json%20%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0/
-      // manifest: 'public/manifest.json',// path.join(__dirname, 'public', 'manifest.json'),
-    }),
+    // new FaviconsWebpackPlugin({ //모듈 삭제해야함 임시로 주석처리
+    //   // logo: 'src/assets/images/logo.png',
+    //   logo: path.join(__dirname, 'public', 'favicon.ico'), //https://yujo11.github.io/webpack/webpack%20favicon,%20manifest.json%20%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0/
+    //   // manifest: 'public/manifest.json',// path.join(__dirname, 'public', 'manifest.json'),
+    // }),
     new CopyPlugin({ //https://stackoverflow.com/questions/57169909/how-to-serve-robots-txt-from-a-javascript-webpack-project
       patterns: [
           { from: "public/robots.txt", to: "robots.txt" },

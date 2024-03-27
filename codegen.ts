@@ -38,3 +38,5 @@ const config: CodegenConfig = {
 }
  
 export default config
+
+////--mode production

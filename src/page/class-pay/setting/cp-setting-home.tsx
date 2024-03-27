@@ -69,6 +69,7 @@ export const CpSettingHome=()=>{
       submit({setLastSettingMutationTime, objKey, moneyUnit,numberOfDigits, isTrade })
     }
 
+  
 
     return(  
 
@@ -110,8 +111,8 @@ export const CpSettingHome=()=>{
       <span className="ml-2 text-lime-600 text-xs cursor-pointer">(체크하더라도 선생님은 가능)</span>
 
   </div>
-  <div className="px-3 mt-7 text-sm">
-    <div>물고기 경제</div>
+  <div className="px-3 mt-20 text-sm">
+
     <div className="flex flex-wrap">사용 가능 기능 : 
      <div className="flex-1">송금, 시장놀이(물품등록, 판매-qr코드)</div>
     </div>

@@ -77,7 +77,7 @@ if(alramStatus === 'NO_MONEY'){
 return <div></div>
 }
 
-
+ 
 return(
 <article className="w-full relative px-3 mt-2">
   <div className="w-full h-20 p-3 flex flex-col   bg-white rounded-lg">
