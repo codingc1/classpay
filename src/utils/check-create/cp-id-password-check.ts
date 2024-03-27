@@ -35,16 +35,21 @@ export const chkCpUser ={ //학생
          return( reg2.test(str))
       },
       passLength:function(str:string):boolean {
-         return(str.length>=8 && str.length<=20)
+         return(str.length>=4 && str.length<=20)
       },
-      passHasAlphabet:function(str:string):boolean { //영문자가 있는지
-         const numberOrSpecialCharRegex = /[0-9!@#$%^&*()_+]/;
-         return numberOrSpecialCharRegex.test(str);
-      },
-      hasNumberOrSpecialChar:function(str:string):boolean {//숫자나 특수문자가 있는지
-         const numberOrSpecialCharRegex = /[0-9!@#$%^&*()_+]/;
-         return numberOrSpecialCharRegex.test(str);
-      },
+      // passHasAlphabet:function(str:string):boolean { //영문자가 있는지
+      //    const numberOrSpecialCharRegex = /[0-9!@#$%^&*()_+]/;
+      //    return numberOrSpecialCharRegex.test(str);
+      // },
+      // hasNumberOrSpecialChar:function(str:string):boolean {//숫자나 특수문자가 있는지
+      //    const numberOrSpecialCharRegex = /[0-9!@#$%^&*()_+]/;
+      //    return numberOrSpecialCharRegex.test(str);
+      // },
+      notKorean:function(str:string):boolean { //영어로만 이루어져도 상관없음
+         const reg2 = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
+         // const reg2 = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~`!@#$%^&*()_+=[\]\{}\/<>?]).{4,20}$/;
+         return reg2.test(str)
+      }  
    },
 
    name:function(str:string):boolean {
@@ -58,8 +63,9 @@ export const chkCpUser ={ //학생
    },
    passwordErrMsg:function(str:string):string {
       if(chkCpUser.pass.passLength(str)===false)return chkCpUser.MSG.passLen; //'비밀번호 길이는 8자 이상 20자 이하입니다.', 
-      if(chkCpUser.pass.passHasAlphabet(str)===false)return chkCpUser.MSG.passReg1; //'비밀번호에 영어가 1글자 이상 포함되어야 합니다'
-      if(chkCpUser.pass.hasNumberOrSpecialChar(str)===false)return chkCpUser.MSG.passReg2; //'비밀번호에 숫자나 특수문자가 1글자 이상 포함되어야 합니다'
+      // if(chkCpUser.pass.passHasAlphabet(str)===false)return chkCpUser.MSG.passReg1; //'비밀번호에 영어가 1글자 이상 포함되어야 합니다'
+      // if(chkCpUser.pass.hasNumberOrSpecialChar(str)===false)return chkCpUser.MSG.passReg2; //'비밀번호에 숫자나 특수문자가 1글자 이상 포함되어야 합니다'
+      if(chkCpUser.pass.notKorean(str)===false)return chkCpUser.MSG.passReg3; //'비밀번호는 영어, 숫자, 특수문자로만 이루어져야 합니다'
       return ''
    },
    mainIdErrMsg:function(str:string):string{
@@ -121,8 +127,9 @@ export const chkCpUser ={ //학생
       mainIdLen:'아이디는 네글자 이상이어야 합니다',
       mainIdReg:'아이디는 영어소문자,숫자,한글로만 가능합니다',
 
-      passLen:'비밀번호 길이는 8자 이상 20자 이하입니다.',
-      passReg1:'비밀번호에 영어가 1글자 이상 포함되어야 합니다',
-      passReg2:'비밀번호에 숫자나 특수문자가 1글자 이상 포함되어야 합니다',
+      passLen:'비밀번호 길이는 4자 이상 20자 이하입니다.',
+      // passReg1:'비밀번호에 영어가 1글자 이상 포함되어야 합니다',
+      // passReg2:'비밀번호에 숫자나 특수문자가 1글자 이상 포함되어야 합니다',
+      passReg3:'비밀번호는 영어, 숫자, 특수문자로만 이루어져야 합니다',
    }
 }

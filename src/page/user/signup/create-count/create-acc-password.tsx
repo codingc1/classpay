@@ -1,7 +1,5 @@
-import { SetStateAction, useCallback } from "react"
-
-import { chkPassword } from "./chk-password";
 import { FormErrorLight } from "../../../../components/bundle/signup/form-error-light";
+import { chkCpUser } from "../../../../utils/check-create/cp-id-password-check";
 
 interface ITdProps {
     password:string; passwordTwo:string;
@@ -27,8 +25,10 @@ export const CreateAccPassword: React.FC<ITdProps>=({password, passwordTwo,setPa
         const passValue= e.target.value; 
         setPassword(passValue)
 
-        if (chkPassword(passValue).length>0) { 
-            setPassMsg(chkPassword(passValue))//"6자 이상, 영어 숫자가 포함되어야 합니다"
+        const chkPassMsg = chkCpUser.passwordErrMsg(passValue)
+        // if (chkPassword(passValue).length>0) { 
+        if (chkPassMsg.length>0) { 
+            setPassMsg(chkPassMsg)//"6자 이상, 영어 숫자가 포함되어야 합니다"
         } else {
             isSame(passValue, passwordTwo)
         }
