@@ -64,9 +64,6 @@ export const CPMemberHome=()=>{ //변경 : delete, create, modify
                     return(
                         <div className="px-2 py-1"  key={el.id}>
                             <div className=" w-12 h-12 p-1 bg-indigo-300 rounded-full "  onClick={()=>{}}>
-                                {/* <div className="font-thin">QR코드</div>
-                                <div className=" font-bold text-lg">스캔하기</div>
-                            <div className="flex justify-end text-5xl"><AiOutlineScan /></div> */}
                             </div>
                             {meDate?.cp_me.position===POSITION.Teacher &&
                                 <div className="w-12 mt-2 text-center text-xs ">{el.number}번</div>}

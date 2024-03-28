@@ -25,7 +25,7 @@ useEffect(()=>{
   }else{
     setAlramStatus('')
   }
-},[studentList])
+},[data, ])
 //cp_institution home에서 모든 기관을 사용 (넘복잡) => 각 기관별로 이동..
 const isNoMoney = ()=>{
   //money가 0이 아닌 학생 찾기

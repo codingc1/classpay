@@ -7,12 +7,12 @@ import { CP_FAIRTRADE_BANKBOOK_RESENT_ROUTE_NAME, CP_FAIR_TRADE_MARKETTRADE_RESE
 
 
 
-
 export const InstiHeader=()=>{
     let navigate = useNavigate()
     const institution = useReactiveVar(cpInstitutionVar).institution;
     const selPermissionNum = useReactiveVar(cpInstitutionVar).selPermissionNum;
     const CPermission = new Class_Insti();
+
     
     const gridCss =(idx:number)=>{
         if(idx===selPermissionNum){

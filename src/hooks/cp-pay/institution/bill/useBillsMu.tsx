@@ -60,7 +60,7 @@ export const useBillMuRefetch = () => {
     const { billMutation } = useBillsMu({})
     const refetchBill = () => { //오늘 날짜로 데이터 리페치
         const now = new Date()
-        billMutation(now.getFullYear(), now.getMonth() + 1, now.getDate()) //이번달 거래내역 refetch
+        billMutation(now.getFullYear(), now.getMonth()+1, now.getDate()) //이번달 거래내역 refetch
     }
     return {refetchBill}
 }

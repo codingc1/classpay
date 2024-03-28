@@ -34,7 +34,7 @@ export const OTMBookBankContainer = ({student, currentDate, setCurrentDate,setNo
             if(bookRedux[key]){
                 setNowBook(bookRedux[key]);return;
             }else{
-                billMutation({year:currentDate.year, month:currentDate.month, day:currentDate.day,user_id:student.id} )
+                  billMutation({year:currentDate.year, month:currentDate.month, day:currentDate.day,user_id:student.id} )
             }
         },[]) //currentDate.year, currentDate.month
         

@@ -33,7 +33,7 @@ export const useBankBookMu = ({setData,setIsLoading}:{setData?:any,setIsLoading?
         //resultData중에서 날짜에 맞는 것만
         const todayDate = resultData.filter((data)=>{ //오늘 날짜만
             const transDate = dateStrToDate(data.createdAt)
-            return transDate.getFullYear() === date.current.year && transDate.getMonth() === date.current.month && transDate.getDate() === date.current.day
+            return transDate.getFullYear() === date.current.year && transDate.getMonth()+1 === date.current.month && transDate.getDate() === date.current.day
         })
         if(setData)setData(todayDate); //이번 달 state에 저장
         if(setIsLoading)setIsLoading(false)

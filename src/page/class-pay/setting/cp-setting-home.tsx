@@ -1,18 +1,14 @@
 import { useReactiveVar } from "@apollo/client";
 import { useNavigate,  } from "react-router-dom";
-import { client } from "../../../apollo"
-import useError from "../../../func/sys/err/useErr"
-import { cp_payUpdateInfoMutationDocument } from "../../../hooks/cp-pay/basic/createClassPay.generated"
-import { cpPayVar, editCpPayVar } from "../../../stores/cp-pay-store";
+import { cpPayVar } from "../../../stores/cp-pay-store";
 import BaseMax400 from "../../../components/layout/basic-component/base-max400";
 import { TitleAndLine } from "../../../components/title/title-line";
 // import { useCheckboxAndText } from "../../../components/checkbox/useCheckboxAndText";
 import { useState } from "react";
-import { InlineInputLable } from "../../../components/input/inline-input-lable";
 import { grayBtnCss } from "../../../components/button/tailwind-btn/gray-button";
-import { cls } from "../../../func/basic/string/cls";
 import { useSettingSubmit } from "./setting-home/useSettingSubmit";
 import { SettingMoneyunit } from "./setting-home/setting-moneyunit";
+import { SettingNumberOfDigit } from "./setting-home/setting-numberOfDigit";
 
 
 
@@ -30,6 +26,7 @@ export const CpSettingHome=()=>{
     const cppay = useReactiveVar(cpPayVar).cppay;
     const [moneyUnit, setMoneyUnit] = useState(cppay.moneyUnit) //화폐 단위
     const [checked, setChecked] = useState(!cppay.isTrade)
+    const [numberOfDigits, setNumberOfDigits] = useState(cppay.numberOfDigits) //화폐 콤마 자리수
 
     const onChangeMoneyUnit =(e: React.ChangeEvent<HTMLInputElement>)=>{
         setMoneyUnit(e.target.value)      
@@ -61,10 +58,19 @@ export const CpSettingHome=()=>{
 
     const {submit} = useSettingSubmit()
     const handlesubmit=({ numberOfDigits, isTrade, moneyUnit, objKey}:CpSettingSubmit)=>{
-
         if(!isCheckPossibleMutation()){
-          alert('업데이트에 실패하였습니다 다시 시도해 주세요.')
+          // alert('업데이트에 실패하였습니다 다시 시도해 주세요.')
           return
+      }
+      if(objKey === 'numberOfDigits'){ //숫자인가
+        if(typeof numberOfDigits !== 'number'){
+          alert('숫자를 입력해주세요')
+          return
+        }
+        if(numberOfDigits !== 3 && numberOfDigits !== 4 ){
+          alert('화폐 콤마 자리수는 3, 4만 가능합니다.')
+          return
+        }
       }
       submit({setLastSettingMutationTime, objKey, moneyUnit,numberOfDigits, isTrade })
     }
@@ -85,6 +91,7 @@ export const CpSettingHome=()=>{
                 {/* <div>payid : {payid}</div> */}
   <div className="px-3 mt-3 ">
     <SettingMoneyunit moneyUnit={moneyUnit} onChangeMoneyUnit={onChangeMoneyUnit} submit={handlesubmit} />
+    <SettingNumberOfDigit onChangenumberOfDigits={(e)=>setNumberOfDigits(Number(e.target.value))} numberOfDigits={numberOfDigits} submit={handlesubmit} />
     {/* <div className="flex items-center">
       <div className="" style={{width:'80%'}}>
         <InlineInputLable label={'화폐 단위'} name={'moneyUnit'} placeholder={'화폐 단위'} value={moneyUnit} onChangeValue={onChange} />
@@ -111,14 +118,15 @@ export const CpSettingHome=()=>{
       <span className="ml-2 text-lime-600 text-xs cursor-pointer">(체크하더라도 선생님은 가능)</span>
 
   </div>
-  <div className="px-3 mt-20 text-sm">
+
+  {/* <div className="px-3 mt-20 text-sm">
 
     <div className="flex flex-wrap">사용 가능 기능 : 
      <div className="flex-1">송금, 시장놀이(물품등록, 판매-qr코드)</div>
     </div>
     <div>사용 불가능 기능 : 권한부여, 투자, 세금, 직업</div>
-  </div>
-  <div className="mt-3 px-3">
+  </div> */}
+  <div className="mt-20 px-3">
       {/* 이미 회원가입 하셨나요?{" "} */}
       <a href={'https://cafe.naver.com/mgge'} className="text-lime-600 hover:underline">카페</a>
   </div>

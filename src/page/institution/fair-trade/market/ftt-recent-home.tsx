@@ -10,7 +10,7 @@ import { IBill } from "../../../../stores/cp-pay-store";
 //최근 거래
 export const FairtradeMarkettradeRecenHome = () => {
 
-    const [currentDate, setCurrentDate] = useState({ year: new Date().getFullYear(), month: new Date().getMonth() + 1,day: new Date().getDate()});
+    const [currentDate, setCurrentDate] = useState({ year: new Date().getFullYear(), month: new Date().getMonth()+1,day: new Date().getDate()});
     const [nowBill, setBill] = useState<IBill[]>([]);
     const [isLoading, setIsLoading] = useState(false); 
 

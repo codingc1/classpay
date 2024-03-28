@@ -25,7 +25,7 @@ export const useBankBookTeacherMu = ({setData,setIsLoading}:{ setData?:any,setIs
         //add => 
         // console.log(date.current.student_id, 'date.current.student_id')
         editCpPayVar.bankBook.teacherOneStudentAdd({year:date.current.year, month:date.current.month, student_id:date.current.student_id, data:resultData})//
-        const todayDate= filterCreatedAtToday(resultData, date.current) 
+        const todayDate= filterCreatedAtToday(resultData, {year:date.current.year, month:date.current.month, day:date.current.day, }) 
         
         if(setData)setData(todayDate); //이번 달 state에 저장
         if(setIsLoading)setIsLoading(false)

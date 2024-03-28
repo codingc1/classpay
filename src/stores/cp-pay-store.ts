@@ -164,7 +164,7 @@ export const editCpPayVar={
             const obj = cpPayFn.bill.monthToDay({year,month,data,student_id}) //월전체 데이터를 일별로 나눔
             const existData = cpPayVar().bankBooks 
             cpPayVar({...cpPayVar(), bankBooks:{...existData, ...obj}})
-            // console.log({...cpPayVar(), bankBooks:{...existData, ...obj}}, 'cpPayVar()')
+            // console.log({...existData, ...obj}, 'cpPayVar()') 
             // existData[key] = data 
             // cpPayVar({...cpPayVar(), bankBooks:existData})
         },

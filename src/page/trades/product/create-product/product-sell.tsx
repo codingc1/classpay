@@ -113,8 +113,8 @@ export const ProductSell=({setIsModal,setIsQrcode}:{
             {/* <div className="p-3 border-orange-500 border-2 rounded-md"> */}
             <div className="text-sm  box-border" style={{width:innerPopupWidth+'px',}}>
                 <NomadButton text={ loading?'loading':"qr코드 보여주기"} onClick={submit}/>
-                <div className="py-3"></div>
-                <NomadButton text={ loading?'loading':"qr코드 스캔하기"} onClick={submit}/>
+                {/* <div className="py-3"></div>
+                <NomadButton text={ loading?'loading':"qr코드 스캔하기"} onClick={submit}/> */}
             </div>
             {/* <div className="mt-5 w-full h-12 flex justify-center items-center bg-slate-700 rounded-lg text-white
                 cursor-pointer" onClick={()=>setIsModal(true)}>

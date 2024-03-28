@@ -12,6 +12,7 @@ import { client } from "../../../apollo";
 import { CP_ME_QUERY, useMe } from "../../../hooks/user/useMe";
 import { chkCpInstitutuion } from "../../../utils/check-create/cp-insti-check";
 import { CP_PAY_USERLIST_QUERY } from "../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
+import { SENDMONEY_REFETCH_ARR } from "../../../hooks/cp-pay/institution/sendRefetch";
 
 
 export const InstiCenterBankDeleteMoney=()=>{
@@ -34,7 +35,7 @@ export const InstiCenterBankDeleteMoney=()=>{
         if(data.cp_insti_deleteMoney.ok  ){ //
         alert('화폐 축소를 하였습니다.')
         await client.refetchQueries({
-            include: [CP_ME_QUERY, CP_PAY_USERLIST_QUERY],//cppay list refech
+            include: SENDMONEY_REFETCH_ARR,//cppay list refech
             });
         setMoney(0)
         }else if(data.cp_insti_deleteMoney.error){

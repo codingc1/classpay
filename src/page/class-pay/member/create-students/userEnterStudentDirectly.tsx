@@ -16,7 +16,7 @@ export const UserEnterStudentDirectly =({ studentList, setStudentList, }:{//setI
     const [memberNum, setMemberNum] = useState(0)
     //학급명+학생번호
     const [commMainId, setCommMainId] = useState(cpapy.className) //generateRandomEnglish(4,{type:'lower'})
-    const [commPassword, setCommPassword] = useState('qqqqqqq1')//'1111'
+    const [commPassword, setCommPassword] = useState('1111')//'1111'
 
     useEffect(() => {
         if(data && data.cp_PayUserLists.length>1){ //2개이상일때면 1개일때는 교사이므로 2

@@ -34,10 +34,10 @@ export class Class_Insti {
             return '입출금'
           // case CP_INSTI_PERMISSION.BankPayIncome:
           //   return '소득지급'
-          case CP_INSTI_PERMISSION.FairTradeCheck:
-            return '상품거래조회'
           case CP_INSTI_PERMISSION.FairTradeBookBank:
             return '통장조회'
+          case CP_INSTI_PERMISSION.FairTradeCheck:
+            return '상품거래조회'
           default:
             return '알수없음'
         }

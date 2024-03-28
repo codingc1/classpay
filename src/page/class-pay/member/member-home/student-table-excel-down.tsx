@@ -7,11 +7,11 @@ export const StudentTableExcelDown = ({students}:{students:ICpStudent[]}) => {
 
   const excelDownload = () => {
 
-    const test = [ 
-      { id: "물고기반1",비밀번호:'qqqqqqq1',이름:'박지민', 번호: 1 }, 
-      { id: "물고기반2",비밀번호:'qqqqqqq1',이름:'김지수', 번호: 2 }, 
-      { id: "물고기반3",비밀번호:'qqqqqqq1',이름:'이혜인 ', 번호: 3 }, 
-    ]
+    // const test = [ 
+    //   { id: "물고기반1",비밀번호:'qqqqqqq1',이름:'박지민', 번호: 1 }, 
+    //   { id: "물고기반2",비밀번호:'qqqqqqq1',이름:'김지수', 번호: 2 }, 
+    //   { id: "물고기반3",비밀번호:'qqqqqqq1',이름:'이혜인 ', 번호: 3 }, 
+    // ]
     const studentsData = students.map((student)=>{
       const {mainId, name, number} = student
       return {id:mainId, 이름:name, 번호:number, 비고:''}
