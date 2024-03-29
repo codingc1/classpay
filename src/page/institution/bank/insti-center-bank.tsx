@@ -14,8 +14,8 @@ import { chkCpInstitutuion } from "../../../utils/check-create/cp-insti-check";
 import "../../../styles/button/button-color.css";
 import BaseMax400 from "../../../components/layout/basic-component/base-max400";
 import { InstiHeader } from "../insti-home/insti-header";
-import { CP_PAY_USERLIST_QUERY } from "../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 import { SENDMONEY_REFETCH_ARR } from "../../../hooks/cp-pay/institution/sendRefetch";
+import { useStudentsListMu } from "../../../hooks/cp-pay/cp-pay-user/useStudentsListMu";
 
  
 
@@ -51,12 +51,14 @@ export const InstiCenterBank=()=>{
         cp_cp_getMoneySupplytMutation();
      }
 
+     const {studentListRefetch} = useStudentsListMu()
     const [cp_insti_issueMoneytMutation, { loading,  }] = useMutation<cp_insti_issueMoneytMutationMutation, cp_insti_issueMoneytMutationMutationVariables>(CP_INSTI_ISSUEMONEY_MUTATION, {async onCompleted (data){
         if(data.cp_insti_issueMoney.ok  ){ //
         alert('화폐를 발행하였습니다.')
         await client.refetchQueries({ 
             include: SENDMONEY_REFETCH_ARR,//cppay list refech
             });
+        studentListRefetch()
         setMoney(0)
         }else if(data.cp_insti_issueMoney.error){
             // console.log(data.myChecks.error)

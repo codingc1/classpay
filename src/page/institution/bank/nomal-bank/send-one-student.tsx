@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react"
-import { useCpPayUserList } from "../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList"
 import { PaperClipIcon } from '@heroicons/react/20/solid'
 import { IoAccessibilityOutline } from "react-icons/io5";
-import { cls } from "../../../../func/basic/string/cls";
 import { ICpStudent, cpStudentsVar, editStudentsVar } from "../../../../stores/cp-students-store";
 import { cpStudentFn } from "../../../../stores/sub-store-fn/cp-student-fn";
 import { useReactiveVar } from "@apollo/client";
@@ -12,14 +9,14 @@ import { cpInstitutionVar } from "../../../../stores/cp-institution";
 import { checkMoney } from "../../../../utils/institution/chk-sendmoney";
 import { useInstiSendMoneyOne } from "../../../../hooks/cp-pay/institution/bankbook/useInstiSendMoneyOne";
 import { InlineInputLable } from "../../../../components/input/inline-input-lable";
-import { useStudentsList } from "../../../../hooks/cp-pay/cp-pay-user/useStudentsList";
+import { useEffect, useState } from 'react';
+
 
 //한 명에게 보내기
 export const SendOneStudent=()=>{ 
-    // const{data} = useCpPayUserList() 
     const institution = useReactiveVar(cpInstitutionVar).institution;
 
-    const {studentList} = useStudentsList()
+    const studentList = useReactiveVar(cpStudentsVar).students
     // const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
     const selectStudent = useReactiveVar(cpStudentsVar).student; 
     const [selectReceiverStudent, setSelectReceiverStudent] = useState<ICpStudent>(cpStudentFn.store.student) //송금 받는 학생

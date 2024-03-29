@@ -7,7 +7,6 @@ import { PAY_HOME } from "../../../../routers/route-name-constants";
 import { CP_INSTI_SENDMONEY_ONETOMANY_MUTATION, CP_INSTI_SENDMONEY_ONE_MUTATION } from "./cp-bankbook";
 import { cp_insti_sendMoneyMutationMutation, cp_insti_sendMoneyMutationMutationVariables, cp_insti_sendMoney_oneToManyMutationMutation, cp_insti_sendMoney_oneToManyMutationMutationVariables } from "./cp-bankbook.generated";
 import { useBankBookMuRefetch } from "./useBankBookMu";
-import { CP_PAY_USERLIST_QUERY } from "../../cp-pay-user/useCpPayUserList";
 import { SENDMONEY_REFETCH_ARR } from "../sendRefetch";
 
 //은행에서 여러명에게 송금하기 - 같은 금액

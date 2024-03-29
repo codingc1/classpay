@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react"
 import { generateRandomEnglish } from "../../../../func/basic/string/random-string";
 import { IFCreateTempStudent } from "../cp-create-students";
-import { useCpPayUserList } from "../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 import { useReactiveVar } from "@apollo/client";
 import { cpPayVar } from "../../../../stores/cp-pay-store";
+import { cpStudentsVar } from "../../../../stores/cp-students-store";
 
 
 export const UserEnterStudentDirectly =({ studentList, setStudentList, }:{//setIdPossible
@@ -11,7 +11,7 @@ export const UserEnterStudentDirectly =({ studentList, setStudentList, }:{//setI
     setStudentList:React.Dispatch<React.SetStateAction<IFCreateTempStudent[]>>
     //</React.SetStateAction>setIdPossible:React.Dispatch<React.SetStateAction<boolean[]>>
 })=>{
-    const{data} = useCpPayUserList()
+    const students = useReactiveVar(cpStudentsVar).students
     const cpapy = useReactiveVar(cpPayVar).cppay;
     const [memberNum, setMemberNum] = useState(0)
     //학급명+학생번호
@@ -19,7 +19,7 @@ export const UserEnterStudentDirectly =({ studentList, setStudentList, }:{//setI
     const [commPassword, setCommPassword] = useState('1111')//'1111'
 
     useEffect(() => {
-        if(data && data.cp_PayUserLists.length>1){ //2개이상일때면 1개일때는 교사이므로 2
+        if(students.length>1){ //2개이상일때면 1개일때는 교사이므로 2
             const getEnglish=(str:string)=>{
                 //처음부터 숫자가 아닌 문자가 나올때까지 => 한글도 포함하여 통과..
                 let result =''
@@ -47,9 +47,9 @@ export const UserEnterStudentDirectly =({ studentList, setStudentList, }:{//setI
                 const sliced = str.slice(0, index)
                 return sliced
             }
-            setCommMainId(getString(data.cp_PayUserLists[1].mainId))
+            setCommMainId(getString(students[1].mainId))
         }
-    }, [data])
+    }, [students])
     
     const onChangeMemberNum = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const num = Number(e.target.value)
@@ -64,8 +64,8 @@ export const UserEnterStudentDirectly =({ studentList, setStudentList, }:{//setI
 
     
     const getStudnetNumber = (index:number)=>{
-        if(data && data.cp_PayUserLists.length>2){ //교사 포함. 2개이상일때: 1개일때는 교사이므로 
-            const lastStudentNumber = data.cp_PayUserLists[data.cp_PayUserLists.length-1].number
+        if(students.length>2){ //교사 포함. 2개이상일때: 1개일때는 교사이므로 
+            const lastStudentNumber = students[students.length-1].number
             return lastStudentNumber+index //마지막 학생번호 +1
         }
         return index

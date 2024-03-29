@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { IBankBook } from "../../../../../stores/type/cppay-type";
 
 import { IoIosArrowBack } from "react-icons/io";
-import { useCpPayUserList } from "../../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 import { cpStudentFn } from "../../../../../stores/sub-store-fn/cp-student-fn";
 import BaseMax400 from "../../../../../components/layout/basic-component/base-max400";
 import { BankBookHistoryMonth } from "../../book-bank/cbb-resent/cbb-book-th-title";
@@ -16,14 +15,14 @@ import { useBillTeacherOneStudentMu } from "../../../../../hooks/cp-pay/institut
 import { useBillTeacherAllMu } from "../../../../../hooks/cp-pay/institution/bill/useBillInstiTeacherAllMu";
 import { TradeHistoryDetail } from "../../../../trades/trade-history/trade-history/th-detail";
 import { useDebounceFunction } from "../../../../../func/basic/useDebounce";
+import { cpStudentsVar } from "../../../../../stores/cp-students-store";
 
 
 
 //한 명 학생 조회 -풀화면으로 만들어줘야함...
 export const OneStudnetMaketBook = () => {
     let navigate = useNavigate();
-    const{data} = useCpPayUserList() 
-    const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
+    const studentList = useReactiveVar(cpStudentsVar).students
     const {number} = useParams();  
     const findStudent = number!==undefined? studentList.find((stu)=>stu.number === Number(number)): cpStudentFn.store.student;
     const student = findStudent?findStudent:cpStudentFn.store.student;

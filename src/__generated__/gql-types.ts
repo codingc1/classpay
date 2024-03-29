@@ -694,6 +694,7 @@ export type Mutation = {
   cp_MyBillsMonth: Array<CP_Bill>;
   cp_PayPossibleName: CoreOutput;
   cp_payUpdateInfo: CP_PayOutput;
+  cp_PayUserListsMu: Array<CP_User>;
   cp_sellingStart: CP_TradeTmpCodeOutput;
   cp_studentsPossibleIds: CP_CheckPossibleIsdOutput;
   cp_teacherGetBankBookAll: Array<CP_BankBook>;

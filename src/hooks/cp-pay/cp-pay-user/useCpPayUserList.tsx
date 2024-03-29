@@ -21,7 +21,7 @@ export const CP_PAY_USERLIST_QUERY = gql`
 `;
 //($id:Int!)
 //(id:$id)
-export const useCpPayUserList = () => { //{id}:{id:number|string|undefined}
+export const useCpPayUserListDprecated = () => { //{id}:{id:number|string|undefined}
   // const { data, loading, error } = useQuery<meQuery>(ME_QUERY);
   // return useQuery<meQuery>(ME_QUERY);
   try{

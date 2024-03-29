@@ -1,14 +1,13 @@
 import { useWindowSizeTrans } from "../../../../../func/html/useWidthTrans"
 import { CSS_LEN } from "../../../../../func/html/width-contain/css-contain"
-import { useCpPayUserList } from "../../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList"
 import PopupCenterStudent from "../../../../../components/popup/center-h-custom/popup-center-student"
 import { cpStudentsVar, editStudentsVar } from "../../../../../stores/cp-students-store"
-import { useEffect } from "react"
+import { useReactiveVar } from "@apollo/client"
 
 //학생리스트를 보여주는 팝업
 export const StudentListContent=({setIsModal}:{setIsModal:React.Dispatch<React.SetStateAction<boolean>>}) => {
-    const{data} = useCpPayUserList() 
-    const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
+
+    const studentList = useReactiveVar(cpStudentsVar).students
     //studentList를 3번 반복
     // const dummy = studentList.concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList).concat(studentList)
     

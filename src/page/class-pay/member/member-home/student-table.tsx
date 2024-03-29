@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react"
-import { useCpPayUserList } from "../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList"
 import { useMe } from "../../../../hooks/user/useMe"
 import { StudentTableExcelDown } from "./student-table-excel-down"
-import { ICpStudent } from "../../../../stores/cp-students-store"
+import { ICpStudent, cpStudentsVar } from "../../../../stores/cp-students-store"
 import { POSITION } from "../../../../__generated__/gql-types"
+import { useReactiveVar } from "@apollo/client"
 
 
 export const StudentListTable = () => {
-    const{data} = useCpPayUserList()
+    const studentList = useReactiveVar(cpStudentsVar).students
     const {data:meDate} = useMe()
     const [students, setStudents] = useState<ICpStudent[]>([])
-    useEffect(()=>{
-        if(data){
-            const students = data.cp_PayUserLists.map((person)=>{
+    useEffect(()=>{ //학생 리스트 테이블
+            const students = studentList.map((person)=>{
                 return {id:person.id, name:person.name, number:person.number, mainId:person.mainId, money:person.money, position:person.position}
             })
             const filterStudents = students.filter((student)=>student.position !== POSITION.Teacher)
             setStudents(filterStudents)
-        }
-    },[data])
+        
+    },[studentList])
     // const students = data? data.cp_PayUserLists.map((person)=>{
     //     return {id:person.id, name:person.name, number:person.number, mainId:person.mainId, money:person.money, position:person.position}
     // }):[]
@@ -67,7 +66,7 @@ export const StudentListTable = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white text-sm">
-                  {data &&data.cp_PayUserLists.map((person) => {
+                  {studentList.map((person) => {
                     if(person.id === meDate?.cp_me.id) return <div></div>
                     return(
                     <tr key={person.id}>

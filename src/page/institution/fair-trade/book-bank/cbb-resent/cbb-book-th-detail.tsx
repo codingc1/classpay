@@ -10,13 +10,12 @@ import { cpPayVar } from "../../../../../stores/cp-pay-store";
 import { createdAtToDate } from "../../../../../utils/date/createdAt-to-date";
 import { RECORD_TYPE } from "../../../../../__generated__/gql-types";
 import { addCommaMan } from "../../../../../func/basic/number/addComma";
-import { useCpPayUserList } from "../../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 import { cpStudentFn } from "../../../../../stores/sub-store-fn/cp-student-fn";
+import { cpStudentsVar } from "../../../../../stores/cp-students-store";
 
 
 export const CBBankBookHistoryDetail = ({bankbook}:{bankbook:IBankBook}) => {
-    const{data} = useCpPayUserList() 
-    const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
+    const studentList = useReactiveVar(cpStudentsVar).students
     const moneyUnit = useReactiveVar(cpPayVar).cppay.moneyUnit;
     const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
 

@@ -10,22 +10,25 @@ export interface ICpStudent{
     money:number;
     position:POSITION;
 }
-
+ 
 // export type IProduct = Pick<CP_Product, "id"|"name"|"qty"|"desciption"|"seller_id"|"price" >
 
 interface IInitStudents { 
     student:ICpStudent //member에서 선택한 학생
-
+    students:ICpStudent[] //전체 학생
 
     
   }
 
-const aa:IInitStudents = {student:cpStudentFn.store.student,}
+const aa:IInitStudents = {student:cpStudentFn.store.student, students:[]}
 export const cpStudentsVar = makeVar(aa);
 
 export const editStudentsVar={
     setStudent:function(obj: ICpStudent) { //route name
         cpStudentsVar({...cpStudentsVar(), student:obj});
+    },
+    setStudents:function(obj: ICpStudent[]) { //route name
+        cpStudentsVar({...cpStudentsVar(), students:obj});
     },
 
     // cppay:{

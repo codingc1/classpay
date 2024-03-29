@@ -6,7 +6,8 @@ import { cpPayFn } from "../../../stores/sub-store-fn/cp-pay-fn";
 import { useNavigate } from "react-router-dom";
 import { PAY_HOME } from "../../../routers/route-name-constants";
 import { CP_ME_QUERY } from "../../../hooks/user/useMe";
-import { CP_PAY_USERLIST_QUERY } from "../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
+import { SENDMONEY_REFETCH_ARR } from "../../../hooks/cp-pay/institution/sendRefetch";
+import { useStudentsListMu } from "../../../hooks/cp-pay/cp-pay-user/useStudentsListMu";
 
 //buy-qr-scan-popup
 //큐알코드 스캔하면 프로덕트 정보 가져오기
@@ -41,6 +42,7 @@ export const useBuyGetTradeTmp=() => {
 export const useBuyIngTradeSubmit =() => {
   let navigate = useNavigate()
     const [handleError] = useErrorShow()
+    const {studentListRefetch} = useStudentsListMu()
     const buyIngTradeSubmit=({code,setIsBuyModal}:{code:string,setIsBuyModal:React.Dispatch<React.SetStateAction<boolean>>}) => {
         client.mutate({ //https://www.youtube.com/watch?v=cYIhx8dusa4
             mutation:cp_buyingTradeMutationDocument,
@@ -54,9 +56,9 @@ export const useBuyIngTradeSubmit =() => {
                 alert('결제하였습니다.')
               // editCpPayVar.trade.setTmpcode(cpPayFn.store.tradeTmpCode)
               await client.refetchQueries({
-                include: [CP_ME_QUERY, CP_PAY_USERLIST_QUERY], //money refech
+                include: SENDMONEY_REFETCH_ARR, //money refech
               });
-
+              studentListRefetch()
               navigate(PAY_HOME)
             }else if(data?.cp_buyingTrade.error){
               alert(data.cp_buyingTrade.error)

@@ -20,7 +20,7 @@ import { TitleAndLine } from "../../../../components/title/title-line"
 import { checkMoney } from "../../../../utils/institution/chk-sendmoney"
 import { cls } from "../../../../func/basic/string/cls"
 import { InlineInputLable } from "../../../../components/input/inline-input-lable"
-import { CP_PAY_USERLIST_QUERY } from "../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList"
+import { useStudentsListMu } from "../../../../hooks/cp-pay/cp-pay-user/useStudentsListMu"
 
 
 
@@ -55,12 +55,14 @@ export default function BankBookSendMoney() {
     const [handleError] = useErrorShow()
     // const { billMutation,loading:bankbookloading } = useBankBookMu({})//setData:setNowBook,setIsLoading:setIsLoading
     const {refetchBankBook} = useBankBookMuRefetch()
+    const {studentListRefetch} = useStudentsListMu()
     const [individual_sendMoneyhMutation, { loading,  }] = useMutation<individual_sendMoneyMutationMutation, individual_sendMoneyMutationMutationVariables>(CP_INDIVIDUAL_SENDMONEY_MUTATION, {async onCompleted (data){
         const res = data.individual_sendMoney;
         if(res.ok){
             await client.refetchQueries({
-                include: [CP_ME_QUERY, CP_PAY_USERLIST_QUERY],//cppay list refech
+                include: [CP_ME_QUERY, ],//cppay list refech
                 });
+            studentListRefetch() //student list refetch 
             //backbook refetch - 이번 달 데이터만 refetch
             refetchBankBook() //이번 달 데이터만 refetch
                 // const date = new Date()

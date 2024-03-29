@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { useCpPayUserList } from "../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList"
 import { PaperClipIcon } from '@heroicons/react/20/solid'
 import { IoAccessibilityOutline } from "react-icons/io5";
 import { cls } from "../../../../func/basic/string/cls";
@@ -14,17 +13,17 @@ import { cpInstitutionVar } from "../../../../stores/cp-institution";
 import { checkMoney } from "../../../../utils/institution/chk-sendmoney";
 import { addCommaMan } from "../../../../func/basic/number/addComma";
 import { cpPayVar } from "../../../../stores/cp-pay-store";
-import { useStudentsList } from "../../../../hooks/cp-pay/cp-pay-user/useStudentsList";
 
-export const ServerStudents=()=>{
-    const{data} = useCpPayUserList() 
+
+export const ServerStudents=()=>{ 
     const numberOfDigits = useReactiveVar(cpPayVar).cppay.numberOfDigits;
     const institution = useReactiveVar(cpInstitutionVar).institution;
     //배열이 3배로 늘어남
     // const basicstudentList = data && data.cp_PayUserLists?data.cp_PayUserLists :[] 
     // const studentList = basicstudentList.concat(basicstudentList).concat(basicstudentList)
     // const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
-    const {studentList} = useStudentsList()
+    const studentList = useReactiveVar(cpStudentsVar).students
+    // const {studentList} = useStudentsList()
 
     const selectStudent = useReactiveVar(cpStudentsVar).student; 
     const [isStudentModal, setIsStudentModal] = useState(true)//한명

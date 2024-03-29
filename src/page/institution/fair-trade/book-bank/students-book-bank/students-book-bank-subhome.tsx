@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { StudentListTableMoney } from "../../../../../components/students/stulist-height-money"
-import { useCpPayUserList } from "../../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList"
 import { ICpStudent, cpStudentsVar, editStudentsVar } from "../../../../../stores/cp-students-store"
 import { OneStudnetBookBank } from "./one-student-bookbank"
 import { useReactiveVar } from "@apollo/client"
@@ -14,8 +13,7 @@ import { FairTradeCheckBankBookGroupBox } from "../ftc-bankbook-group-box"
 //students list bankbook
 export const StudentBookBankSubHome = () => {
   let navigate = useNavigate();
-    const{data} = useCpPayUserList() 
-    const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
+    const studentList = useReactiveVar(cpStudentsVar).students
     // const [isStudentListView, setIsStudentListView] = useState(true)
 
     const onClickStudent=(stu:ICpStudent)=>{ //한명 선택

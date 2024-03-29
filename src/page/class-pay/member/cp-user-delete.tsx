@@ -2,10 +2,11 @@ import { client } from "../../../apollo";
 import useError from "../../../func/sys/err/useErr";
 import {  useNavigate,  } from "react-router-dom";
 import { CP_User } from "../../../__generated__/gql-types";
-import { CP_PAY_USERLIST_QUERY } from "../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 import { gql,  } from "@apollo/client";
 import { cp_deleteStudentMutationDocument } from "./cp-user-delete.generated";
 import { PAY_HOME,  } from "../../../routers/route-name-constants";
+import { useStudentsListMu } from "../../../hooks/cp-pay/cp-pay-user/useStudentsListMu";
+import { SENDMONEY_REFETCH_ARR } from "../../../hooks/cp-pay/institution/sendRefetch";
 
 
 //추가 등록 되는가?
@@ -26,6 +27,7 @@ export const CP_UserDeleteBtn=({user}:{user: Pick<CP_User,"id"|"name">})=>{
   let navigate = useNavigate()
 
   const [handleError] = useError()
+  const {studentListRefetch} = useStudentsListMu()
   const submit=()=>{
         //각각체크
         const isConfirm = window.confirm(user.name+' 계정을 삭제시키겠습니까? 복구가 불가능합니다.')
@@ -42,8 +44,9 @@ export const CP_UserDeleteBtn=({user}:{user: Pick<CP_User,"id"|"name">})=>{
             if(data &&data.cp_deleteStudent.ok ){
               alert('삭제하였습니다.')
               await client.refetchQueries({
-                include: [CP_PAY_USERLIST_QUERY], //pay
+                include: SENDMONEY_REFETCH_ARR //pay
               });
+              studentListRefetch();
               navigate(PAY_HOME) //pay home으로
             }else if(data?.cp_deleteStudent.error){
               alert(data.cp_deleteStudent.error)

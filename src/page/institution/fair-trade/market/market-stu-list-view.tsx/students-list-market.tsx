@@ -1,18 +1,17 @@
 import { StudentListTableMoney } from "../../../../../components/students/stulist-height-money"
-import { useCpPayUserList } from "../../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList"
-import { ICpStudent, editStudentsVar } from "../../../../../stores/cp-students-store"
+import { ICpStudent, cpStudentsVar, editStudentsVar } from "../../../../../stores/cp-students-store"
 import { useNavigate } from "react-router-dom"
 import { CP_FAIR_TRADE_MARKETTRADE_STUDENTS_ROUTE_NAME } from "../../../../../routers/contains/ecomomy"
 import BaseMax400 from "../../../../../components/layout/basic-component/base-max400"
 import { InstiHeader } from "../../../insti-home/insti-header"
 import { FairTradeCheckMarketTradeGroupBox } from "../ftc-markettrade-group-box"
+import { useReactiveVar } from "@apollo/client"
 
 
 //students list market
 export const StudentListMarket = () => {
   let navigate = useNavigate();
-    const{data} = useCpPayUserList() 
-    const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
+    const studentList = useReactiveVar(cpStudentsVar).students
     
     const onClickStudent=(stu:ICpStudent)=>{ //한명 선택
         editStudentsVar.setStudent(stu)

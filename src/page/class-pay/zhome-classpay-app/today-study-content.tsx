@@ -1,4 +1,3 @@
-import { useCpPayUserList } from "../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 import { grayBtnCss } from "../../../components/button/tailwind-btn/gray-button";
 import { useNavigate } from "react-router-dom";
 import { CP_PAY_MEMBER_ROUTE_NAME } from "../../../routers/route-name-constants";
@@ -6,19 +5,33 @@ import { useEffect, useState } from "react";
 import { CP_INSTITUTION_CENTERBANK_ROUTE_NAME } from "../../../routers/contains/ecomomy";
 import { cls } from "../../../func/basic/string/cls";
 import { useMe } from "../../../hooks/user/useMe";
-import { useStudentsList } from "../../../hooks/cp-pay/cp-pay-user/useStudentsList";
+import { useReactiveVar } from "@apollo/client";
+import { cpStudentsVar } from "../../../stores/cp-students-store";
+import { useStudentsListMu } from "../../../hooks/cp-pay/cp-pay-user/useStudentsListMu";
+
 
 
  
 export const TodayStudyContent = () => {
   let navigate = useNavigate()
-  // const{data} = useCpPayUserList() 
   const {data:meData} = useMe()
   const [alramStatus, setAlramStatus] = useState('')
-  const {studentList} = useStudentsList()
+  const studentList = useReactiveVar(cpStudentsVar).students
   // const {data:meData} = useMe()
   // const institution = useReactiveVar(cpInstitutionVar).institution;
   // const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
+  const isNoMoney = ()=>{
+    //money가 0이 아닌 학생 찾기
+    if(!studentList ) return false
+    // if(meData.cp_me.money !== 0) return false
+    const students = studentList
+    for(let i=0; i<students.length; i++){
+      if(students[i].money !== 0) {
+        return false
+      }
+    }
+    return true
+  }
 //학생을 등록해 주세요
 //화폐를 발행해 주세요
 //처음 하는 교사에게 해야할 것 안내
@@ -31,19 +44,17 @@ useEffect(()=>{
     setAlramStatus('')
   }
 },[studentList, meData])
+
+const {studentListRefetch} = useStudentsListMu() 
+useEffect(()=>{
+  if(studentList.length !== 0) return; //이미 데이터를 받아왔으면 다시 받지 않음
+  // if(!meData) return
+  // if(meData.cp_me.position !== 'Teacher') return;
+  console.log('studentListMutation useEffect')
+  studentListRefetch() //get_person()을 호출하면 data가 채워짐
+},[])
 //cp_institution home에서 모든 기관을 사용 (넘복잡) => 각 기관별로 이동..
-const isNoMoney = ()=>{
-  //money가 0이 아닌 학생 찾기
-  if(!studentList ) return false
-  // if(meData.cp_me.money !== 0) return false
-  const students = studentList
-  for(let i=0; i<students.length; i++){
-    if(students[i].money !== 0) {
-      return false
-    }
-  }
-  return true
-}
+
 // const firstUserView = ()=>{
 //   if(studentList.length <= 1){
 //     return (
@@ -94,4 +105,8 @@ return(
   </div>
 </article>
 )
+}
+
+function studentListMutation() {
+  throw new Error("Function not implemented.");
 }

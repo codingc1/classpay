@@ -7,10 +7,10 @@ import { useState } from "react";
 import { IBankBook } from "../../../../../stores/type/cppay-type";
 import { OTMBookBankContainer } from "./otm-bookbank-container";
 import { IoIosArrowBack } from "react-icons/io";
-import { useCpPayUserList } from "../../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 import { cpStudentFn } from "../../../../../stores/sub-store-fn/cp-student-fn";
 import BaseMax400 from "../../../../../components/layout/basic-component/base-max400";
 import { DateObj } from "../../../../../utils/date/dateObj";
+import { cpStudentsVar } from "../../../../../stores/cp-students-store";
 
 
 // {student, setIsStudentListView}:{
@@ -20,8 +20,7 @@ import { DateObj } from "../../../../../utils/date/dateObj";
 //한 명 학생 조회 -풀화면으로 만들어줘야함...
 export const OneStudnetBookBank = () => {
     let navigate = useNavigate();
-    const{data} = useCpPayUserList() 
-    const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
+    const studentList = useReactiveVar(cpStudentsVar).students
     const {number} = useParams(); 
     const findStudent = number? studentList.find((stu)=>stu.number === Number(number)): cpStudentFn.store.student;
     const student = findStudent?findStudent:cpStudentFn.store.student;

@@ -1,5 +1,4 @@
 import { useNavigate, } from "react-router-dom";
-import { useCpPayUserList } from "../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 import { useMe } from "../../../hooks/user/useMe";
 import { CP_User, POSITION } from "../../../__generated__/gql-types";
 import { useReactiveVar } from "@apollo/client";
@@ -23,7 +22,7 @@ export const CPMemberHome=()=>{ //변경 : delete, create, modify
     // const pay = useReactiveVar(cpPayVar).cppay;
 
     const {data:meDate} = useMe()
-    const{data} = useCpPayUserList() //이것도 바꿔야함..
+    const studentList = useReactiveVar(cpStudentsVar).students
     // const [student, setStudent] = useState<IFstudnet>({id:0,name:'',number:0,});
     const [ checkboxContent, isChecked,] = useCheckboxAndText({text:'표로 보기',size:' text-md'})
     const [isOpend, setIsOpend] = useState(false) //modal 하위메뉴 띄우기
@@ -60,7 +59,7 @@ export const CPMemberHome=()=>{ //변경 : delete, create, modify
             {isTeacher && checkboxContent} 
             {isChecked && <StudentListTable />}
             <div className="flex flex-wrap py-5">
-                {!isChecked && data && data.cp_PayUserLists.map((el)=>{
+                {!isChecked && studentList.map((el)=>{
                     return(
                         <div className="px-2 py-1"  key={el.id}>
                             <div className=" w-12 h-12 p-1 bg-indigo-300 rounded-full "  onClick={()=>{}}>

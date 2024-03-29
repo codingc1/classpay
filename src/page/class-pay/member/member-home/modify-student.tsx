@@ -4,11 +4,11 @@ import { useState } from "react";
 import { chkCpUser } from "../../../../utils/check-create/cp-id-password-check";
 import { client } from "../../../../apollo";
 import { cp_modifyStudentMutationDocument } from "../../../../hooks/cp-pay/cp-pay-user/createCpUser.generated";
-import { CP_PAY_USERLIST_QUERY } from "../../../../hooks/cp-pay/cp-pay-user/useCpPayUserList";
 import { CP_PAY_MEMBER_ROUTE_NAME } from "../../../../routers/route-name-constants";
 import { useNavigate } from "react-router-dom";
 import useError from "../../../../func/sys/err/useErr";
 import { HomeIconTitle } from "../../../../components/home/icon/home-icon-title";
+import { useStudentsListMu } from "../../../../hooks/cp-pay/cp-pay-user/useStudentsListMu";
 
 
 //cp_modifyStudent - mutation
@@ -39,6 +39,7 @@ export default function ModifyStudent() {
     }
     
     const [handleError] = useError()
+    const {studentListRefetch} = useStudentsListMu()
     const submit=()=>{ 
         if(nameErrMsg.length>0){ alert(nameErrMsg); return;  }
         if(numberErrMessage.length>0){ alert(numberErrMessage); return; }
@@ -50,9 +51,10 @@ export default function ModifyStudent() {
           })
           .then(async({data})=>{
             if(data &&data.cp_modifyStudent.ok ){
-              await client.refetchQueries({
-                include: [CP_PAY_USERLIST_QUERY],
-              });
+            //   await client.refetchQueries({
+            //     include: [CP_PAY_USERLIST_QUERY],
+            //   });
+            studentListRefetch()
             alert('수정하였습니다.')
             //팝업? 닫기
             navigate(CP_PAY_MEMBER_ROUTE_NAME)
