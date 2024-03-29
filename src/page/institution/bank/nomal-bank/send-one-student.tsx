@@ -12,12 +12,15 @@ import { cpInstitutionVar } from "../../../../stores/cp-institution";
 import { checkMoney } from "../../../../utils/institution/chk-sendmoney";
 import { useInstiSendMoneyOne } from "../../../../hooks/cp-pay/institution/bankbook/useInstiSendMoneyOne";
 import { InlineInputLable } from "../../../../components/input/inline-input-lable";
+import { useStudentsList } from "../../../../hooks/cp-pay/cp-pay-user/useStudentsList";
 
 //한 명에게 보내기
-export const SendOneStudent=()=>{
-    const{data} = useCpPayUserList() 
+export const SendOneStudent=()=>{ 
+    // const{data} = useCpPayUserList() 
     const institution = useReactiveVar(cpInstitutionVar).institution;
-    const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
+
+    const {studentList} = useStudentsList()
+    // const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
     const selectStudent = useReactiveVar(cpStudentsVar).student; 
     const [selectReceiverStudent, setSelectReceiverStudent] = useState<ICpStudent>(cpStudentFn.store.student) //송금 받는 학생
     const [isStudentModal, setIsStudentModal] = useState(true)//한명

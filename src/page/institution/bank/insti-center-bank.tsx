@@ -54,7 +54,7 @@ export const InstiCenterBank=()=>{
     const [cp_insti_issueMoneytMutation, { loading,  }] = useMutation<cp_insti_issueMoneytMutationMutation, cp_insti_issueMoneytMutationMutationVariables>(CP_INSTI_ISSUEMONEY_MUTATION, {async onCompleted (data){
         if(data.cp_insti_issueMoney.ok  ){ //
         alert('화폐를 발행하였습니다.')
-        await client.refetchQueries({
+        await client.refetchQueries({ 
             include: SENDMONEY_REFETCH_ARR,//cppay list refech
             });
         setMoney(0)

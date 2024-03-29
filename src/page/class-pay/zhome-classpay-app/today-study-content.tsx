@@ -6,17 +6,19 @@ import { useEffect, useState } from "react";
 import { CP_INSTITUTION_CENTERBANK_ROUTE_NAME } from "../../../routers/contains/ecomomy";
 import { cls } from "../../../func/basic/string/cls";
 import { useMe } from "../../../hooks/user/useMe";
+import { useStudentsList } from "../../../hooks/cp-pay/cp-pay-user/useStudentsList";
 
 
  
 export const TodayStudyContent = () => {
   let navigate = useNavigate()
-  const{data} = useCpPayUserList() 
+  // const{data} = useCpPayUserList() 
   const {data:meData} = useMe()
   const [alramStatus, setAlramStatus] = useState('')
+  const {studentList} = useStudentsList()
   // const {data:meData} = useMe()
   // const institution = useReactiveVar(cpInstitutionVar).institution;
-  const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
+  // const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
 //학생을 등록해 주세요
 //화폐를 발행해 주세요
 //처음 하는 교사에게 해야할 것 안내
@@ -28,13 +30,13 @@ useEffect(()=>{
   }else{
     setAlramStatus('')
   }
-},[data, meData])
+},[studentList, meData])
 //cp_institution home에서 모든 기관을 사용 (넘복잡) => 각 기관별로 이동..
 const isNoMoney = ()=>{
   //money가 0이 아닌 학생 찾기
-  if(!data ) return false
+  if(!studentList ) return false
   // if(meData.cp_me.money !== 0) return false
-  const students = data.cp_PayUserLists
+  const students = studentList
   for(let i=0; i<students.length; i++){
     if(students[i].money !== 0) {
       return false

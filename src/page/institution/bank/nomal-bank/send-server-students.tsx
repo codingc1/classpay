@@ -14,6 +14,7 @@ import { cpInstitutionVar } from "../../../../stores/cp-institution";
 import { checkMoney } from "../../../../utils/institution/chk-sendmoney";
 import { addCommaMan } from "../../../../func/basic/number/addComma";
 import { cpPayVar } from "../../../../stores/cp-pay-store";
+import { useStudentsList } from "../../../../hooks/cp-pay/cp-pay-user/useStudentsList";
 
 export const ServerStudents=()=>{
     const{data} = useCpPayUserList() 
@@ -22,7 +23,9 @@ export const ServerStudents=()=>{
     //배열이 3배로 늘어남
     // const basicstudentList = data && data.cp_PayUserLists?data.cp_PayUserLists :[] 
     // const studentList = basicstudentList.concat(basicstudentList).concat(basicstudentList)
-    const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
+    // const studentList = data && data.cp_PayUserLists?data.cp_PayUserLists:[]
+    const {studentList} = useStudentsList()
+
     const selectStudent = useReactiveVar(cpStudentsVar).student; 
     const [isStudentModal, setIsStudentModal] = useState(true)//한명
     const [isServeralStudentModal, setIsServeralStudentModal] = useState(false)//여러명
