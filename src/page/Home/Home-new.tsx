@@ -45,12 +45,11 @@ export const HomeNew = () => {
 
     return(
         <div className="w-full min-h-screen  mt-3 flex flex-col items-center">
-            <div className="w-full max-w-sm  flex justify-center ">
+            {/* <div className="w-full max-w-sm  flex justify-center ">
                 <Helmet><title >물고기 교실경제 홈</title></Helmet>
                 <div className="w-full max-w-sm flex flex-col  px-5 ">
                     <div className="w-full ">
                         <HomeProfileHeader />
-                        {/* <div className="text-left text-sm">물고기경제 홈</div> */}
                         <HomeClassListComponent />
                         {(cppay.id === 0) && <button
                             type="button"
@@ -61,7 +60,7 @@ export const HomeNew = () => {
                         </button>}
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

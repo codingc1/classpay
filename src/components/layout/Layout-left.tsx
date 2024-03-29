@@ -14,6 +14,7 @@ import { useReactiveVar } from '@apollo/client';
 import { authVar } from '../../stores/authstore';
 import { routeVar } from '../../stores/route-info-store';
 import { HamburgerIcon } from '../../page/Home/header/left-menu/hambuger-icon';
+
 import { useLogout } from '../../func/sys/auth/useLogout';
 import { CP_PAY_MEMBER_ROUTE_NAME, PAY_HOME, USER_PROFILE_ROUTE_NAME,  } from '../../routers/route-name-constants';
 import { cpPayVar } from '../../stores/cp-pay-store';
@@ -23,7 +24,7 @@ import { GoTriangleDown } from "react-icons/go";
 import { useInstitutionshQuery } from './institution/useInstitutionshQuery';
 import { editCpInstitutionVar } from '../../stores/cp-institution';
 import { LayOutSettingBtn } from './layout-left/layout-setting-btn';
-
+import { RxHamburgerMenu } from "react-icons/rx"
   
   function classNames(...classes:any) {
     return classes.filter(Boolean).join(' ')
@@ -307,11 +308,11 @@ function LayoutLeft() {
           </div>
         </div>}
 
-
+    {/* h-12 */}
         <div className="w-full flex min-w-0 flex-1 flex-col overflow-hidden">
           <div className="md:hidden">
           {isShow && <div className=" flex items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-1.5">
-              <div>
+              <div >
                 {/* 햄버거 - 상단 바 */}
                 {HomeComponent}
                 {/* <img
@@ -320,16 +321,20 @@ function LayoutLeft() {
                   alt="Your Company"
                 /> */}
               </div>
-               <div>
-                <button
-                  type="button"
-                  className="-mr-3 inline-flex h-12 w-12 items-center justify-center rounded-md text-gray-500 hover:text-gray-900"
+               <div className='w-12 flex justify-center items-center'>
+                <div
+                  className="-mr-3 inline-flex  w-12 items-center justify-center rounded-md text-gray-500 hover:text-gray-900 cursor-pointer"
                   onClick={() => setSidebarOpen(true)}
                 >
-                  <span className="sr-only">Open sidebar</span>
-                  <HamburgerIcon className="h-6 w-6" />
-                  {/* <Bars3Icon className="h-6 w-6" aria-h idden="true" /> */}
-                </button>
+                  {/* <span className="sr-only">Open sidebar</span> */}
+                  <div className='flex justify-center items-center'>
+                    <RxHamburgerMenu className='w-5 h-5' />
+                  </div>
+                  {/* <div className='h-5 w-5 flex items-center justify-center'>
+                  <HamburgerIcon className="h-5 w-5" />
+                  </div> */}
+
+                </div>
               </div>
             </div>}
           </div>

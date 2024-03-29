@@ -7,27 +7,12 @@ import * as XLSX from "xlsx";
 
 export const CrestuExcelDown = () => {
 
-	const data = [
-    {
-      id: 1,
-      title: '집에 가고싶어요',
-      content: '너무 졸려 가고싶어요.'
-    }, {
-      id: 2,
-      title: '오늘은 뭐하지',
-      content: '퇴근 하고 뭐할까??'
-    }, {
-      id: 3,
-      title: '저녁은 어떤거로?',
-      content: '저녁은 치킨인가 피자인가 고민이다.'
-    }
-  ]
 
   const excelFileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
   const excelFileExtension = '.xlsx';
   const excelFileName = '작성자';
 
-  const excelDownload = (excelData: any) => {
+  const excelDownload = () => {
     // const ws = XLSX.utils.aoa_to_sheet([
     //   [`작성자_kkhcode`],
     //   [],
@@ -84,7 +69,7 @@ export const CrestuExcelDown = () => {
 
 	return (
     	<div>
-        	<button className=' text-blue-400 hover:text-blue-600' onClick={() => excelDownload(data)}>예시 엑셀 다운로드</button>
+        	<button className=' text-blue-400 hover:text-blue-600' onClick={() => excelDownload()}>예시 엑셀 다운로드</button>
         </div>
     );
 }

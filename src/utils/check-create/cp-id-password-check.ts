@@ -12,7 +12,7 @@ export const chkCpUser ={ //학생
    //    return (reg1.test(str) && isNaN( +str[0]) ); //&& !reg2.test(str) //첫글자는 숫자가 아니어야함
    // },
    mainIdLen:function(str:string):boolean{ //4글자 이상
-      return (str.length>3 && str.length<15)
+      return (str.length>3 && str.length<20)
    },
    mainId:function(str:string):boolean{  //영어, 숫자, 한글 가능
       // const reg1 =  /^[a-z0-9]{4,14}$/; //영어 숫자로만 4~14자리

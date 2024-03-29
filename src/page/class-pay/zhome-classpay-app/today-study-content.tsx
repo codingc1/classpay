@@ -4,12 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { CP_PAY_MEMBER_ROUTE_NAME } from "../../../routers/route-name-constants";
 import { useEffect, useState } from "react";
 import { CP_INSTITUTION_CENTERBANK_ROUTE_NAME } from "../../../routers/contains/ecomomy";
+import { cls } from "../../../func/basic/string/cls";
+import { useMe } from "../../../hooks/user/useMe";
 
 
  
 export const TodayStudyContent = () => {
   let navigate = useNavigate()
   const{data} = useCpPayUserList() 
+  const {data:meData} = useMe()
   const [alramStatus, setAlramStatus] = useState('')
   // const {data:meData} = useMe()
   // const institution = useReactiveVar(cpInstitutionVar).institution;
@@ -20,12 +23,12 @@ export const TodayStudyContent = () => {
 useEffect(()=>{
   if(studentList.length <= 1){
     setAlramStatus('NO_STUDENT')
-  }else if(isNoMoney()){
+  }else if(isNoMoney() && meData && meData.cp_me.money === 0){
     setAlramStatus('NO_MONEY')
   }else{
     setAlramStatus('')
   }
-},[data, ])
+},[data, meData])
 //cp_institution home에서 모든 기관을 사용 (넘복잡) => 각 기관별로 이동..
 const isNoMoney = ()=>{
   //money가 0이 아닌 학생 찾기
@@ -70,7 +73,7 @@ if(alramStatus === 'NO_MONEY'){
   return (
     <div className="flex px-2 items-center">
       <div>화폐 발행하기</div>
-      <div className={grayBtnCss({})} onClick={()=>navigate(CP_INSTITUTION_CENTERBANK_ROUTE_NAME)}>이동</div>
+      <div className={cls(grayBtnCss({}), 'ml-2')} onClick={()=>navigate(CP_INSTITUTION_CENTERBANK_ROUTE_NAME)}>이동</div>
     </div>
     )
 }
