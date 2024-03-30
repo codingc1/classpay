@@ -8,6 +8,7 @@ import { useMe } from "../../../hooks/user/useMe";
 import { useReactiveVar } from "@apollo/client";
 import { cpStudentsVar } from "../../../stores/cp-students-store";
 import { useStudentsListMu } from "../../../hooks/cp-pay/cp-pay-user/useStudentsListMu";
+import { ConsoleHelper } from "../../../func/sys/consoleHelper";
 
 
 
@@ -50,7 +51,7 @@ useEffect(()=>{
   if(studentList.length !== 0) return; //이미 데이터를 받아왔으면 다시 받지 않음
   // if(!meData) return
   // if(meData.cp_me.position !== 'Teacher') return;
-  console.log('studentListMutation useEffect')
+  ConsoleHelper('studentListMutation useEffect')
   studentListRefetch() //get_person()을 호출하면 data가 채워짐
 },[])
 //cp_institution home에서 모든 기관을 사용 (넘복잡) => 각 기관별로 이동..
