@@ -105,7 +105,7 @@ module.exports = (env, argv) => {  //argv.mode 프로덕션 https://stackoverflo
   },
 
   plugins: [
-    new webpack.DefinePlugin({ //24.1.4 https://bobbyhadz.com/blog/react-referenceerror-process-not-defined
+    new webpack.DefinePlugin({ //24.1.4 전역상수 https://bobbyhadz.com/blog/react-referenceerror-process-not-defined
       // NICE_FEATURE: JSON.stringify(true),
       IS_DEVELOPMENT: JSON.stringify(true), //https://webpack.kr/plugins/define-plugin/
       PROCESS_ENV: JSON.stringify(process.env.NODE_ENV),

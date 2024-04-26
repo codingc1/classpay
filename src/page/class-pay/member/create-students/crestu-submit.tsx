@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom"
 import { client } from "../../../../apollo"
 import useError from "../../../../func/sys/err/useErr"
-import { cp_CreateStudentsMutationDocument } from "../../../../hooks/cp-pay/cp-pay-user/createCpUser.generated"
+import { cp_CreateStudentsMutationDocument,cp_CreateStudentsMutationMutation,cp_CreateStudentsMutationMutationVariables } from "../../../../hooks/cp-pay/cp-pay-user/createCpUser.generated"
 import { IFCreateTempStudent } from "../cp-create-students"
 import { CP_PAY_MEMBER_ROUTE_NAME } from "../../../../routers/route-name-constants"
-import { useReactiveVar } from "@apollo/client"
+import { useMutation, useReactiveVar } from "@apollo/client"
 import { cpStudentsVar } from "../../../../stores/cp-students-store"
 import { useStudentsListMu } from "../../../../hooks/cp-pay/cp-pay-user/useStudentsListMu"
+import useErrorShow from "../../../../func/sys/err/useErrShow"
+import { CP_CREATE_USER_MUTATION } from "../../../../hooks/cp-pay/cp-pay-user/createCpUser"
 
 
 
@@ -17,7 +19,27 @@ export const CreateStudentSubmit=({studentList,setErrMessage}:{
 })=>{
     let navigate = useNavigate()
     const students = useReactiveVar(cpStudentsVar).students
-    const [handleError] = useError()
+
+    const {studentListRefetch} = useStudentsListMu()
+    const [handleError] = useErrorShow()
+    const [cp_CreateStudentsMutation, { loading,  }] = useMutation<cp_CreateStudentsMutationMutation, cp_CreateStudentsMutationMutationVariables>(CP_CREATE_USER_MUTATION, {async onCompleted (data){
+        const resultData = data.cp_CreateStudents
+        if(resultData.ok){
+          studentListRefetch()
+          alert('학생을 등록하였습니다.')
+          navigate(CP_PAY_MEMBER_ROUTE_NAME)
+        }else if(resultData.error){
+          let sameId = data.cp_CreateStudents.mainIds.reduce((acc,cur)=>acc+cur,'')
+          sameId = sameId.length>0 ?' :' +sameId:''
+        alert(data.cp_CreateStudents.error+sameId)
+      }
+        
+        }, onError: (err) => {
+            handleError(err, '등록에 실패하였습니다.')
+        } });
+
+
+    // const [handleError] = useError()
     const submit=()=>{
         if(studentList.length ===0){
             alert('학생이 1명 이상 있어야 합니다.')
@@ -34,28 +56,35 @@ export const CreateStudentSubmit=({studentList,setErrMessage}:{
         const isConfirm = confirm('학생을 등록하시겠습니까?')
         if(!isConfirm){return}
         //각각체크
-        const {studentListRefetch} = useStudentsListMu()
-        client.mutate({ //https://www.youtube.com/watch?v=cYIhx8dusa4
-            mutation:cp_CreateStudentsMutationDocument,
-            variables:{
-                createCpStudentsInput:{students:studentList}
-            }
-          })
-          .then(async({data})=>{
-            if(data &&data.cp_CreateStudents.ok ){
-              // await client.refetchQueries({
-              //   include: [CP_PAY_USERLIST_QUERY],
-              // });
-              studentListRefetch()
-            alert('학생을 등록하였습니다.')
-            navigate(CP_PAY_MEMBER_ROUTE_NAME)
-            }else if(data?.cp_CreateStudents.error){
-                let sameId = data.cp_CreateStudents.mainIds.reduce((acc,cur)=>acc+cur,'')
-                sameId = sameId.length>0 ?' :' +sameId:''
-              alert(data.cp_CreateStudents.error+sameId)
-            }
-          })
-          .catch(e => handleError(e, 'cp_LoginMutation'))
+        if(loading){return}
+        // console.log(year, month, 'year, month')
+        cp_CreateStudentsMutation({
+            variables: { 
+              createCpStudentsInput:{students:studentList}
+            },
+            });
+
+        // client.mutate({ //https://www.youtube.com/watch?v=cYIhx8dusa4
+        //     mutation:cp_CreateStudentsMutationDocument,
+        //     variables:{
+        //         createCpStudentsInput:{students:studentList}
+        //     } 
+        //   })
+        //   .then(async({data})=>{
+        //     if(data &&data.cp_CreateStudents.ok ){
+        //       // await client.refetchQueries({
+        //       //   include: [CP_PAY_USERLIST_QUERY],
+        //       // });
+        //       studentListRefetch()
+        //     alert('학생을 등록하였습니다.')
+        //     navigate(CP_PAY_MEMBER_ROUTE_NAME)
+        //     }else if(data?.cp_CreateStudents.error){
+        //         let sameId = data.cp_CreateStudents.mainIds.reduce((acc,cur)=>acc+cur,'')
+        //         sameId = sameId.length>0 ?' :' +sameId:''
+        //       alert(data.cp_CreateStudents.error+sameId)
+        //     }
+        //   })
+        //   .catch(e => handleError(e, 'cp_LoginMutation'))
 
     }
 
